@@ -16,11 +16,10 @@
  * limitations under the License.
  *
  */
-package org.soulwing.cdi.properties;
+package org.soulwing.cdi.properties.extension;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,6 +28,8 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.InjectionPoint;
+
+import org.soulwing.cdi.properties.Property;
 
 /**
  * A {@link Bean} that represents an injected property value.
@@ -39,16 +40,17 @@ class PropertyBean implements Bean<Object> {
 
   private final Object value; 
   private final Class<?> type;
-  private final Annotation[] qualifiers;
+  private final Set<Annotation> qualifiers;
   
   /**
    * Constructs a new instance.
-   * @param value
-   * @param type
-   * @param qualifiers
+   * @param value property value
+   * @param type property type
+   * @param qualifiers a set of qualifiers which <em>must</em> include
+   *    a {@link Property} qualifier that <em>uniquely</em> identifies the
+   *    injection point
    */
-  public PropertyBean(Object value, Class<?> type, 
-      Annotation... qualifiers) {
+  public PropertyBean(Object value, Class<?> type, Set<Annotation> qualifiers) {
     this.value = value;
     this.type = type;
     this.qualifiers = qualifiers;
@@ -71,8 +73,6 @@ class PropertyBean implements Bean<Object> {
 
   @Override
   public Set<Annotation> getQualifiers() {
-    Set<Annotation> qualifiers = new HashSet<>();
-    qualifiers.addAll(Arrays.asList(this.qualifiers));
     return qualifiers;    
   }
 

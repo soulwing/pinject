@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  */
-package org.soulwing.cdi.properties;
+package org.soulwing.cdi.properties.extension;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -26,6 +26,7 @@ import static org.hamcrest.Matchers.nullValue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.soulwing.cdi.properties.extension.DelegatingPropertyValueResolver;
 
 /**
  * Tests for {@link DelegatingPropertyValueResolver}.

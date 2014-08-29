@@ -16,34 +16,31 @@
  * limitations under the License.
  *
  */
-package org.soulwing.cdi.properties;
+package org.soulwing.cdi.properties.extension;
+
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+
+import org.soulwing.cdi.properties.Property;
 
 /**
- * An object that resolves a property name to a corresponding string value.
+ * A bean that is used to test property inject into a field.
  *
  * @author Carl Harris
  */
-interface PropertyValueResolver {
+@Dependent
+public class FieldInjectionTargetBean {
 
-  /**
-   * Initializes this resolver.
-   * @throws Exception to indicate that resolver could not be successfully
-   *    initialized
-   */
-  void init() throws Exception;
+  @Inject @Property(value = "some value", name = "myProperty")
+  public String stringProperty;
   
-  /**
-   * Notifies this resolver that its services are no longer needed and that
-   * it should clean up any resources it is holding. 
-   */
-  void destroy();
+  @Inject @Property(value = "some other value")
+  public String anotherStringProperty;
   
-  /**
-   * Resolves a property name to a value.
-   * @param name the name to resolve
-   * @return value or {@code null} if name has no corresponding value known
-   *    to this resolver
-   */
-  String resolve(String name);
-
+  @Inject @Property
+  public int intProperty;
+  
+  @Inject @Property("42")
+  public Integer integerProperty;
+  
 }

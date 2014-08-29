@@ -16,7 +16,9 @@
  * limitations under the License.
  *
  */
-package org.soulwing.cdi.properties;
+package org.soulwing.cdi.properties.extension;
+
+import org.soulwing.cdi.properties.Property;
 
 /**
  * An exception thrown when a converter named on a {@link Property} qualifier

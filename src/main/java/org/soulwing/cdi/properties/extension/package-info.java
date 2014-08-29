@@ -1,5 +1,5 @@
 /*
- * File created on Aug 27, 2014 
+ * File created on Aug 29, 2014 
  *
  * Copyright (c) 2014 Virginia Polytechnic Institute and State University
  *
@@ -17,6 +17,6 @@
  *
  */
 /**
- * Public API
+ * CDI extension
  */
-package org.soulwing.cdi.properties;
+package org.soulwing.cdi.properties.extension;

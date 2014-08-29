@@ -16,29 +16,33 @@
  * limitations under the License.
  *
  */
-package org.soulwing.cdi.properties;
+package org.soulwing.cdi.properties.extension;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
 
 /**
- * A bean that is used to test property inject into a field.
+ * An exception thrown when the target type for a property injection has no
+ * associated converter.
  *
  * @author Carl Harris
  */
-@Dependent
-public class FieldInjectionTargetBean {
+public class UnsupportedTypeException extends Exception {
 
-  @Inject @Property(value = "some value", name = "myProperty")
-  public String stringProperty;
-  
-  @Inject @Property(value = "some other value")
-  public String anotherStringProperty;
-  
-  @Inject @Property
-  public int intProperty;
-  
-  @Inject @Property("42")
-  public Integer integerProperty;
+  private static final long serialVersionUID = -8403584692907056644L;
+
+  /**
+   * Constructs a new instance.
+   */
+  public UnsupportedTypeException() {    
+  }
+
+  /**
+   * Constructs a new instance.
+   * @param memberName fully-qualified member name of the injection point
+   * @param type type of the member
+   */
+  public <T> UnsupportedTypeException(String memberName, Class<?> type) {
+    super(memberName + " has type " + type.getName()
+        + " for which there is no converter available");
+  }
   
 }

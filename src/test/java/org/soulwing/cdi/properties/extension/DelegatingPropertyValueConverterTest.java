@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  */
-package org.soulwing.cdi.properties;
+package org.soulwing.cdi.properties.extension;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -34,6 +34,8 @@ import org.soulwing.cdi.properties.converters.LongPropertyConverter;
 import org.soulwing.cdi.properties.converters.ShortPropertyConverter;
 import org.soulwing.cdi.properties.converters.StringPropertyConverter;
 import org.soulwing.cdi.properties.converters.UrlPropertyConverter;
+import org.soulwing.cdi.properties.extension.DelegatingPropertyValueConverter;
+import org.soulwing.cdi.properties.extension.PropertyValueConverter;
 
 /**
  * Tests for {@link DelegatingPropertyValueConverterTest}.

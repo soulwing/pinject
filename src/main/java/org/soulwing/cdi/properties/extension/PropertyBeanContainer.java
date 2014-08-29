@@ -16,9 +16,12 @@
  * limitations under the License.
  *
  */
-package org.soulwing.cdi.properties;
+package org.soulwing.cdi.properties.extension;
 
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
+import javax.enterprise.inject.spi.InjectionPoint;
+
+import org.soulwing.cdi.properties.Property;
 
 /**
  * A container for {@link PropertyBean} objects.
@@ -42,14 +45,17 @@ interface PropertyBeanContainer {
 
   /**
    * Adds a bean to this container.
-   * @param name name of the property
-   * @param type target type of the property
-   * @param qualifier the qualifier instance from the injection point
+   * @param injectionPoint target injection point (this <strong>must</strong>
+   *   be the same injection point returned by {@link #register(InjectionPoint)})
+   * @param qualifier TODO
+   * @return wrapped injection point; this value should be used to
+   *    replace the original injection point during the 
+   *    {@link ProcessInjectionPoint} event
    * @throws UnresolvedPropertyException
    * @throws NoSuchConverterException
    * @throws UnsupportedTypeException
    */
-  void add(String name, Class<?> type, Property qualifier) 
+  InjectionPoint add(InjectionPoint injectionPoint, Property qualifier) 
       throws UnresolvedPropertyException, NoSuchConverterException,
       UnsupportedTypeException;
   

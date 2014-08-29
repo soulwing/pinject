@@ -16,23 +16,34 @@
  * limitations under the License.
  *
  */
-package org.soulwing.cdi.properties;
+package org.soulwing.cdi.properties.extension;
 
 /**
- * An exception thrown when a named property cannot be resolved to a value.
+ * An object that resolves a property name to a corresponding string value.
  *
  * @author Carl Harris
  */
-public class UnresolvedPropertyException extends Exception {
-
-  private static final long serialVersionUID = -8403584692907056644L;
+interface PropertyValueResolver {
 
   /**
-   * Constructs a new instance.
-   * @param name name that failed to resolve
+   * Initializes this resolver.
+   * @throws Exception to indicate that resolver could not be successfully
+   *    initialized
    */
-  public UnresolvedPropertyException(String name) {
-    super("failed to resolve property " + name);
-  }
+  void init() throws Exception;
   
+  /**
+   * Notifies this resolver that its services are no longer needed and that
+   * it should clean up any resources it is holding. 
+   */
+  void destroy();
+  
+  /**
+   * Resolves a property name to a value.
+   * @param name the name to resolve
+   * @return value or {@code null} if name has no corresponding value known
+   *    to this resolver
+   */
+  String resolve(String name);
+
 }

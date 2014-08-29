@@ -2,8 +2,14 @@ CVS
 RCS
 .svn
 target
+bin
 build
 DerivedData
+
+.project
+.classpath
+.settings
+.metadata
 
 *.class
 *.o

@@ -16,33 +16,23 @@
  * limitations under the License.
  *
  */
-package org.soulwing.cdi.properties;
-
+package org.soulwing.cdi.properties.extension;
 
 /**
- * An exception thrown when the target type for a property injection has no
- * associated converter.
+ * An exception thrown when a named property cannot be resolved to a value.
  *
  * @author Carl Harris
  */
-public class UnsupportedTypeException extends Exception {
+public class UnresolvedPropertyException extends Exception {
 
   private static final long serialVersionUID = -8403584692907056644L;
 
   /**
    * Constructs a new instance.
+   * @param name name that failed to resolve
    */
-  public UnsupportedTypeException() {    
-  }
-
-  /**
-   * Constructs a new instance.
-   * @param memberName fully-qualified member name of the injection point
-   * @param type type of the member
-   */
-  public <T> UnsupportedTypeException(String memberName, Class<?> type) {
-    super(memberName + " has type " + type.getName()
-        + " for which there is no converter available");
+  public UnresolvedPropertyException(String name) {
+    super("failed to resolve property " + name);
   }
   
 }
