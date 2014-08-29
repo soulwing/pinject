@@ -47,6 +47,18 @@ be resolved, the value 42 will be used by default.  Since the `location`
 property does not have a default value, CDI bean resolution will fail if the
 corresponding property cannot be resolved.
 
+Using the built-in capabilities of the extension, you can inject values into
+the bean shown in the above example by creating a `META-INF/beans.properties`
+file:
+
+```
+org.example.MyBean.location=http://www.google.com
+uniqueIdentifier=42
+```
+
+If you want to customize how property values are resolved, read the section
+on Property Resolution, below.
+
 
 Property Resolution
 -------------------
@@ -100,11 +112,11 @@ connections) your resolver implementation may require.
 Supported Types
 ---------------
 
-The extension has built-in support for injection of all of the following
-types:
+The extension has built-in support for injecting any of the following types:
 
-* `String` and all Java primitives types (e.g. `int`) and associated wrapper 
+* `String`, all Java primitives types (e.g. `int`), and associated wrapper 
   types
+* All enumeration types
 * `java.net.URL`; includes support for the `classpath:` pseudo-scheme 
   inspired by the Spring Framework
 * `java.net.URI`
@@ -131,6 +143,12 @@ A given converter can support more than one type -- the target type of the
 injection point is provided as context when the converter is called upon to
 converter a property value.  The context also provides the means to invoke
 other converters, which is useful when converting compound types.
+
+Every converter has a name.  The names of the converters included with 
+extension are set to the fully qualified converter class name.  You can
+request that an injection point use a specific converter (by name) using the
+`converter` attribute of the `@Property` qualifier.  This is useful if you 
+want to override one of the built-in converters in some specific case(s).
 
 
 Theory of Operation
