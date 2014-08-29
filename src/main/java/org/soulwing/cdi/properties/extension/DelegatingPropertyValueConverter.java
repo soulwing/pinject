@@ -76,7 +76,7 @@ class DelegatingPropertyValueConverter implements PropertyValueConverter {
       throw new NoSuchConverterException();
     }
     if (!(converter.supports(type))) {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedTypeException();
     }
     return converter.convert(value, new ConversionContext(type, this));
   }
