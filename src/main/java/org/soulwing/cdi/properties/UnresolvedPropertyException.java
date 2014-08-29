@@ -32,7 +32,7 @@ public class UnresolvedPropertyException extends Exception {
    * @param name name that failed to resolve
    */
   public UnresolvedPropertyException(String name) {
-    super("failed to resolve property ");
+    super("failed to resolve property " + name);
   }
   
 }
