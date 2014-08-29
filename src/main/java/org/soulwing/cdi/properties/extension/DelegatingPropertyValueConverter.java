@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
 
+import org.soulwing.cdi.properties.spi.Optional;
 import org.soulwing.cdi.properties.spi.PropertyConverter;
 
 /**
@@ -45,6 +46,8 @@ class DelegatingPropertyValueConverter implements PropertyValueConverter {
   DelegatingPropertyValueConverter() {
     for (PropertyConverter converter : 
       ServiceLoader.load(PropertyConverter.class)) {
+      if (converter instanceof Optional
+          && !((Optional) converter).isAvailable()) continue;
       converters.add(converter);
       if (converter.getName() != null) {
         converterMap.put(converter.getName(), converter);

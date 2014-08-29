@@ -29,28 +29,56 @@ import org.soulwing.cdi.properties.spi.PropertyConverter;
  *
  * @author Carl Harris
  */
-public class InternetAddressPropertyConverter extends AbstractPropertyConverter {
+public class InternetAddressPropertyConverter 
+    extends OptionalPropertyConverter {
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean supports(Class<?> type) {
-    return InternetAddress.class.isAssignableFrom(type);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Object convert(String value, Context context)
-      throws IllegalArgumentException {
+  protected boolean checkAvailability() {
     try {
-      return new InternetAddress(value);
+      Thread.currentThread().getContextClassLoader().loadClass(
+          "javax.mail.internet.InternetAddress");
+      return true;
     }
-    catch (MessagingException ex) {
-      throw new IllegalArgumentException(ex);
+    catch (ClassNotFoundException ex) {
+      return false;
     }
-  }
+  };
 
+  protected PropertyConverter newConverter() {
+    return new InnerConverter();
+  }
+  
+  private class InnerConverter implements PropertyConverter {
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName() {
+      return InternetAddressPropertyConverter.this.getName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean supports(Class<?> type) {
+      return InternetAddress.class.isAssignableFrom(type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object convert(String value, Context context)
+        throws IllegalArgumentException {
+      try {
+        return new InternetAddress(value);
+      }
+      catch (MessagingException ex) {
+        throw new IllegalArgumentException(ex);
+      }
+    }
+
+  }
+    
 }

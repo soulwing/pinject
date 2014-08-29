@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ServiceLoader;
 
+import org.soulwing.cdi.properties.spi.Optional;
 import org.soulwing.cdi.properties.spi.PropertyResolver;
 
 /**
@@ -45,6 +46,8 @@ class DelegatingPropertyValueResolver implements PropertyValueResolver {
   public void init() throws Exception {
     for (PropertyResolver resolver : 
       ServiceLoader.load(PropertyResolver.class)) {
+      if (resolver instanceof Optional 
+          && !((Optional) resolver).isAvailable()) continue;
       resolver.init();
       resolvers.add(resolver);
     }
