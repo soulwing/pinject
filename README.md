@@ -57,7 +57,9 @@ uniqueIdentifier=42
 ```
 
 If you want to customize how property values are resolved, read the section
-on Property Resolution, below.
+on Property Resolution, below.  To learn more about supported types for 
+property injection and how to provide converters for your own value types,
+read Supported Types, below.
 
 
 Property Resolution
@@ -85,8 +87,7 @@ the JNDI environment settings are used in preference to those found by
 searching the classpath for `META-INF/beans.properties`.
 
 
-Custom Resolvers
-----------------
+# Custom Resolvers
 
 You can augment the built-in property resolution mechanisms by supplying your
 own.
@@ -124,8 +125,7 @@ The extension has built-in support for injecting any of the following types:
   classpath)
 
 
-Custom Converters
------------------
+# Custom Converters
 
 Other value types with well-defined string representations are easily 
 supported by defining your own converter extension.
