@@ -49,4 +49,9 @@ public class InternetAddressPropertyConverterTest {
         is(equalTo(address)));
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testConvertInvalidAddress() throws Exception {
+    converter.convert("INVALID_ADDRESS", null);
+  }
+  
 }
