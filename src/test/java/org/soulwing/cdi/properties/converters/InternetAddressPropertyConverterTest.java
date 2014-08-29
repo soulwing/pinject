@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.is;
 
 import javax.mail.internet.InternetAddress;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -36,6 +37,11 @@ public class InternetAddressPropertyConverterTest {
   
   private InternetAddressPropertyConverter converter = 
       new InternetAddressPropertyConverter();
+  
+  @Before
+  public void setUp() throws Exception {
+    assertThat(converter.isAvailable(), is(true));
+  }
   
   @Test
   public void testSupports() throws Exception {
