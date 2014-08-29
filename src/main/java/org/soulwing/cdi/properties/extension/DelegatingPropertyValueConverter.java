@@ -60,7 +60,7 @@ class DelegatingPropertyValueConverter implements PropertyValueConverter {
       throws UnsupportedTypeException {
     for (PropertyConverter converter : converters) {
       if (!converter.supports(type)) continue;
-      return converter.convert(value, null);
+      return converter.convert(value, new ConversionContext(type, this));
     }
     throw new UnsupportedTypeException();
   }
@@ -78,7 +78,7 @@ class DelegatingPropertyValueConverter implements PropertyValueConverter {
     if (!(converter.supports(type))) {
       throw new UnsupportedOperationException();
     }
-    return converter.convert(value, null);
+    return converter.convert(value, new ConversionContext(type, this));
   }
   
 }

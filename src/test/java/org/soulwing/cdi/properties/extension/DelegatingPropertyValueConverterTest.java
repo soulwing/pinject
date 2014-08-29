@@ -31,6 +31,8 @@ import org.soulwing.cdi.properties.converters.BooleanPropertyConverter;
 import org.soulwing.cdi.properties.converters.BytePropertyConverter;
 import org.soulwing.cdi.properties.converters.CharacterPropertyConverter;
 import org.soulwing.cdi.properties.converters.DoublePropertyConverter;
+import org.soulwing.cdi.properties.converters.EnumPropertyConverterTest.Color;
+import org.soulwing.cdi.properties.converters.EnumPropertyConverter;
 import org.soulwing.cdi.properties.converters.FloatPropertyConverter;
 import org.soulwing.cdi.properties.converters.IntegerPropertyConverter;
 import org.soulwing.cdi.properties.converters.InternetAddressPropertyConverter;
@@ -70,6 +72,10 @@ public class DelegatingPropertyValueConverterTest {
         Double.toString(Math.E), double.class),
         is(equalTo(Math.E)));
 
+    assertThat((Color) converter.convert(
+        Color.RED.name(), Color.class),
+        is(equalTo(Color.RED)));
+    
     assertThat((Float) converter.convert(
         Float.toString((float) Math.E), float.class),
         is(equalTo((float) Math.E)));
@@ -126,6 +132,11 @@ public class DelegatingPropertyValueConverterTest {
         Double.toString(Math.E), double.class),
         is(equalTo(Math.E)));
 
+    assertThat((Color) converter.convert(
+        EnumPropertyConverter.class.getName(),
+        Color.RED.name(), Color.class),
+        is(equalTo(Color.RED)));
+    
     assertThat((Float) converter.convert(
         FloatPropertyConverter.class.getName(),
         Float.toString((float) Math.E), float.class),

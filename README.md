@@ -32,7 +32,7 @@ public class MyBean {
   @Inject @Property
   private URL location;
   
-  @Inject @Property(name = 'uniqueIdentifer', value = '42')
+  @Inject @Property(name = 'uniqueIdentifier', value = '42')
   private long identifier;
 
 }
@@ -42,7 +42,7 @@ The `@Property` annotations on this bean will instruct the extension to
 resolve a property named `org.example.MyBean.location` and inject it into the
 `location` field.  It will also resolve a property named `uniqueIdentifier`
 (note that the `name` attribute overrides the default property name) and 
-inject it the `identifier` field.  If the `uniqueIdentifer` property cannot
+inject it the `identifier` field.  If the `uniqueIdentifier` property cannot
 be resolved, the value 42 will be used by default.  Since the `location`
 property does not have a default value, CDI bean resolution will fail if the
 corresponding property cannot be resolved.
@@ -51,8 +51,9 @@ corresponding property cannot be resolved.
 Property Resolution
 -------------------
 
-The extension includes built-in support for resolving property names using
-one of three mechanisms.
+Property resolution is the process by which property names are resolved into
+the corresponding (string) property value.  The extension includes built-in 
+support for resolving property names using one of three mechanisms.
 
 1.  If running in a Java EE or Servlet container, the 
     `java:comp/env/beans.properties.location` JNDI environment string can be
