@@ -30,7 +30,9 @@ import java.io.IOException;
 public class MetaInfBeanPropertiesResolver 
     extends PropertiesSetResolver {
 
-  static final String BEANS_PROPERTIES = "META-INF/beans.properties";
+  public static final String BEANS_PROPERTIES = "META-INF/beans.properties";
+  
+  public static final int PRIORITY = -10;
 
   /**
    * {@inheritDoc}
@@ -46,7 +48,7 @@ public class MetaInfBeanPropertiesResolver
    */
   @Override
   public int getPriority() {
-    return Integer.MIN_VALUE;
+    return PRIORITY;
   }
 
 }

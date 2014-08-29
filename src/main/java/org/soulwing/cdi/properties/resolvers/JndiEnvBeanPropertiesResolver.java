@@ -43,8 +43,11 @@ public class JndiEnvBeanPropertiesResolver
   private static final Logger logger = Logger.getLogger(
       JndiEnvBeanPropertiesResolver.class.getName());
   
-  static final String BINDING = "java:comp/env/beans.properties.location";
+  public static final String BINDING = 
+      "java:comp/env/beans.properties.location";
 
+  public static final int PRIORITY = -1;
+  
   /**
    * {@inheritDoc}
    */
@@ -88,7 +91,7 @@ public class JndiEnvBeanPropertiesResolver
    */
   @Override
   public int getPriority() {
-    return Integer.MIN_VALUE + 1;
+    return PRIORITY;
   }
 
 }
