@@ -24,18 +24,20 @@ import static org.hamcrest.Matchers.is;
 
 import java.net.URL;
 
+import javax.mail.internet.InternetAddress;
+
 import org.junit.Test;
 import org.soulwing.cdi.properties.converters.BooleanPropertyConverter;
 import org.soulwing.cdi.properties.converters.BytePropertyConverter;
 import org.soulwing.cdi.properties.converters.CharacterPropertyConverter;
 import org.soulwing.cdi.properties.converters.DoublePropertyConverter;
 import org.soulwing.cdi.properties.converters.FloatPropertyConverter;
+import org.soulwing.cdi.properties.converters.IntegerPropertyConverter;
+import org.soulwing.cdi.properties.converters.InternetAddressPropertyConverter;
 import org.soulwing.cdi.properties.converters.LongPropertyConverter;
 import org.soulwing.cdi.properties.converters.ShortPropertyConverter;
 import org.soulwing.cdi.properties.converters.StringPropertyConverter;
 import org.soulwing.cdi.properties.converters.UrlPropertyConverter;
-import org.soulwing.cdi.properties.extension.DelegatingPropertyValueConverter;
-import org.soulwing.cdi.properties.extension.PropertyValueConverter;
 
 /**
  * Tests for {@link DelegatingPropertyValueConverterTest}.
@@ -72,6 +74,16 @@ public class DelegatingPropertyValueConverterTest {
         Float.toString((float) Math.E), float.class),
         is(equalTo((float) Math.E)));
 
+    assertThat((Integer) converter.convert(        
+        Integer.toString(Integer.MAX_VALUE), int.class),
+        is(equalTo(Integer.MAX_VALUE)));
+
+    InternetAddress internetAddress = new InternetAddress(
+        "nobody@nowhere.net");
+    assertThat((InternetAddress) converter.convert(
+        internetAddress.toString(), InternetAddress.class),
+        is(equalTo(internetAddress)));
+    
     assertThat((Long) converter.convert(
         Long.toString(Long.MAX_VALUE), long.class),
         is(equalTo(Long.MAX_VALUE)));
@@ -119,6 +131,18 @@ public class DelegatingPropertyValueConverterTest {
         Float.toString((float) Math.E), float.class),
         is(equalTo((float) Math.E)));
 
+    assertThat((Integer) converter.convert(
+        IntegerPropertyConverter.class.getName(),
+        Integer.toString(Integer.MAX_VALUE), int.class),
+        is(equalTo(Integer.MAX_VALUE)));
+
+    InternetAddress internetAddress = new InternetAddress(
+        "nobody@nowhere.net");
+    assertThat((InternetAddress) converter.convert(
+        InternetAddressPropertyConverter.class.getName(), 
+        internetAddress.toString(), InternetAddress.class),
+        is(equalTo(internetAddress)));
+    
     assertThat((Long) converter.convert(
         LongPropertyConverter.class.getName(),
         Long.toString(Long.MAX_VALUE), long.class),
