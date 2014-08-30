@@ -141,9 +141,9 @@ of configuration properties, using a flat file and fully qualified names is
 a bit too unwieldy and repetitive when defining and organizing a large number 
 of configuration properties.
 
-One immediate improvement we could make would be to put the `beans.properties`
-in the corresponding packages on the classpath.  If we did this, we would
-have two files -- one located at `org/example/illustrator/beans.properties`
+One immediate improvement we could make would be to put `beans.properties`
+files in the corresponding packages on the classpath.  If we did this, we 
+would have two files -- one located at `org/example/illustrator/beans.properties`
 containing the properties for the `ApplicationConfig` bean:
 
 ```
