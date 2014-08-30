@@ -40,10 +40,14 @@ class DelegatingPropertyValueConverter implements PropertyValueConverter {
   private final Map<String, PropertyConverter> converterMap = 
       new LinkedHashMap<>();
   
+  private final PropertyValueResolver resolver;
+  
   /**
    * Constructs a new instance.
+   * @param resolver property value resolver
    */
-  DelegatingPropertyValueConverter() {
+  DelegatingPropertyValueConverter(PropertyValueResolver resolver) {
+    this.resolver = resolver;
     for (PropertyConverter converter : 
       ServiceLoader.load(PropertyConverter.class)) {
       if (converter instanceof Optional
@@ -63,7 +67,7 @@ class DelegatingPropertyValueConverter implements PropertyValueConverter {
       throws UnsupportedTypeException {
     for (PropertyConverter converter : converters) {
       if (!converter.supports(type)) continue;
-      return converter.convert(value, new ConversionContext(type, this));
+      return converter.convert(value, new ConversionContext(type, resolver, this));
     }
     throw new UnsupportedTypeException();
   }
@@ -81,7 +85,7 @@ class DelegatingPropertyValueConverter implements PropertyValueConverter {
     if (!(converter.supports(type))) {
       throw new UnsupportedTypeException();
     }
-    return converter.convert(value, new ConversionContext(type, this));
+    return converter.convert(value, new ConversionContext(type, resolver, this));
   }
   
 }

@@ -56,7 +56,11 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
   }
   
   public SimplePropertyBeanContainer() {
-    this(new DelegatingPropertyValueResolver(), new DelegatingPropertyValueConverter());
+    this(new DelegatingPropertyValueResolver());
+  }
+  
+  SimplePropertyBeanContainer(PropertyValueResolver resolver) {
+    this(resolver, new DelegatingPropertyValueConverter(resolver));
   }
   
   SimplePropertyBeanContainer(PropertyValueResolver resolver, 

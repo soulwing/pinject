@@ -31,8 +31,8 @@ import org.soulwing.cdi.properties.converters.BooleanPropertyConverter;
 import org.soulwing.cdi.properties.converters.BytePropertyConverter;
 import org.soulwing.cdi.properties.converters.CharacterPropertyConverter;
 import org.soulwing.cdi.properties.converters.DoublePropertyConverter;
-import org.soulwing.cdi.properties.converters.EnumPropertyConverterTest.Color;
 import org.soulwing.cdi.properties.converters.EnumPropertyConverter;
+import org.soulwing.cdi.properties.converters.EnumPropertyConverterTest.Color;
 import org.soulwing.cdi.properties.converters.FloatPropertyConverter;
 import org.soulwing.cdi.properties.converters.IntegerPropertyConverter;
 import org.soulwing.cdi.properties.converters.InternetAddressPropertyConverter;
@@ -51,11 +51,12 @@ import org.soulwing.cdi.properties.converters.UrlPropertyConverter;
  */
 public class DelegatingPropertyValueConverterTest {
 
+  private PropertyValueConverter converter =
+      new DelegatingPropertyValueConverter(
+          new DelegatingPropertyValueResolver());
   
   @Test
   public void testConvertersByType() throws Exception {
-    PropertyValueConverter converter = new DelegatingPropertyValueConverter();
-    
     assertThat((Boolean) converter.convert(
         Boolean.TRUE.toString(), boolean.class),
         is(true));
@@ -110,8 +111,6 @@ public class DelegatingPropertyValueConverterTest {
 
   @Test
   public void testConvertersByName() throws Exception {
-    PropertyValueConverter converter = new DelegatingPropertyValueConverter();
-    
     assertThat((Boolean) converter.convert(
         BooleanPropertyConverter.class.getName(),
         Boolean.TRUE.toString(), boolean.class),

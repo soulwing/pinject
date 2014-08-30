@@ -40,6 +40,14 @@ public interface PropertyConverter {
     Class<?> getTargetType();
     
     /**
+     * Resolves a property name to a value.
+     * @param name the name to resolve
+     * @return resolved value or {@code null} if the name could not be 
+     *    resolved
+     */
+    String resolve(String name);
+    
+    /**
      * Converts a string representation of the given type to an instance 
      * of that type.
      * @param value the value to convert

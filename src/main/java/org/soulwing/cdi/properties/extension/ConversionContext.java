@@ -28,16 +28,20 @@ import org.soulwing.cdi.properties.spi.PropertyConverter.Context;
 class ConversionContext implements Context {
   
   private final Class<?> targetType;
+  private final PropertyValueResolver resolver;
   private final PropertyValueConverter converter;
   
   /**
    * Constructs a new instance.
    * @param targetType
+   * @param resolver
    * @param converter
+   * @param resolver
    */
   public ConversionContext(Class<?> targetType,
-      PropertyValueConverter converter) {
+      PropertyValueResolver resolver, PropertyValueConverter converter) {
     this.targetType = targetType;
+    this.resolver = resolver;
     this.converter = converter;
   }
 
@@ -47,6 +51,11 @@ class ConversionContext implements Context {
   @Override
   public Class<?> getTargetType() {
     return targetType;
+  }
+
+  @Override
+  public String resolve(String name) {
+    return resolver.resolve(name);
   }
 
   /**
