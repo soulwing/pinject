@@ -113,21 +113,22 @@ connections) your resolver implementation may require.
 Supported Types
 ---------------
 
-The extension has built-in support for injecting any of the following types:
+The extension has built-in support for injecting property values into
+injection points with any of the following types:
 
-* `String`, all Java primitives types (e.g. `int`), and associated wrapper 
-  types
+* `java.lang.String`
+* All Java primitives (e.g. `int`), and associated wrapper types
 * All enumeration types
-* `java.util.Calendar` and `java.util.Date` (along with its SQL subtypes); 
+* `java.util.Calendar` and `java.util.Date` (along with its SQL subtypes) --
   the default format is the full ISO 8601 format with time zone, but you can 
   use any pattern supported by `java.util.SimpleDateFormat` by configuring the 
   `org.soulwing.cdi.properties.converters.DatePropertyConverter.pattern`
   property.    
-* `java.net.URL`; includes support for the `classpath:` pseudo-scheme 
+* `java.net.URL` -- includes support for the `classpath:` pseudo-scheme 
   inspired by the Spring Framework
 * `java.net.URI`
-* `javax.mail.InternetAddress` (optional; you must include JavaMail on your 
-  classpath)
+* `javax.mail.InternetAddress` -- optional; you must include JavaMail on your 
+  classpath
 
 
 #### Custom Converters
