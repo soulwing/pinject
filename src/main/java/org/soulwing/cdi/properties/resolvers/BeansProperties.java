@@ -18,45 +18,13 @@
  */
 package org.soulwing.cdi.properties.resolvers;
 
-import org.soulwing.cdi.properties.spi.PropertyResolver;
-
 /**
- * A {@link PropertyResolver} that consults system properties.
+ * A place to put the name of the {@code beans.properties} resource.
  *
  * @author Carl Harris
  */
-public class SystemPropertiesResolver implements PropertyResolver {
+public interface BeansProperties {
 
-  public static final int PRIORITY = -1;
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void init() throws Exception {
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void destroy() throws Exception {
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public int getPriority() {
-    return PRIORITY;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public String resolve(String name) {
-    return System.getProperty(name);
-  }
+  String NAME = "beans.properties";
 
 }

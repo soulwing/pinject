@@ -21,12 +21,15 @@ package org.soulwing.cdi.properties.extension;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.soulwing.cdi.properties.extension.DelegatingPropertyValueResolver;
+import org.soulwing.cdi.properties.resolvers.BeansProperties;
+import org.soulwing.cdi.properties.resolvers.MetaInfBeanPropertiesResolver;
+import org.soulwing.cdi.properties.support.ClassLoaderUtil;
 
 /**
  * Tests for {@link DelegatingPropertyValueResolver}.
@@ -38,24 +41,66 @@ import org.soulwing.cdi.properties.extension.DelegatingPropertyValueResolver;
  */
 public class DelegatingPropertyValueResolverTest {
 
+  private static final String ROOT_PROPERTY = "testRootProperty";
+  private static final String PACKAGE_NAME = "package";
+  private static final String PACKAGE_PROPERTY = "testPackageProperty";
+  private static final String META_INF_PROPERTY = "testMetaInfProperty";
+  private static final String SHARED_PROPERTY = "testSharedProperty";
+  private static final String SYSTEM_PROPERTY = "systemProperty";
+  
+  private ClassLoaderUtil classLoaderUtil = new ClassLoaderUtil();
+
   private DelegatingPropertyValueResolver resolver =
       new DelegatingPropertyValueResolver();
   
   @Before
   public void setUp() throws Exception {
+    classLoaderUtil.setUp(getClass());
     resolver.init();
+    System.setProperty(SYSTEM_PROPERTY, SYSTEM_PROPERTY);
   }
-  
+
   @After
   public void tearDown() throws Exception {
     resolver.destroy();
+    classLoaderUtil.tearDown();
+    System.clearProperty(SYSTEM_PROPERTY);
+  }
+
+  @Test
+  public void testClassLoaderSetUp() throws Exception {
+    assertThat(Thread.currentThread().getContextClassLoader()
+        .getResource(BeansProperties.NAME), is(not(nullValue())));
+    assertThat(Thread.currentThread().getContextClassLoader()
+        .getResource(MetaInfBeanPropertiesResolver.META_INF_BEANS_PROPERTIES), 
+        is(not(nullValue())));
   }
   
   @Test
   public void testResolvers() throws Exception {
-    // this property is defined in src/test/resources/META-INF/beans.properties
-    assertThat(resolver.resolve("testProperty"), is(equalTo("testValue")));
-    // this property is not defined in src/test/resources/META-INF/beans.properties
+    
+    // this property is defined in beans.properties
+    assertThat(resolver.resolve(ROOT_PROPERTY), 
+        is(equalTo(ROOT_PROPERTY)));
+
+    // this property is defined in package/beans.properties
+    assertThat(resolver.resolve(PACKAGE_NAME + "." + PACKAGE_PROPERTY), 
+        is(equalTo(PACKAGE_PROPERTY)));
+
+    // this property is defined in META-INF/beans.properties
+    assertThat(resolver.resolve(META_INF_PROPERTY), 
+        is(equalTo(META_INF_PROPERTY)));
+    
+    // this property is defined in both beans.properties and
+    // META-INF/beans.properties
+    assertThat(resolver.resolve(SHARED_PROPERTY), 
+        is(equalTo(ROOT_PROPERTY)));
+    
+    // this property is defined as a system property
+    assertThat(resolver.resolve(SYSTEM_PROPERTY),
+        is(equalTo(SYSTEM_PROPERTY)));
+    
+    // this property is not defined anywhere
     assertThat(resolver.resolve("DOES_NOT_EXIST"), is(nullValue()));
   }
   

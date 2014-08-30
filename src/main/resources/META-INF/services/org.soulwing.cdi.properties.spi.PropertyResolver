@@ -1,3 +1,4 @@
 org.soulwing.cdi.properties.resolvers.MetaInfBeanPropertiesResolver
+org.soulwing.cdi.properties.resolvers.PackagePathBeanPropertiesResolver
 org.soulwing.cdi.properties.resolvers.SystemPropertiesResolver
 org.soulwing.cdi.properties.resolvers.JndiEnvBeanPropertiesResolver

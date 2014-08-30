@@ -21,37 +21,51 @@ package org.soulwing.cdi.properties.resolvers;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.soulwing.cdi.properties.support.ClassLoaderUtil;
 
 /**
  * Tests for {@link MetaInfBeanPropertiesResolver}.
  *
  * @author Carl Harris
  */
-public class MetaInfBeansPropertiesResolverTest {
+public class MetaInfBeanPropertiesResolverTest {
 
+  private static final String META_INF_PROPERTY = "testMetaInfProperty";
+
+  private ClassLoaderUtil classLoaderUtil = new ClassLoaderUtil();
+  
   private MetaInfBeanPropertiesResolver resolver =
       new MetaInfBeanPropertiesResolver();
   
   @Before
   public void setUp() throws Exception {
+    classLoaderUtil.setUp(getClass());
     resolver.init();
   }
 
   @After
   public void tearDown() throws Exception {
     resolver.destroy();
+    classLoaderUtil.tearDown();
   }
   
   @Test
+  public void testClassLoaderSetUp() throws Exception {
+    assertThat(Thread.currentThread().getContextClassLoader()
+        .getResource(MetaInfBeanPropertiesResolver.META_INF_BEANS_PROPERTIES), 
+        is(not(nullValue())));
+  }
+
+  @Test
   public void testResolve() throws Exception {
-    // this property is defined in src/test/resources/META-INF/beans.properties
-    assertThat(resolver.resolve("testProperty"), is(equalTo("testValue")));
-    // this property is not defined in src/test/resources/META-INF/beans.properties
+    assertThat(resolver.resolve(META_INF_PROPERTY), 
+        is(equalTo(META_INF_PROPERTY)));
     assertThat(resolver.resolve("DOES_NOT_EXIST"), is(nullValue()));
   }
 }

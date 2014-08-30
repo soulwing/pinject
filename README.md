@@ -69,8 +69,134 @@ Property Resolution
 
 Property resolution is the process by which property names are resolved into
 the corresponding (string) property value.  The extension includes built-in 
-support for resolving property names by consulting each of three sources for
-resolution, in the order in which they appear below.
+support for resolving property names using system properties, 
+`beans.properties` resources on the classpath, and (if running in a Java EE
+or Servlet container) `beans.properties` resources at arbitrary locations
+specified via a JNDI environment variable.  Each `beans.properties` resource 
+is a file in the format produced by `java.util.Properties`.
+
+#### Placing `beans.properties` Resources on the Classpath
+
+The built-in property resolution takes advantage of the fully-qualified 
+inject point names that are used as the default property names wherever
+`@Property` is applied, allowing properties to be assembled in `beans.properties`
+file at any level of the package hierarchy that makes sense for your needs.
+The following example illustrates the concept.
+
+Suppose our application has a couple of beans defined as follows:
+
+```
+package org.example.illustrator;
+
+import javax.inject.Inject
+import javax.enterprise.context.ApplicationScoped
+import org.soulwing.cdi.properties.Property
+
+@ApplicationScoped
+public class ApplicationConfig {
+
+  @Inject @Property private String emailAddress;
+  
+  @Inject @Property private int maxConcurrentUsers;
+  
+  // ...
+}
+```
+
+```
+package org.example.illustrator.http;
+
+import java.net.URL;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import org.soulwing.cdi.properties.Property;
+
+@SessionScoped
+public class RestClientBean {
+
+  @Inject @Property private URL location;
+  
+  @Inject @Property private String username;
+  
+  @Inject @Property private String password;
+  
+  // ...
+}
+```
+
+We could simple create a `beans.properties` file at the root of the classpath
+(or as `META-INF/beans.properties`) and define our properties with the fully
+qualified names of our property injection points, like this:
+
+```
+org.example.illustrator.ApplicationConfig.emailAddress=help@org.example
+org.example.illustrator.ApplicationConfig.maxConcurrentUsers=100
+org.example.illustrator.http.RestClientBean.location=http://internal.example.org/appws
+org.example.illustrator.http.RestClientBean.username=illustrator
+org.example.illustrator.http.RestClientBean.password=s3kr3t
+```
+
+While this approach is probably fine for an application with a small number 
+of configuration properties, using a flat file and fully qualified names is 
+a bit too unwieldy and repetitive when defining and organizing a large number 
+of configuration properties.
+
+One immediate improvement we could make would be to put the `beans.properties`
+in the corresponding packages on the classpath.  If we did this, we would
+have two files -- one located at `org/example/illustrator/beans.properties`
+containing the properties for the `ApplicationConfig` bean:
+
+```
+ApplicationConfig.emailAddress=help@org.example
+ApplicationConfig.maxConcurrentUsers=100
+```
+
+The other file would be located at 
+`org/example/illustrator/http/beans.properties` and would contain the 
+properties for the `RestClientBean`:
+
+```
+RestClientBean.location=http://internal.example.org/appws
+RestClientBean.username=illustrator
+RestClientBean.password=s3kr3t
+```
+
+For an application this small, having the configuration files in two separate
+files might be a bit too sophisticated.  But we'd still like to avoid the
+long property names we saw in the first approach.  We could instead put
+one file at `org/example/illustrator/beans.properties` and put all of the
+properties in it, like this:
+
+```
+ApplicationConfig.emailAddress=help@org.example
+ApplicationConfig.maxConcurrentUsers=100
+http.RestClientBean.location=http://internal.example.org/appws
+http.RestClientBean.username=illustrator
+http.RestClientBean.password=s3kr3t
+```
+
+Note how we can just prepend the property names for the `RestClientBean`
+with the subpackage name. 
+
+### Overriding Properties in Java EE and Web Applications
+
+For applications deployed in a Java EE or Servlet container, it is often
+desirable to override the property values that would be injected with 
+properties loaded from resources in the deployment artifact (e.g. properties
+files bundled in the Web Archive (WAR) file) with properties that are 
+specific to the deployment environment.  For example, we might use different
+properties for a production server than we would for a development or
+pre-production server.
+
+The extension supports this need by allowing you to configure the application
+server (EE or Servlet container) with a JNDI environment setting that 
+specifies a list of URL(s) to properties files that will be used for property 
+resolution.
+
+
+### Resolution Order
+
+Property values are resolved by the built-in resolvers in the follwing order.
 
 1.  System properties set using `java.lang.System.setProperty` or by using
     `-Dname=value` arguments when starting the JRE.
@@ -79,11 +205,17 @@ resolution, in the order in which they appear below.
     set to a space- or comma- delimited list of URLs (including `classpath:`
     URLs) to properties files that will be used, in the order specified, to
     resolve property values.
-3.  All properties files on the classpath named `META-INF/beans.properties` 
-    The order in which these properties files will be consulted is arbitrary 
+3.  All properties files on the classpath named `beans.properties`, located
+    by considering the property name as a package qualified name. The order in 
+    which properties files in a given package will be consulted is arbitrary 
     (due to inherent limitations of the classloader mechanism) so you should 
     not rely on the order in which these files are evaluated when using this 
     mechanism.
+4.  All properties files at the root of the classpath with the name
+    `META-INF/beans.properties`.  The order in which these properties files 
+    are consulted is arbitrary (due to inherent limitations of the classloader
+    mechanism) so you should not rely on the order in which these files are 
+    evaluated when using this mechanism.  
 
 Resolution stops with the first resolver that provides a value for the named
 property.  If no value is resolved, the `value` attribute specified on
@@ -91,7 +223,6 @@ the `@Property` qualifier is used as a last resort default.  If no value is
 resolved and the qualifier does not specify a default, the injection process
 will stop with an error indicating that the property value could not be
 resolved.
-
 
 #### Custom Resolvers
 

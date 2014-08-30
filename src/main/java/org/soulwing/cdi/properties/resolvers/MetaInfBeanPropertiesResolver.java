@@ -31,7 +31,8 @@ import org.soulwing.cdi.properties.spi.PropertyResolver;
  */
 public class MetaInfBeanPropertiesResolver implements PropertyResolver {
 
-  public static final String BEANS_PROPERTIES = "META-INF/beans.properties";
+  public static final String META_INF_BEANS_PROPERTIES = 
+      "META-INF/" + BeansProperties.NAME;
   
   public static final int PRIORITY = -10;
 
@@ -43,7 +44,7 @@ public class MetaInfBeanPropertiesResolver implements PropertyResolver {
   @Override
   public void init() throws IOException {
     propertiesSet.load(Thread.currentThread().getContextClassLoader()
-        .getResources(BEANS_PROPERTIES));
+        .getResources(META_INF_BEANS_PROPERTIES));
   }
 
   @Override
