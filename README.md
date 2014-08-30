@@ -102,11 +102,13 @@ You can augment the built-in property resolvers by supplying your own.
    fully-qualified class name(s) of your resolvers(s), one per line.
    
 Each resolver has a priority that determines the order in which resolvers
-will be consulted during property name resolution -- larger numeric values
-of priority will be consulted before smaller values.  The built-in resolvers
-have priority values between -10 and -1.  Your resolvers can use any positive
-value as their priority to override the built-in resolvers.  If your resolver
-uses a value less than -10 it will be consulted *after* the built-in resolvers.
+will be consulted during property name resolution -- resolvers with larger 
+numeric values of priority will be consulted before those with smaller values.  
+The built-in resolvers have priority values between -10 and -1.  Your 
+resolver can use any positive value of priority to override the built-in 
+resolvers.  If your resolver uses a value less than -10 it will be consulted 
+*after* the built-in resolvers, but *before* the last resort use of the
+default value specified on the `@Property` qualifier.
 
 The `init` and `destroy` lifecycle methods of a resolver should be used to
 establish and teardown, respectively, whatever resources (e.g. database
