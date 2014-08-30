@@ -188,10 +188,10 @@ specific to the deployment environment.  For example, we might use different
 properties for a production server than we would for a development or
 pre-production server.
 
-The extension supports this need by allowing you to configure the application
-server (EE or Servlet container) with a JNDI environment setting that 
-specifies a list of URL(s) to properties files that will be used for property 
-resolution.
+If the JNDI environment variable `java:comp/env/beans.properties.location`
+exists and is of string type, the extension will treat it as a space- or
+comma-delimited list of URLs to properties files that will be used, in the 
+order specified, to resolve property values. 
 
 
 ### Resolution Order
@@ -200,11 +200,9 @@ Property values are resolved by the built-in resolvers in the follwing order.
 
 1.  System properties set using `java.lang.System.setProperty` or by using
     `-Dname=value` arguments when starting the JRE.
-2.  If running in a Java EE or Servlet container, the 
-    `java:comp/env/beans.properties.location` JNDI environment string can be
-    set to a space- or comma- delimited list of URLs (including `classpath:`
-    URLs) to properties files that will be used, in the order specified, to
-    resolve property values.
+2.  If running in a Java EE or Servlet container, properties defined in 
+    properties files located using the URL(s) specified by the 
+    `java:comp/env/beans.properties.location` JNDI environment setting.
 3.  All properties files on the classpath named `beans.properties`, located
     by considering the property name as a package qualified name. The order in 
     which properties files in a given package will be consulted is arbitrary 
