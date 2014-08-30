@@ -3,11 +3,13 @@ cdi-property-injection
 
 A CDI extension that injects property values into CDI-managed beans.  By
 simply adding a `@Property` qualifier to your injection points,
-and putting the corresponding property value in a properties file that can be
-located by the extension, you can inject properties for strings, numbers, 
-URLs, etc.  By providing your own property converters, the extension can 
-inject property values into almost any type that has a well-defined string
-representation.
+and putting the corresponding property value in a properties file or system
+property that can be located by the extension, you can inject properties 
+for strings, numbers, URLs, etc.  By providing your own property converters, 
+the extension can inject property values of almost any type that has a 
+well-defined string representation.  Moreover, by providing your own
+custom resolver, you can resolve property values in practically any manner 
+that suits the needs of your application. 
 
 
 Using @Property
