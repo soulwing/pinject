@@ -37,11 +37,15 @@ import org.junit.Test;
  */
 public class PropertyInjectionExtensionTest {
 
+  private static final String SYSTEM_PROPERTY_VALUE = "some system property";
   private Weld weld;
   private WeldContainer container;
   
   @Before
   public void setUp() throws Exception {
+    System.setProperty(
+        FieldInjectionTargetBean.class.getName() + ".systemProperty", 
+        SYSTEM_PROPERTY_VALUE);
     weld = new Weld();
     container = weld.initialize();    
   }
@@ -59,5 +63,6 @@ public class PropertyInjectionExtensionTest {
     assertThat(bean.stringProperty, is(equalTo("some value")));
     assertThat(bean.anotherStringProperty, is(equalTo("some other value")));
     assertThat(bean.integerProperty, is(equalTo(42)));
+    assertThat(bean.systemProperty, is(equalTo(SYSTEM_PROPERTY_VALUE)));
   }
 }

@@ -46,7 +46,7 @@ public class JndiEnvBeanPropertiesResolver
   public static final String BINDING = 
       "java:comp/env/beans.properties.location";
 
-  public static final int PRIORITY = -1;
+  public static final int PRIORITY = -5;
   
   /**
    * {@inheritDoc}

@@ -67,30 +67,33 @@ Property Resolution
 
 Property resolution is the process by which property names are resolved into
 the corresponding (string) property value.  The extension includes built-in 
-support for resolving property names using one of three mechanisms.
+support for resolving property names by consulting each of three sources for
+resolution, in the order in which they appear below.
 
-1.  If running in a Java EE or Servlet container, the 
+1.  System properties set using `java.lang.System.setProperty` or by using
+    `-Dname=value` arguments when starting the JRE.
+2.  If running in a Java EE or Servlet container, the 
     `java:comp/env/beans.properties.location` JNDI environment string can be
     set to a space- or comma- delimited list of URLs (including `classpath:`
     URLs) to properties files that will be used, in the order specified, to
     resolve property values.
-2.  All properties files on the classpath named `META-INF/beans.properties` 
-    are also used to resolve property values as a last resort.  The order in
-    which these properties files will be consulted is arbitrary (due to
-    inherent limitations of the classloader mechanism) so you should not 
-    depend on file evaluation order when using this mechanism.
-3.  The `value` attribute of the `@Property` qualifier as a last-resort
-    fallback.
-    
-These two resolvers are prioritized such that properties files identified by
-the JNDI environment settings are used in preference to those found by 
-searching the classpath for `META-INF/beans.properties`.
+3.  All properties files on the classpath named `META-INF/beans.properties` 
+    The order in which these properties files will be consulted is arbitrary 
+    (due to inherent limitations of the classloader mechanism) so you should 
+    not rely on the order in which these files are evaluated when using this 
+    mechanism.
+
+Resolution stops with the first resolver that provides a value for the named
+property.  If no value is resolved, the `value` attribute specified on
+the `@Property` qualifier is used as a last resort default.  If no value is 
+resolved and the qualifier does not specify a default, the injection process
+will stop with an error indicating that the property value could not be
+resolved.
 
 
 #### Custom Resolvers
 
-You can augment the built-in property resolution mechanisms by supplying your
-own.
+You can augment the built-in property resolvers by supplying your own.
 
 1. Create a class that implements 
     `org.soulwing.cdi.properties.spi.PropertyResolver`.

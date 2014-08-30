@@ -43,4 +43,7 @@ public class FieldInjectionTargetBean {
   @Inject @Property("42")
   public Integer integerProperty;
   
+  @Inject @Property
+  public String systemProperty;
+  
 }
