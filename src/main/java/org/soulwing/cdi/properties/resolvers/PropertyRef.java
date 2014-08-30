@@ -18,7 +18,6 @@
  */
 package org.soulwing.cdi.properties.resolvers;
 
-import org.jboss.weld.exceptions.UnsupportedOperationException;
 
 /**
  * An object that segments a dotted property name into a path component and
