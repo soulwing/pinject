@@ -115,6 +115,10 @@ The `init` and `destroy` lifecycle methods of a resolver should be used to
 establish and teardown, respectively, whatever resources (e.g. database
 connections) your resolver implementation may require.
 
+Unfortunately, because your resolver will be participating in the processes
+that support bean creation and dependency injection, your resolver cannot be
+designed to use the facilities of CDI in its own implementation.
+
 
 Supported Types
 ---------------
@@ -161,6 +165,10 @@ extension are set to the fully qualified converter class name.  You can
 request that an injection point use a specific converter (by name) using the
 `converter` attribute of the `@Property` qualifier.  This is useful if you 
 want to override one of the built-in converters in some specific case(s).
+
+Unfortunately, because your converter will be participating in the processes
+that support bean creation and dependency injection, your converter cannot be
+designed to use the facilities of CDI in its own implementation.
 
 
 Theory of Operation
