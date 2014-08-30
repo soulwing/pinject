@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.soulwing</groupId>
   <artifactId>cdi-property-injection</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.3</version>
   <name>CDI Property Injection</name>
   <description>Provides support for injecting property values (e.g. numbers, strings, dates, etc) into CDI-managed beans.</description>
   <scm>
