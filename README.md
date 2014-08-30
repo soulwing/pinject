@@ -165,11 +165,11 @@ with `@Property`, the extension resolves the corresponding property name to
 a string value, and converts the string representation to an instance of the
 target type of the injection point.
 
-Because CDI injection is fundamentally type-safe and based on qualifiers,
-all injection points of a given type with the same qualifiers are considered
-equivalent -- i.e. the same bean would be injected into each such injection
-point.  This appears to create a problem, since a typical property injection
-point might look like this:
+CDI dependency injection is based on the injection point type, with additional 
+hints provided by qualifiers. All injection points of a given type with the 
+same qualifiers are considered equivalent -- i.e. the same bean would be 
+injected into each such injection point.  This appears to create a problem, 
+since a typical property injection point might look like this:
 
 ```
 @Inject @Property
