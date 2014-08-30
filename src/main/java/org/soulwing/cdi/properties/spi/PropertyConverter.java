@@ -42,10 +42,10 @@ public interface PropertyConverter {
     /**
      * Resolves a property name to a value.
      * @param name the name to resolve
-     * @return resolved value or {@code null} if the name could not be 
+     * @return resolved value or {@code defaultValue} if the name could not be 
      *    resolved
      */
-    String resolve(String name);
+    String resolve(String name, String defaultValue);
     
     /**
      * Converts a string representation of the given type to an instance 

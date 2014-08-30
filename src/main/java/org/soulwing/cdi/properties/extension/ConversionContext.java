@@ -54,8 +54,9 @@ class ConversionContext implements Context {
   }
 
   @Override
-  public String resolve(String name) {
-    return resolver.resolve(name);
+  public String resolve(String name, String defaultValue) {
+    String value = resolver.resolve(name);
+    return value != null ? value : defaultValue;
   }
 
   /**
