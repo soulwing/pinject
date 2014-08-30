@@ -104,6 +104,7 @@ You can augment the built-in property resolvers by supplying your own.
 Each resolver has a priority that determines the order in which resolvers
 will be consulted during property name resolution -- resolvers with larger 
 numeric values of priority will be consulted before those with smaller values.  
+
 The built-in resolvers have priority values between -10 and -1.  Your 
 resolver can use any positive value of priority to override the built-in 
 resolvers.  If your resolver uses a value less than -10 it will be consulted 
