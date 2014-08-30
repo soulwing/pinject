@@ -23,6 +23,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.mail.internet.InternetAddress;
 
@@ -30,6 +32,7 @@ import org.junit.Test;
 import org.soulwing.cdi.properties.converters.BooleanPropertyConverter;
 import org.soulwing.cdi.properties.converters.BytePropertyConverter;
 import org.soulwing.cdi.properties.converters.CharacterPropertyConverter;
+import org.soulwing.cdi.properties.converters.DatePropertyConverter;
 import org.soulwing.cdi.properties.converters.DoublePropertyConverter;
 import org.soulwing.cdi.properties.converters.EnumPropertyConverter;
 import org.soulwing.cdi.properties.converters.EnumPropertyConverterTest.Color;
@@ -69,6 +72,11 @@ public class DelegatingPropertyValueConverterTest {
         "C", char.class), 
         is(equalTo('C')));
     
+    Date now = new Date();
+    assertThat((Date) converter.convert(
+        new SimpleDateFormat(DatePropertyConverter.ISO8601).format(now), 
+        Date.class), is(equalTo(now)));
+
     assertThat((Double) converter.convert(
         Double.toString(Math.E), double.class),
         is(equalTo(Math.E)));
@@ -125,6 +133,12 @@ public class DelegatingPropertyValueConverterTest {
         CharacterPropertyConverter.class.getName(),
         "C", char.class), 
         is(equalTo('C')));
+    
+    Date now = new Date();
+    assertThat((Date) converter.convert(
+        DatePropertyConverter.class.getName(),
+        new SimpleDateFormat(DatePropertyConverter.ISO8601).format(now), 
+        Date.class), is(equalTo(now)));
     
     assertThat((Double) converter.convert(
         DoublePropertyConverter.class.getName(),

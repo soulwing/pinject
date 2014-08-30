@@ -118,6 +118,11 @@ The extension has built-in support for injecting any of the following types:
 * `String`, all Java primitives types (e.g. `int`), and associated wrapper 
   types
 * All enumeration types
+* `java.util.Calendar`, `java.util.Date` (and its SQL subtypes); the default
+  format is the full ISO 8601 format with time zone, but you can use any
+  pattern supported by `java.util.SimpleDateFormat` by configuring the 
+  `org.soulwing.cdi.properties.converters.DatePropertyConverter.pattern'
+  property.    
 * `java.net.URL`; includes support for the `classpath:` pseudo-scheme 
   inspired by the Spring Framework
 * `java.net.URI`
