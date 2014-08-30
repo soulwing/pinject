@@ -20,7 +20,6 @@ package org.soulwing.cdi.properties.resolvers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Vector;
 import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
@@ -29,6 +28,7 @@ import javax.naming.NamingException;
 import javax.naming.NoInitialContextException;
 
 import org.soulwing.cdi.properties.converters.UrlPropertyConverter;
+import org.soulwing.cdi.properties.spi.PropertyResolver;
 
 /**
  * A resolver that looks up a JNDI environment variable and (if found)
@@ -37,8 +37,7 @@ import org.soulwing.cdi.properties.converters.UrlPropertyConverter;
  *
  * @author Carl Harris
  */
-public class JndiEnvBeanPropertiesResolver 
-    extends PropertiesSetResolver {
+public class JndiEnvBeanPropertiesResolver implements PropertyResolver {
 
   private static final Logger logger = Logger.getLogger(
       JndiEnvBeanPropertiesResolver.class.getName());
@@ -47,6 +46,8 @@ public class JndiEnvBeanPropertiesResolver
       "java:comp/env/beans.properties.location";
 
   public static final int PRIORITY = -5;
+  
+  private final PropertiesSet propertiesSet = new PropertiesSet();
   
   /**
    * {@inheritDoc}
@@ -58,11 +59,9 @@ public class JndiEnvBeanPropertiesResolver
     if (boundValue == null) return;
     String[] locations = boundValue.toString().split("\\s*(,|\\s)\\s*");
     
-    Vector<URL> v = new Vector<URL>();
     for (String location : locations) {
-      v.add((URL) converter.convert(location, null));
+      propertiesSet.load((URL) converter.convert(location, null));
     }
-    super.loadProperties(v.elements());
   }
 
   /**
@@ -86,12 +85,22 @@ public class JndiEnvBeanPropertiesResolver
     }
   }
   
+  @Override
+  public void destroy() throws Exception {
+    propertiesSet.clear();
+  }
+
   /**
    * {@inheritDoc}
    */
   @Override
   public int getPriority() {
     return PRIORITY;
+  }
+
+  @Override
+  public String resolve(String name) {
+    return propertiesSet.getProperty(name);
   }
 
 }

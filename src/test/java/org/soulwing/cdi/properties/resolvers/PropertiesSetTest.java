@@ -22,68 +22,36 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.Vector;
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link PropertiesSetResolverTest}.
+ * Unit tests for {@link PropertiesSetTest}.
  *
  * @author Carl Harris
  */
-public class PropertiesSetResolverTest {
+public class PropertiesSetTest {
 
-  private PropertiesSetResolver resolver;
+  private PropertiesSet propertiesSet = new PropertiesSet();
   
   @Before
   public void setUp() throws Exception {
-    Vector<URL> v = new Vector<URL>();
-    v.add(getClass().getClassLoader().getResource(
+    propertiesSet.load(getClass().getClassLoader().getResource(
         getClass().getSimpleName() + "/set1.properties"));
-    v.add(getClass().getClassLoader().getResource(
+    propertiesSet.load(getClass().getClassLoader().getResource(
         getClass().getSimpleName() + "/set2.properties"));
-    resolver = new SimplePropertiesSetResolver(v.elements());
-    resolver.init();
   }
 
-  @After
-  public void tearDown() throws Exception {
-    resolver.destroy();
-  }
   
   @Test
-  public void testResolve() throws Exception {
+  public void testGetProperty() throws Exception {
     // defined only in set1.properties
-    assertThat(resolver.resolve("property1"), is(equalTo("set1")));
+    assertThat(propertiesSet.getProperty("property1"), is(equalTo("set1")));
     // defined only in set2.properties
-    assertThat(resolver.resolve("property2"), is(equalTo("set2")));
+    assertThat(propertiesSet.getProperty("property2"), is(equalTo("set2")));
     // defined in both -- set1 should take precedence
-    assertThat(resolver.resolve("property3"), is(equalTo("set1")));
+    assertThat(propertiesSet.getProperty("property3"), is(equalTo("set1")));
   }
   
-  static class SimplePropertiesSetResolver extends PropertiesSetResolver {
-
-    private final Enumeration<URL> locations;
-    
-    public SimplePropertiesSetResolver(Enumeration<URL> locations) {
-      this.locations = locations;
-    }
-
-    @Override
-    public void init() throws Exception {
-      loadProperties(locations);
-    }
-
-    @Override
-    public int getPriority() {
-      return 0;
-    }
-    
-  }
-
 }
 

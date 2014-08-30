@@ -20,6 +20,8 @@ package org.soulwing.cdi.properties.resolvers;
 
 import java.io.IOException;
 
+import org.soulwing.cdi.properties.spi.PropertyResolver;
+
 /**
  * A resolver that looks for {@code META-INF/beans.properties} resources on the
  * classpath and uses all such properties resources to attempt to resolve bean
@@ -27,20 +29,26 @@ import java.io.IOException;
  *
  * @author Carl Harris
  */
-public class MetaInfBeanPropertiesResolver 
-    extends PropertiesSetResolver {
+public class MetaInfBeanPropertiesResolver implements PropertyResolver {
 
   public static final String BEANS_PROPERTIES = "META-INF/beans.properties";
   
   public static final int PRIORITY = -10;
 
+  private final PropertiesSet propertiesSet = new PropertiesSet();
+  
   /**
    * {@inheritDoc}
    */
   @Override
   public void init() throws IOException {
-    loadProperties(Thread.currentThread().getContextClassLoader()
+    propertiesSet.load(Thread.currentThread().getContextClassLoader()
         .getResources(BEANS_PROPERTIES));
+  }
+
+  @Override
+  public void destroy() throws Exception {
+    propertiesSet.clear();
   }
 
   /**
@@ -49,6 +57,11 @@ public class MetaInfBeanPropertiesResolver
   @Override
   public int getPriority() {
     return PRIORITY;
+  }
+
+  @Override
+  public String resolve(String name) {
+    return propertiesSet.getProperty(name);
   }
 
 }
