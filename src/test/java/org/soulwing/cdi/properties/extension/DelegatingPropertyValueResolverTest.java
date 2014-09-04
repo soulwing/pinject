@@ -92,9 +92,9 @@ public class DelegatingPropertyValueResolverTest {
         is(equalTo(META_INF_PROPERTY)));
     
     // this property is defined in both beans.properties and
-    // META-INF/beans.properties
+    // META-INF/beans.properties (the latter should override)
     assertThat(resolver.resolve(SHARED_PROPERTY), 
-        is(equalTo(ROOT_PROPERTY)));
+        is(equalTo(META_INF_PROPERTY)));
     
     // this property is defined as a system property
     assertThat(resolver.resolve(SYSTEM_PROPERTY),

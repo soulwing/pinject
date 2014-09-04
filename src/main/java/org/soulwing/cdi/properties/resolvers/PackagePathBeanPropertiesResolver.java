@@ -35,7 +35,7 @@ import org.soulwing.cdi.properties.spi.PropertyResolver;
  */
 public class PackagePathBeanPropertiesResolver implements PropertyResolver {
 
-  public static final int PRIORITY = -9;
+  public static final int PRIORITY = -10;
   
   private final Map<String, PropertiesSet> pathCache =
       new HashMap<>();

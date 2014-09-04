@@ -203,17 +203,17 @@ Property values are resolved by the built-in resolvers in the follwing order.
 2.  If running in a Java EE or Servlet container, properties defined in 
     properties files located using the URL(s) specified by the 
     `java:comp/env/beans.properties.location` JNDI environment setting.
-3.  All properties files on the classpath named `beans.properties`, located
+3.  All properties files at the root of the classpath with the name
+    `META-INF/beans.properties`.  The order in which these properties files 
+    are consulted is arbitrary (due to inherent limitations of the classloader
+    mechanism) so you should not rely on the order in which these files are 
+    evaluated when using this mechanism.  
+4.  All properties files on the classpath named `beans.properties`, located
     by considering the property name as a package qualified name. The order in 
     which properties files in a given package will be consulted is arbitrary 
     (due to inherent limitations of the classloader mechanism) so you should 
     not rely on the order in which these files are evaluated when using this 
     mechanism.
-4.  All properties files at the root of the classpath with the name
-    `META-INF/beans.properties`.  The order in which these properties files 
-    are consulted is arbitrary (due to inherent limitations of the classloader
-    mechanism) so you should not rely on the order in which these files are 
-    evaluated when using this mechanism.  
 
 Resolution stops with the first resolver that provides a value for the named
 property.  If no value is resolved, the `value` attribute specified on
