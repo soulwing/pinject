@@ -135,6 +135,7 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
     Annotated annotated = injectionPoint.getAnnotated();
     Property qualifier = annotated.getAnnotation(Property.class);
     if (qualifier == null) throw new IllegalArgumentException();
+    if (!qualifier.name().isEmpty()) return injectionPoint;
     
     PropertyInjectionPointWrapper wrapper = new PropertyInjectionPointWrapper(
         injectionPoint, new PropertyLiteral(qualifier, nextId()));
