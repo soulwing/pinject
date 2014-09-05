@@ -238,6 +238,10 @@
               <attach>true</attach>
               <dependencyExcludes>
                 <exclude>
+                  <groupId>javax.enterprise</groupId>
+                  <artifactId>cdi-api</artifactId>
+                </exclude>
+                <exclude>
                   <groupId>javax.mail</groupId>
                   <artifactId>javax.mail-api</artifactId>
                 </exclude>

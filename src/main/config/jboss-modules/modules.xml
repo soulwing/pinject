@@ -1,0 +1,24 @@
+<modules xmlns="http://smartics.de/ns/jboss-modules-descriptor/1">
+  
+  <module name="org.soulwing.cdi.properties">
+    <match>
+      <includes>
+        <include>
+          <groupId>org.soulwing</groupId>
+          <artifactId>cdi-property-injection</artifactId>
+        </include>
+      </includes>
+    </match>
+    
+    <apply-to-module>
+      <dependencies>
+        <module name="javax.inject.api" />
+        <module name="javax.enterprise.api"/>
+        <module name="javax.mail.api"/>
+        <module name="javax.api" />
+      </dependencies>
+    </apply-to-module>
+    
+  </module>
+
+</modules>
