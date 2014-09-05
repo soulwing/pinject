@@ -222,6 +222,40 @@ resolved and the qualifier does not specify a default, the injection process
 will stop with an error indicating that the property value could not be
 resolved.
 
+
+Supported Types
+---------------
+
+The extension has built-in support for injecting property values into
+injection points with any of the following types:
+
+* `java.lang.String`
+* All Java primitives (e.g. `int`), and associated wrapper types
+* All enumeration types
+* `java.util.Calendar` and `java.util.Date` (along with its SQL subtypes) --
+  the default format is the full ISO 8601 format with time zone, but you can 
+  use any pattern supported by `java.util.SimpleDateFormat` by configuring the 
+  `org.soulwing.cdi.properties.converters.DatePropertyConverter.pattern`
+  property.    
+* `java.net.URL` -- includes support for the `classpath:` pseudo-scheme 
+  inspired by the Spring Framework
+* `java.net.URI`
+* `javax.mail.InternetAddress` -- optional; you must include JavaMail on your 
+  classpath
+
+
+Extending Pinject
+-----------------
+
+Pinject is easily extended to meet the specific needs of your application.  
+You can provide your own resolver(s) to handle property resolution from
+resources other than simple properties files, and you can provide your own
+converters to handle injection point data types that are not among those
+handled by the built-in converters. 
+
+Your extensions are loaded by Pinject using the `ServiceLoader` mechanism
+introduced in JDK 6.
+
 #### Custom Resolvers
 
 You can augment the built-in property resolvers by supplying your own.
@@ -249,28 +283,6 @@ connections) your resolver implementation may require.
 Unfortunately, because your resolver will be participating in the processes
 that support bean creation and dependency injection, your resolver cannot be
 designed to use the facilities of CDI in its own implementation.
-
-
-Supported Types
----------------
-
-The extension has built-in support for injecting property values into
-injection points with any of the following types:
-
-* `java.lang.String`
-* All Java primitives (e.g. `int`), and associated wrapper types
-* All enumeration types
-* `java.util.Calendar` and `java.util.Date` (along with its SQL subtypes) --
-  the default format is the full ISO 8601 format with time zone, but you can 
-  use any pattern supported by `java.util.SimpleDateFormat` by configuring the 
-  `org.soulwing.cdi.properties.converters.DatePropertyConverter.pattern`
-  property.    
-* `java.net.URL` -- includes support for the `classpath:` pseudo-scheme 
-  inspired by the Spring Framework
-* `java.net.URI`
-* `javax.mail.InternetAddress` -- optional; you must include JavaMail on your 
-  classpath
-
 
 #### Custom Converters
 
@@ -300,6 +312,20 @@ want to override one of the built-in converters in some specific case(s).
 Unfortunately, because your converter will be participating in the processes
 that support bean creation and dependency injection, your converter cannot be
 designed to use the facilities of CDI in its own implementation.
+
+#### `Optional` Resolvers and Converters.
+
+The SPI provides the `Optional` interface which can be implemented by resolver 
+and converter extensions that depend on libraries or other resources which
+may not always be available in the runtime environment.  A resolver or
+converter that implements this interface is given an opportunity to inspect
+the runtime environment to determine whether it can be used successfully.
+
+Before initializing an `Optional` resolver or converter, Pinject invokes the
+`isAvailable` method to allow your extension to check whether its runtime
+dependencies can be satisified.  If and only if your extension returns
+`true`, it is subsequently initialized and used by Pinject to resolve or
+convert property values.
 
 
 Theory of Operation
