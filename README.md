@@ -247,7 +247,7 @@ injection points with any of the following types:
 Extending Pinject
 -----------------
 
-Pinject is easily extended to meet the specific needs of your application.  
+Pinject is easily extended to meet the specific needs of your application.
 You can provide your own resolver(s) to handle property resolution from
 resources other than simple properties files, and you can provide your own
 converters to handle injection point data types that are not among those
