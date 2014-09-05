@@ -23,6 +23,8 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.soulwing.cdi.properties.spi.Optional;
 import org.soulwing.cdi.properties.spi.PropertyConverter;
@@ -35,6 +37,9 @@ import org.soulwing.cdi.properties.spi.PropertyConverter;
  */
 class DelegatingPropertyValueConverter implements PropertyValueConverter {
 
+  private static final Logger logger =
+      Logger.getLogger(DelegatingPropertyValueConverter.class.getName());
+  
   private final Set<PropertyConverter> converters = new LinkedHashSet<>();
   
   private final Map<String, PropertyConverter> converterMap = 
@@ -51,14 +56,30 @@ class DelegatingPropertyValueConverter implements PropertyValueConverter {
     for (PropertyConverter converter : 
       ServiceLoader.load(PropertyConverter.class)) {
       if (converter instanceof Optional
-          && !((Optional) converter).isAvailable()) continue;
-      converters.add(converter);
-      if (converter.getName() != null) {
-        converterMap.put(converter.getName(), converter);
+          && !((Optional) converter).isAvailable()) {
+        logger.info("converter not available: " + converter.getClass().getName());
+        continue;
       }
+      
+      String name = converter.getName();
+      String className = converter.getClass().getName();
+      if (name == null) {
+        name = converter.getClass().getName();
+      }
+
+      if (logger.isLoggable(Level.FINE)) {
+        if (!name.equals(className)) {
+          logger.fine(String.format("converter: %s (%s)", name, className));
+        }
+        else {
+          logger.fine(String.format("converter: %s", className));
+        }
+      }
+
+      converters.add(converter);
+      converterMap.put(converter.getName(), converter);
     }
   }
-  
   
   /**
    * {@inheritDoc}

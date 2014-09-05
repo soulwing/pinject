@@ -22,7 +22,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.soulwing.cdi.properties.spi.Optional;
 import org.soulwing.cdi.properties.spi.PropertyResolver;
@@ -35,7 +39,13 @@ import org.soulwing.cdi.properties.spi.PropertyResolver;
  */
 class DelegatingPropertyValueResolver implements PropertyValueResolver {
 
+  private static final Logger logger = Logger.getLogger( 
+      DelegatingPropertyValueResolver.class.getName());
+  
   private final List<PropertyResolver> resolvers = new ArrayList<>();
+  
+  private final Map<String, String> cache = 
+      new ConcurrentHashMap<String, String>();
   
   /**
    * Constructs a new instance.
@@ -47,7 +57,10 @@ class DelegatingPropertyValueResolver implements PropertyValueResolver {
     for (PropertyResolver resolver : 
       ServiceLoader.load(PropertyResolver.class)) {
       if (resolver instanceof Optional 
-          && !((Optional) resolver).isAvailable()) continue;
+          && !((Optional) resolver).isAvailable()) {
+        logger.info("resolver not available: " + resolver.getClass().getName());
+        continue;
+      }
       resolver.init();
       resolvers.add(resolver);
     }
@@ -57,18 +70,53 @@ class DelegatingPropertyValueResolver implements PropertyValueResolver {
         return b.getPriority() - a.getPriority();
       }      
     });
-
+    if (logger.isLoggable(Level.FINE)) {
+      for (PropertyResolver resolver : resolvers) {
+        logger.fine(String.format("resolver: priority=%d type=%s",
+            resolver.getPriority(),
+            resolver.getClass().getName()));
+      }
+    }
   }
   /**
    * {@inheritDoc}
    */
   @Override
   public String resolve(String name) {
-    for (PropertyResolver resolver : resolvers) {
-      String value = resolver.resolve(name);
-      if (value != null) return value;
+    String value = getCachedValue(name);
+    if (value == null) {
+      for (PropertyResolver resolver : resolvers) {
+        value = resolve(name, resolver);
+        if (value != null) break;
+      }
     }
-    return null;
+    if (value != null) {
+      cache(name, value);
+    }
+    return value;
+  }
+
+  private String resolve(String name, PropertyResolver resolver) {
+    String value = resolver.resolve(name);
+    if (value != null) {
+      if (logger.isLoggable(Level.FINE)) {
+        logger.fine(String.format("resolved %s=%s (%s)", name, value,
+            resolver.getClass().getSimpleName()));
+      }
+    }
+    return value;
+  }
+
+  private String getCachedValue(String name) {
+    String value = cache.get(name);
+    if (value != null && logger.isLoggable(Level.FINEST)) {
+      logger.finest(String.format("resolved %s=%s (cached)", name, value));
+    }
+    return value;
+  }
+
+  private void cache(String name, String value) {
+    cache.put(name, value);
   }
 
   /**

@@ -18,6 +18,9 @@
  */
 package org.soulwing.cdi.properties.extension;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
@@ -34,6 +37,9 @@ import org.soulwing.cdi.properties.Property;
  * @author Carl Harris
  */
 public class PropertyInjectionExtension implements Extension {
+  
+  private static final Logger logger = Logger.getLogger(
+      PropertyInjectionExtension.class.getName());
   
   private final PropertyBeanContainer container;
   
@@ -60,6 +66,8 @@ public class PropertyInjectionExtension implements Extension {
    */
   void beforeBeanDiscovery(@Observes BeforeBeanDiscovery event) 
       throws Exception {
+   
+    logger.fine("starting property injection");
     container.init();
   }
   
@@ -69,13 +77,16 @@ public class PropertyInjectionExtension implements Extension {
    */
   <T,E> void processInjectionPoint(@Observes ProcessInjectionPoint<T,E> event) 
       throws Exception {
-    
     InjectionPoint injectionPoint = event.getInjectionPoint();
-
+    
     Property qualifier = injectionPoint.getAnnotated().getAnnotation(
         Property.class);
 
     if (qualifier == null) return;
+ 
+    if (logger.isLoggable(Level.FINEST)) {
+      logger.finest("injecting into " + injectionPoint);
+    }
     
     event.setInjectionPoint(container.add(injectionPoint, qualifier));
   }
@@ -87,6 +98,7 @@ public class PropertyInjectionExtension implements Extension {
   void afterBeanDiscovery(@Observes AfterBeanDiscovery event) {
     container.copyAll(event);
     container.destroy();
+    logger.fine("property injection complete");
   }
   
 }

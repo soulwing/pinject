@@ -29,6 +29,7 @@ import java.util.Date;
 
 import javax.mail.internet.InternetAddress;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.soulwing.cdi.properties.converters.BooleanPropertyConverter;
 import org.soulwing.cdi.properties.converters.BytePropertyConverter;
@@ -60,6 +61,11 @@ public class DelegatingPropertyValueConverterTest {
       new DelegatingPropertyValueConverter(
           new DelegatingPropertyValueResolver());
   
+  @BeforeClass
+  public static void setUpBeforeClass() throws Exception {
+    LogManagerUtil.configure();
+  }
+
   @Test
   public void testConvertersByType() throws Exception {
     assertThat((Boolean) converter.convert(

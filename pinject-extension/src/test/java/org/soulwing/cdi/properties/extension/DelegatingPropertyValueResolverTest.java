@@ -26,6 +26,7 @@ import static org.hamcrest.Matchers.nullValue;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.soulwing.cdi.properties.resolvers.BeansProperties;
 import org.soulwing.cdi.properties.resolvers.MetaInfBeanPropertiesResolver;
@@ -53,6 +54,11 @@ public class DelegatingPropertyValueResolverTest {
   private DelegatingPropertyValueResolver resolver =
       new DelegatingPropertyValueResolver();
   
+  @BeforeClass
+  public static void setUpBeforeClass() throws Exception {
+    LogManagerUtil.configure();
+  }
+
   @Before
   public void setUp() throws Exception {
     classLoaderUtil.setUp(getClass());

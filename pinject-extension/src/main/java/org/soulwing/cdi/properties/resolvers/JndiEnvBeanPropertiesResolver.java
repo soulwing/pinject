@@ -60,6 +60,7 @@ public class JndiEnvBeanPropertiesResolver implements PropertyResolver {
     String[] locations = boundValue.toString().split("\\s*(,|\\s)\\s*");
     
     for (String location : locations) {
+      logger.info("loading bean properties from " + location);
       propertiesSet.load((URL) converter.convert(location, null));
     }
   }
