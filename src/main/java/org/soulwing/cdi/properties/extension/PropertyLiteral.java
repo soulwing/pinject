@@ -53,25 +53,16 @@ public class PropertyLiteral extends AnnotationLiteral<Property>
     this.id = id;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String name() {
     return Long.toString(id);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String value() {
     return qualifier.value();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String converter() {
     return qualifier.converter();

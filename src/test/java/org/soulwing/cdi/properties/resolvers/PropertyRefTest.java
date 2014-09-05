@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.is;
 import org.junit.Test;
 
 /**
- * Unit tests for {@link PropertyName}.
+ * Unit tests for {@link PropertyRef}.
  *
  * @author Carl Harris
  */

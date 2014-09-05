@@ -65,7 +65,6 @@ public class PropertiesSet {
   /**
    * Loads a properties collection into this set.
    * @param location location of the collection to load
-   * @return property collection
    * @throws IOException
    */
   public void load(URL location) throws IOException {
