@@ -3,7 +3,6 @@
   <groupId>org.soulwing</groupId>
   <artifactId>pinject</artifactId>
   <version>1.0.7-SNAPSHOT</version>
-  <name>CDI Property Injection</name>
   <packaging>pom</packaging>
   <description>Provides support for injecting property values (e.g. numbers, strings, dates, etc) into CDI-managed beans.</description>
   <scm>
@@ -223,4 +222,5 @@
     <module>pinject-api</module>
     <module>pinject-extension</module>
   </modules>
+  <name>Pinject</name>
 </project>

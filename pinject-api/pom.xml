@@ -6,12 +6,12 @@
     <version>1.0.7-SNAPSHOT</version>
   </parent>
   <artifactId>pinject-api</artifactId>
-  <name>CDI Property Injection API</name>
-  <description>Provides the annotations and service provider interfaces for extending Pinject.</description>
+  <description>Provides the annotations for property injection as well as the service provider interfaces for extending Pinject.</description>
   <dependencies>
     <dependency>
       <groupId>javax.enterprise</groupId>
       <artifactId>cdi-api</artifactId>
     </dependency>
   </dependencies>
+  <name>Pinject API</name>
 </project>

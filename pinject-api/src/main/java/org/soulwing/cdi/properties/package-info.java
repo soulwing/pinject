@@ -17,6 +17,6 @@
  *
  */
 /**
- * Annotations used by the extension
+ * Annotations used for property injection
  */
 package org.soulwing.cdi.properties;

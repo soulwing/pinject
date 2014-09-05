@@ -18,7 +18,7 @@
  */
 /**
  * Service provider interfaces
- * 
+ * <p>
  * By implementing these interfaces and creating appropriate services
  * configuration files in {@code META-INF/services}, the property resolution
  * and conversion capabilities of <em>Pinject</em> can be easily extended by 

@@ -1,5 +1,5 @@
-cdi-property-injection
-======================
+PInject
+=======
 
 A CDI extension that injects property values into CDI-managed beans.  By
 simply adding a `@Property` qualifier to your injection points,

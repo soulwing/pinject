@@ -22,7 +22,7 @@ import org.soulwing.cdi.properties.spi.Optional;
 import org.soulwing.cdi.properties.spi.PropertyConverter;
 
 /**
- * A base for property converters that depend on classes or other
+ * An abstract base for property converters that depend on classes or other
  * resources that may not be present at runtime.
  *
  * @author Carl Harris
