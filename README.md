@@ -1,4 +1,4 @@
-PInject
+Pinject
 =======
 
 A CDI extension that injects property values into CDI-managed beans.  By
