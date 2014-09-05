@@ -313,7 +313,7 @@ Unfortunately, because your converter will be participating in the processes
 that support bean creation and dependency injection, your converter cannot be
 designed to use the facilities of CDI in its own implementation.
 
-#### `Optional` Resolvers and Converters.
+#### Optional Resolvers and Converters
 
 The SPI provides the `Optional` interface which can be implemented by resolver 
 and converter extensions that depend on libraries or other resources which
