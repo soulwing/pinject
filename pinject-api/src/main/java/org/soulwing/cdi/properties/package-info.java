@@ -17,6 +17,6 @@
  *
  */
 /**
- * Public API
+ * Annotations used by the extension
  */
 package org.soulwing.cdi.properties;

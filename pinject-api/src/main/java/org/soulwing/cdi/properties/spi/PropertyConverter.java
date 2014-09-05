@@ -23,6 +23,16 @@ import org.soulwing.cdi.properties.Property;
 /**
  * An object that converts the string representation of property value to an 
  * instance of a target type.
+ * <p>
+ * A property converter is configured for the <em>Pinject</em> extension
+ * by placing a provider configuration file in the resource directory 
+ * {@code META-INF/services} of a directory or JAR file on the classpath
+ * of the extension.  The name of the configuration file is:
+ * <p>
+ * {@code org.soulwing.cdi.properties.spi.PropertyConverter}
+ * <p>
+ * The file may contain one or more fully-qualified class names of classes
+ * that implement this interface.
  *
  * @author Carl Harris
  */

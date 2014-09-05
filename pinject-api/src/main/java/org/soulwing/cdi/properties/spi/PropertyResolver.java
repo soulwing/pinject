@@ -20,7 +20,17 @@ package org.soulwing.cdi.properties.spi;
 
 /**
  * An object that resolves a property name to a value.
- *
+ * <p>
+ * A property resolver is configured for the <em>Pinject</em> extension
+ * by placing a provider configuration file in the resource directory 
+ * {@code META-INF/services} of a directory or JAR file on the classpath
+ * of the extension.  The name of the configuration file is:
+ * <p>
+ * {@code org.soulwing.cdi.properties.spi.PropertyResolver}
+ * <p>
+ * The file may contain one or more fully-qualified class names of classes
+ * that implement this interface.
+*
  * @author Carl Harris
  */
 public interface PropertyResolver {
