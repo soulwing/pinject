@@ -37,23 +37,14 @@ import org.soulwing.cdi.properties.Property;
  */
 class SimplePropertyBeanContainer implements PropertyBeanContainer {
 
+  private final Lock lock = new ReentrantLock();
+  
   private final Set<PropertyBean> beans = new HashSet<>();
-
+  
   private final PropertyValueResolver resolver;
   private final PropertyValueConverter converter;
-  
-  private static final Lock lock = new ReentrantLock();
-  private static long nextId;
-  
-  private static long nextId() {
-    lock.lock();
-    try {
-      return nextId++;
-    }
-    finally {
-      lock.unlock();
-    }
-  }
+    
+  private long nextId;
   
   public SimplePropertyBeanContainer() {
     this(new DelegatingPropertyValueResolver());
@@ -95,19 +86,13 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
       UnsupportedTypeException {
     
     InjectionPoint wrapper = wrap(injectionPoint);
+    
     Class<?> type = type(injectionPoint);
     String name = name(injectionPoint, qualifier);
-    String stringValue = resolve(name, qualifier);
+    Object value = convert(resolve(name, qualifier), type, qualifier, 
+        fullyQualifiedMemberName(injectionPoint));
 
-    try {
-      Object value = convert(stringValue, type, qualifier);
-      beans.add(new PropertyBean(value, type, wrapper.getQualifiers()));
-    }
-    catch (UnsupportedTypeException ex) {
-      throw new UnsupportedTypeException(
-          fullyQualifiedMemberName(injectionPoint), type);
-    }
-    
+    store(new PropertyBean(value, type, wrapper.getQualifiers()));
     return wrapper;
   }
 
@@ -116,8 +101,14 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
    */
   @Override
   public void copyAll(AfterBeanDiscovery event) {
-    for (PropertyBean bean : beans) {
-      event.addBean(bean);
+    lock.lock();
+    try {
+      for (PropertyBean bean : beans) {
+        event.addBean(bean);
+      }
+    }
+    finally {
+      lock.unlock();
     }
   }
 
@@ -137,11 +128,10 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
     if (qualifier == null) throw new IllegalArgumentException();
     if (!qualifier.name().isEmpty()) return injectionPoint;
     
-    PropertyInjectionPointWrapper wrapper = new PropertyInjectionPointWrapper(
-        injectionPoint, new PropertyLiteral(qualifier, nextId()));
-    return wrapper;
-  }
-  
+    return new PropertyInjectionPointWrapper(
+        injectionPoint, new PropertyLiteral(qualifier, nextId++));
+  }  
+
   /**
    * Gets the type of the injection point ensuring that is of {@link Class}
    * type.
@@ -197,16 +187,24 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
    * @param value the string representation to convert
    * @param type the target type
    * @param qualifier qualifier applied to the injection point
+   * @param injectionPointName fully qualified name of the injection point
    * @return {@code value} converted to an instance of {@code type}
    * @throws UnsupportedTypeException
    * @throws NoSuchConverterException
    */
-  private Object convert(String value, Class<?> type, Property qualifier)
+  private Object convert(String value, Class<?> type, Property qualifier, 
+      String injectionPointName)
       throws UnsupportedTypeException, NoSuchConverterException {
-    if (!qualifier.converter().isEmpty()) {
-      return converter.convert(qualifier.converter(), value, type);
+    try {
+      if (!qualifier.converter().isEmpty()) {
+        return converter.convert(qualifier.converter(), value, type);
+      }
+      return converter.convert(value, type);
+    }    
+    catch (UnsupportedTypeException ex) {
+      throw new UnsupportedTypeException(injectionPointName, type);
     }
-    return converter.convert(value, type);
+
   }
 
   /**
@@ -219,6 +217,20 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
     String beanClassName  = member.getDeclaringClass().getName();
     String memberName = member.getName();
     return beanClassName + "." + memberName;
+  }
+
+  /**
+   * Stores a property bean.
+   * @param bean the bean to store
+   */
+  private void store(PropertyBean bean) {
+    lock.lock();
+    try {
+      beans.add(bean);
+    }
+    finally {
+      lock.unlock();
+    }
   }
 
 }
