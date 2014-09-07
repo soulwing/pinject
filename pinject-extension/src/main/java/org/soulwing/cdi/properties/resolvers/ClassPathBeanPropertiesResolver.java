@@ -35,36 +35,31 @@ public class ClassPathBeanPropertiesResolver
   public static final int PRIORITY = -10;
 
   /**
-   * {@inheritDoc}
+   * Constructs a new instance.
    */
-  @Override
-  public void init() throws Exception {
+  public ClassPathBeanPropertiesResolver() {
+    super(PRIORITY, new ClassLoaderPropertiesSetLoader());
   }
 
   /**
-   * {@inheritDoc}
+   * A {@link PropertiesSetLoader} that loads {@code beans.properties} using
+   * the class loader.
    */
-  @Override
-  public void destroy() throws Exception {
+  static class ClassLoaderPropertiesSetLoader implements PropertiesSetLoader {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PropertiesSet load(PropertyRef ref) throws IOException {
+      Enumeration<URL> locations = Thread.currentThread()
+          .getContextClassLoader().getResources(
+              ref.getPath(BeansProperties.NAME));
+      PropertiesSet propertiesSet = new PropertiesSet();
+      propertiesSet.load(locations);
+      return propertiesSet;
+    }
+  
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public int getPriority() {
-    // TODO Auto-generated method stub
-    return PRIORITY;
-  }
-
-  protected PropertiesSet loadPropertiesSet(PropertyRef ref) 
-      throws IOException {
-    Enumeration<URL> locations = Thread.currentThread()
-        .getContextClassLoader().getResources(
-            ref.getPath(BeansProperties.NAME));
-    PropertiesSet propertiesSet = new PropertiesSet();
-    propertiesSet.load(locations);
-    return propertiesSet;
-  }
- 
 }

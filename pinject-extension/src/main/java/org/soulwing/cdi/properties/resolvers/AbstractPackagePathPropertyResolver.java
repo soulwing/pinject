@@ -36,6 +36,42 @@ public abstract class AbstractPackagePathPropertyResolver
   private final Map<String, PropertiesSet> pathCache =
       new ConcurrentHashMap<>();
   
+  private final int priority;
+  private final PropertiesSetLoader loader;
+  
+  /**
+   * Constructs a new instance.
+   * @param priority
+   * @param loader
+   */
+  protected AbstractPackagePathPropertyResolver(int priority,
+      PropertiesSetLoader loader) {
+    this.priority = priority;
+    this.loader = loader;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void init() throws Exception {
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void destroy() throws Exception {
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final int getPriority() {
+    return priority;
+  }
+
   /**
    * {@inheritDoc}
    */
@@ -75,20 +111,10 @@ public abstract class AbstractPackagePathPropertyResolver
       throws IOException {
     PropertiesSet propertiesSet = pathCache.get(ref.getPath());
     if (propertiesSet == null) {
-      propertiesSet = loadPropertiesSet(ref);
+      propertiesSet = loader.load(ref);
       pathCache.put(ref.getPath(), propertiesSet);
     }
     return propertiesSet;
   }
 
-  /**
-   * Loads a properties set from the path specified by the given property
-   * reference.
-   * @param ref property reference
-   * @return properties set
-   * @throws IOException
-   */
-  protected abstract PropertiesSet loadPropertiesSet(PropertyRef ref) 
-      throws IOException;
- 
 }
