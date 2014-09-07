@@ -19,58 +19,28 @@
 package org.soulwing.cdi.properties.resolvers;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.soulwing.cdi.properties.spi.PropertyResolver;
 
 /**
- * A {@link PropertyResolver} that treats each property name as a fully
- * qualified name to {@code beans.properties} file in a package on the
- * classpath.
+ * An abstract base for {@link PropertyResolvers} that treat property names
+ * as a qualified path name to a properties resource.
  *
  * @author Carl Harris
  */
-public class PackagePathBeanPropertiesResolver implements PropertyResolver {
+public abstract class AbstractPackagePathPropertyResolver 
+    implements PropertyResolver {
 
-  public static final int PRIORITY = -10;
-  
   private final Map<String, PropertiesSet> pathCache =
-      new HashMap<>();
+      new ConcurrentHashMap<>();
   
   /**
    * {@inheritDoc}
    */
   @Override
-  public void init() throws Exception {
-    // TODO Auto-generated method stub
-
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void destroy() throws Exception {
-    // TODO Auto-generated method stub
-
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public int getPriority() {
-    return PRIORITY;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public String resolve(String name) {
+  public final String resolve(String name) {
     try {
       return resolve(new PropertyRef(name));
     }
@@ -79,6 +49,12 @@ public class PackagePathBeanPropertiesResolver implements PropertyResolver {
     }
   }
 
+  /**
+   * Resolves the value for the property specified by the given reference.
+   * @param ref property reference
+   * @return property value
+   * @throws IOException
+   */
   private String resolve(PropertyRef ref) throws IOException {
     PropertiesSet propertiesSet = fetchPropertiesSet(ref);
     String value = propertiesSet.getProperty(ref.getName());
@@ -88,6 +64,13 @@ public class PackagePathBeanPropertiesResolver implements PropertyResolver {
     return resolve(ref.getParent());
   }
 
+  /**
+   * Fetches the properties set for the path specified by the given property
+   * reference loading it from the underlying provider subtype as needed.
+   * @param ref property reference
+   * @return properties set
+   * @throws IOException
+   */
   private PropertiesSet fetchPropertiesSet(PropertyRef ref)
       throws IOException {
     PropertiesSet propertiesSet = pathCache.get(ref.getPath());
@@ -98,14 +81,14 @@ public class PackagePathBeanPropertiesResolver implements PropertyResolver {
     return propertiesSet;
   }
 
-  private PropertiesSet loadPropertiesSet(PropertyRef ref) 
-      throws IOException {
-    Enumeration<URL> locations = Thread.currentThread()
-        .getContextClassLoader().getResources(
-            ref.getPath(BeansProperties.NAME));
-    PropertiesSet propertiesSet = new PropertiesSet();
-    propertiesSet.load(locations);
-    return propertiesSet;
-  }
+  /**
+   * Loads a properties set from the path specified by the given property
+   * reference.
+   * @param ref property reference
+   * @return properties set
+   * @throws IOException
+   */
+  protected abstract PropertiesSet loadPropertiesSet(PropertyRef ref) 
+      throws IOException;
  
 }

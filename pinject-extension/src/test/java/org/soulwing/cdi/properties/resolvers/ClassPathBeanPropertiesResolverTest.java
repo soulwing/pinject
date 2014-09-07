@@ -30,15 +30,15 @@ import org.junit.Test;
 import org.soulwing.cdi.properties.support.ClassLoaderUtil;
 
 /**
- * Unit tests for {@link PackagePathBeanPropertiesResolver}.
+ * Unit tests for {@link ClassPathBeanPropertiesResolver}.
  *
  * @author Carl Harris
  */
-public class PackagePathBeanPropertiesResolverTest {
+public class ClassPathBeanPropertiesResolverTest {
 
   private ClassLoaderUtil classLoaderUtil = new ClassLoaderUtil();
-  private PackagePathBeanPropertiesResolver resolver =
-      new PackagePathBeanPropertiesResolver();
+  private ClassPathBeanPropertiesResolver resolver =
+      new ClassPathBeanPropertiesResolver();
   
   @Before
   public void setUp() throws Exception {
