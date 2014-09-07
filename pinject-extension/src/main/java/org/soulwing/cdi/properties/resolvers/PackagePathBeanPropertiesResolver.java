@@ -88,18 +88,24 @@ public class PackagePathBeanPropertiesResolver implements PropertyResolver {
     return resolve(ref.getParent());
   }
 
-  private PropertiesSet fetchPropertiesSet(PropertyRef ref) 
+  private PropertiesSet fetchPropertiesSet(PropertyRef ref)
       throws IOException {
     PropertiesSet propertiesSet = pathCache.get(ref.getPath());
     if (propertiesSet == null) {
-      Enumeration<URL> locations = Thread.currentThread()
-          .getContextClassLoader().getResources(
-              ref.getPath(BeansProperties.NAME));
-      propertiesSet = new PropertiesSet();
-      propertiesSet.load(locations);
+      propertiesSet = loadPropertiesSet(ref);
       pathCache.put(ref.getPath(), propertiesSet);
     }
     return propertiesSet;
   }
-  
+
+  private PropertiesSet loadPropertiesSet(PropertyRef ref) 
+      throws IOException {
+    Enumeration<URL> locations = Thread.currentThread()
+        .getContextClassLoader().getResources(
+            ref.getPath(BeansProperties.NAME));
+    PropertiesSet propertiesSet = new PropertiesSet();
+    propertiesSet.load(locations);
+    return propertiesSet;
+  }
+ 
 }
