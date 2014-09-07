@@ -124,7 +124,7 @@ public class RestClientBean {
 }
 ```
 
-We could simple create a `beans.properties` file at the root of the classpath
+We could simply create a `beans.properties` file at the root of the classpath
 (or as `META-INF/beans.properties`) and define our properties with the fully
 qualified names of our property injection points, like this:
 
@@ -177,6 +177,15 @@ http.RestClientBean.password=s3kr3t
 
 Note how we can just prepend the property names for the `RestClientBean`
 with the subpackage name. 
+
+### Overriding Properties during Test Execution
+
+Properties placed on the classpath in `META-INF/beans.properties` override those
+specified elsewhere on the classpath.  This allows you to easily target
+properties whose values you want to override by putting their fully-qualified
+names in a `META-INF/beans.properties` file with your test resources.  For 
+example, in a Maven project you could put your overrides in 
+`src/test/resources/META-INF/beans.properties`.
 
 ### Overriding Properties in Java EE and Web Applications
 
