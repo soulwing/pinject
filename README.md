@@ -182,9 +182,9 @@ with the subpackage name.
 
 Properties placed on the classpath in `META-INF/beans.properties` override those
 specified elsewhere on the classpath.  This allows you to easily target
-properties whose values you want to override by putting their fully-qualified
-names in a `META-INF/beans.properties` file with your test resources.  For 
-example, in a Maven project you could put your overrides in 
+properties whose values you want to override during tests by putting their 
+fully-qualified names in a `META-INF/beans.properties` file with your test 
+resources.  For example, in a Maven project you could put your overrides in 
 `src/test/resources/META-INF/beans.properties`.
 
 ### Overriding Properties in Java EE and Web Applications
