@@ -64,16 +64,12 @@ public class PropertiesSet {
   
   /**
    * Loads a properties collection into this set.
-   * @param location location of the collection to load
+   * @param inputStream input stream from which the collection will be read
    * @throws IOException
    */
-  public void load(URL location) throws IOException {
-    if (location == null) {
-      throw new NullPointerException("location is required");
-    }
-    InputStream inputStream = location.openStream();
+  public void load(InputStream inputStream) throws IOException {
     if (inputStream == null) {
-      throw new FileNotFoundException(location.toString());
+      throw new NullPointerException("inputStream is required");
     }
     try {
       Properties properties = new Properties();
@@ -88,6 +84,22 @@ public class PropertiesSet {
         ex.printStackTrace(System.err);
       }
     }
+  }
+
+  /**
+   * Loads a properties collection into this set.
+   * @param location location of the collection to load
+   * @throws IOException
+   */
+  public void load(URL location) throws IOException {
+    if (location == null) {
+      throw new NullPointerException("location is required");
+    }
+    InputStream inputStream = location.openStream();
+    if (inputStream == null) {
+      throw new FileNotFoundException(location.toString());
+    }
+    load(inputStream);
   }
 
   /**
