@@ -19,9 +19,7 @@
 package org.soulwing.cdi.properties.extension;
 
 import java.lang.reflect.Member;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -42,7 +40,6 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
   private final Lock lock = new ReentrantLock();
   
   private final Set<PropertyBean> beans = new HashSet<>();
-  private final Map<Member, InjectionPoint> wrapperMap = new HashMap<>();
   
   private final PropertyValueResolver resolver;
   private final PropertyValueConverter converter;
@@ -101,19 +98,14 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
       throws UnresolvedPropertyException, NoSuchConverterException,
       UnsupportedTypeException {
 
-    InjectionPoint wrapper = wrapperMap.get(injectionPoint.getMember());
-    if (wrapper != null) return wrapper;
-
-    wrapper = wrap(injectionPoint);
-    wrapperMap.put(injectionPoint.getMember(), wrapper);
-    
+    InjectionPoint wrapper = wrap(injectionPoint);    
     Class<?> type = type(injectionPoint);
     String name = name(injectionPoint, qualifier);
     Object value = convert(resolve(name, qualifier), type, qualifier, 
         fullyQualifiedMemberName(injectionPoint));
 
     PropertyBean bean = new PropertyBean(value, type, wrapper.getQualifiers());
-    store(wrapper, bean);
+    store(bean);
     return wrapper;
   }
 
@@ -242,14 +234,12 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
 
   /**
    * Stores a property bean.
-   * @param wrapper wrapper for the injection point
    * @param bean the bean to store
    */
-  private void store(InjectionPoint wrapper, PropertyBean bean) {
+  private void store(PropertyBean bean) {
     lock.lock();
     try {
       beans.add(bean);
-      wrapperMap.put(wrapper.getMember(), wrapper);
     }
     finally {
       lock.unlock();

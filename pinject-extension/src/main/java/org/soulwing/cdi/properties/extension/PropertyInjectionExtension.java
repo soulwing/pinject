@@ -18,12 +18,16 @@
  */
 package org.soulwing.cdi.properties.extension;
 
+import java.lang.reflect.Member;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
+import javax.enterprise.inject.spi.BeforeShutdown;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.enterprise.inject.spi.ProcessInjectionPoint;
@@ -40,6 +44,9 @@ public class PropertyInjectionExtension implements Extension {
   
   private static final Logger logger = Logger.getLogger(
       PropertyInjectionExtension.class.getName());
+  
+  private final Map<Member, InjectionPoint> wrapperMap = 
+      new ConcurrentHashMap<>();
   
   private final PropertyBeanContainer container;
   
@@ -81,14 +88,24 @@ public class PropertyInjectionExtension implements Extension {
     
     Property qualifier = injectionPoint.getAnnotated().getAnnotation(
         Property.class);
-
     if (qualifier == null) return;
- 
+
     if (logger.isLoggable(Level.FINEST)) {
       logger.finest("injecting into " + injectionPoint);
     }
-    
-    event.setInjectionPoint(container.add(injectionPoint, qualifier));
+
+    InjectionPoint wrapper = wrapperMap.get(injectionPoint.getMember());
+    if (wrapper == null) {
+      wrapper = container.add(injectionPoint, qualifier);
+      wrapperMap.put(injectionPoint.getMember(), wrapper);
+    }
+    else {
+      if (logger.isLoggable(Level.FINE)) {
+        logger.fine("found cached injection point wrapper for member " 
+            + injectionPoint.getMember());
+      }
+    }
+    event.setInjectionPoint(wrapper);
   }
 
   /**
@@ -99,6 +116,11 @@ public class PropertyInjectionExtension implements Extension {
     container.copyAll(event);
     container.destroy();
     logger.fine("property injection complete");
+  }
+  
+  void beforeShutdown(@Observes BeforeShutdown event) {
+    wrapperMap.clear();
+    logger.fine("property injection shut down");
   }
   
 }
