@@ -202,22 +202,33 @@ exists and is of string type, the extension will treat it as a space- or
 comma-delimited list of URLs to properties files that will be used, in the 
 order specified, to resolve property values. 
 
+If the JNDI environment variable `java:comp/env/beans.properties.root`
+exists and is of string type, the extension will treat it as a base URL for
+resolving properties from `beans.properties` files on the runtime classpath.
+This mechanism allows you to provide a hierarchy of `beans.properties` files
+based on package names, outside of the runtime classpath.
+
 
 ### Resolution Order
 
-Property values are resolved by the built-in resolvers in the follwing order.
+Property values are resolved by the built-in resolvers in the following order.
 
 1.  System properties set using `java.lang.System.setProperty` or by using
     `-Dname=value` arguments when starting the JRE.
 2.  If running in a Java EE or Servlet container, properties defined in 
     properties files located using the URL(s) specified by the 
     `java:comp/env/beans.properties.location` JNDI environment setting.
-3.  All properties files at the root of the classpath with the name
+3.  If running in a Java EE or Servlet container, `beans.properties` defined in 
+    properties files located by searching the namespace rooted by the URL
+    specified by the `java:comp/env/beans.properties.root` JNDI environment 
+    setting.  The search is conducted in the same manner as when searching 
+    the classpath.
+5.  All properties files at the root of the classpath with the name
     `META-INF/beans.properties`.  The order in which these properties files 
     are consulted is arbitrary (due to inherent limitations of the classloader
     mechanism) so you should not rely on the order in which these files are 
     evaluated when using this mechanism.  
-4.  All properties files on the classpath named `beans.properties`, located
+6.  All properties files on the classpath named `beans.properties`, located
     by considering the property name as a package qualified name. The order in 
     which properties files in a given package will be consulted is arbitrary 
     (due to inherent limitations of the classloader mechanism) so you should 
