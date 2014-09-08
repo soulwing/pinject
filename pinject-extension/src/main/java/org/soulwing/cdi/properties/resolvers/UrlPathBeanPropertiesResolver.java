@@ -95,8 +95,8 @@ public class UrlPathBeanPropertiesResolver
         return connection;
       }
       catch (IOException ex) {
-        if (logger.isLoggable(Level.FINE)) {
-          logger.fine(String.format("error loading properties from %s: %s",
+        if (logger.isLoggable(Level.FINEST)) {
+          logger.finest(String.format("error loading properties from %s: %s",
               url, ex));
         }
         return null;
