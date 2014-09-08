@@ -54,13 +54,7 @@ public class JndiObjectLocator {
    * @throws NamingException if an unrecoverable JNDI error occurs
    */
   private void init() throws NamingException {
-    try {
-      ctx = new InitialContext();
-    }
-    catch (NoInitialContextException ex) {
-      logger.fine("no initial context; probably not running in a container");
-      ctx = null;
-    }
+    ctx = new InitialContext();
   }
   
   /**
@@ -71,10 +65,12 @@ public class JndiObjectLocator {
    *    could not be created (indicating that we're not running in a container)
    */
   public Object lookup(String name) throws NamingException {
-    if (ctx == null) return null;
     try {
-      InitialContext ctx = new InitialContext();
       return ctx.lookup(name);
+    }
+    catch (NoInitialContextException ex) {
+      logger.fine("no initial context; probably not running in a container");
+      return null;
     }
     catch (NameNotFoundException ex) {
       logger.info("JNDI lookup for '" + name + "' returned nothing");
