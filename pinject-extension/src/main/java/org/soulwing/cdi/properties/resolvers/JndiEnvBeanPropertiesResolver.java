@@ -22,10 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Logger;
 
-import javax.naming.InitialContext;
-import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
-import javax.naming.NoInitialContextException;
 
 import org.soulwing.cdi.properties.converters.UrlPropertyConverter;
 import org.soulwing.cdi.properties.spi.PropertyResolver;
@@ -45,7 +42,7 @@ public class JndiEnvBeanPropertiesResolver implements PropertyResolver {
   public static final String BINDING = 
       "java:comp/env/beans.properties.location";
 
-  public static final int PRIORITY = -5;
+  public static final int PRIORITY = -4;
   
   private final PropertiesSet propertiesSet = new PropertiesSet();
   
@@ -55,7 +52,7 @@ public class JndiEnvBeanPropertiesResolver implements PropertyResolver {
   @Override
   public void init() throws IOException, NamingException {
     UrlPropertyConverter converter = new UrlPropertyConverter();
-    Object boundValue = getBoundValue();
+    Object boundValue = JndiObjectLocator.getInstance().lookup(BINDING);
     if (boundValue == null) return;
     String[] locations = boundValue.toString().split("\\s*(,|\\s)\\s*");
     
@@ -65,27 +62,6 @@ public class JndiEnvBeanPropertiesResolver implements PropertyResolver {
     }
   }
 
-  /**
-   * Gets the JNDI environment variable bound as {@link BINDING}.
-   * @return bound value or {@code null} if the variable does not exist or
-   *    if the JNDI query failed because the initial context for the lookup
-   *    could not be created (indicating that we're not running in a container)
-   */
-  private Object getBoundValue() throws NamingException {
-    try {
-      InitialContext ctx = new InitialContext();
-      return ctx.lookup(BINDING);
-    }
-    catch (NameNotFoundException ex) {
-      logger.info("JNDI lookup for " + BINDING + " returned nothing");
-      return null;
-    }
-    catch (NoInitialContextException ex) {
-      logger.fine("no initial context; probably not running in a container");
-      return null;
-    }
-  }
-  
   @Override
   public void destroy() throws Exception {
     propertiesSet.clear();
