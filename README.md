@@ -218,8 +218,8 @@ Property values are resolved by the built-in resolvers in the following order.
 2.  If running in a Java EE or Servlet container, properties defined in 
     properties files located using the URL(s) specified by the 
     `java:comp/env/beans.properties.location` JNDI environment setting.
-3.  If running in a Java EE or Servlet container, `beans.properties` defined in 
-    properties files located by searching the namespace rooted by the URL
+3.  If running in a Java EE or Servlet container, all `beans.properties` files
+    located by searching the namespace rooted by the URL
     specified by the `java:comp/env/beans.properties.root` JNDI environment 
     setting.  The search is conducted in the same manner as when searching 
     the classpath.
