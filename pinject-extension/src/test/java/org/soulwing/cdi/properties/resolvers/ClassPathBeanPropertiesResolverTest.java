@@ -19,7 +19,6 @@
 package org.soulwing.cdi.properties.resolvers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
@@ -34,52 +33,35 @@ import org.soulwing.cdi.properties.support.ClassLoaderUtil;
  *
  * @author Carl Harris
  */
-public class ClassPathBeanPropertiesResolverTest {
+public class ClassPathBeanPropertiesResolverTest 
+    extends AbstractPackagePathPropertyResolverTest<ClassPathBeanPropertiesResolver> {
 
   private ClassLoaderUtil classLoaderUtil = new ClassLoaderUtil();
-  private ClassPathBeanPropertiesResolver resolver =
-      new ClassPathBeanPropertiesResolver();
   
   @Before
   public void setUp() throws Exception {
-    classLoaderUtil.setUp(getClass());
+    classLoaderUtil.setUp(getClass().getSuperclass());
+    super.setUp();
   }
 
   @After
   public void tearDown() throws Exception {
+    super.tearDown();
     classLoaderUtil.tearDown();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected ClassPathBeanPropertiesResolver newResolver() {
+    return new ClassPathBeanPropertiesResolver();
   }
 
   @Test
   public void testClassLoaderSetUp() throws Exception {
     assertThat(Thread.currentThread().getContextClassLoader()
         .getResource(BeansProperties.NAME), is(not(nullValue())));
-  }
-  
-  @Test
-  public void testGetPropertyWithNoRecursion() throws Exception {
-    assertThat(resolver.resolve("rootProperty"), 
-        is(equalTo("rootProperty")));
-    assertThat(resolver.resolve("NO_SUCH_PROPERTY"), 
-        is(nullValue()));
-    assertThat(resolver.resolve("parent.parentProperty"), 
-        is(equalTo("parentProperty")));
-    assertThat(resolver.resolve("parent.child.childProperty"), 
-        is(equalTo("childProperty")));
-    assertThat(resolver.resolve("parent.child.grandchild.grandchildProperty"), 
-        is(equalTo("grandchildProperty")));
-  }
-  
-  @Test
-  public void testGetPropertyWithRecursion() throws Exception {
-    assertThat(resolver.resolve("parent.child.grandchild.parentProperty"), 
-        is(equalTo("parentOfGrandchildProperty")));
-    assertThat(resolver.resolve("parent.child.grandchild.grandparentProperty"), 
-        is(equalTo("grandparentOfGrandchildProperty")));
-    assertThat(resolver.resolve("parent.child.grandchild.greatGrandparentProperty"),
-        is(equalTo("greatGrandparentOfGrandchildProperty")));
-    assertThat(resolver.resolve("parent.child.grandchild.NO_SUCH_PROPERTY"),
-        is(nullValue()));
   }
 
 }
