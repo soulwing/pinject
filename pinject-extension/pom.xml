@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.7</version>
   </parent>
   <artifactId>pinject-extension</artifactId>
   <name>Pinject CDI Extension</name>
