@@ -175,8 +175,8 @@ http.RestClientBean.username=illustrator
 http.RestClientBean.password=s3kr3t
 ```
 
-Note how we can just prepend the property names for the `RestClientBean`
-with the subpackage name. 
+Note how we can just prepend the subpackage name to the property names for the 
+`RestClientBean` object.
 
 ### Overriding Properties during Test Execution
 
