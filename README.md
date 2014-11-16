@@ -78,7 +78,7 @@ is a file in the format produced by `java.util.Properties`.
 #### Placing `beans.properties` Resources on the Classpath
 
 The built-in property resolution takes advantage of the fully-qualified 
-inject point names that are used as the default property names wherever
+injection point names that are used as the default property names wherever
 `@Property` is applied, allowing properties to be assembled in `beans.properties`
 file at any level of the package hierarchy that makes sense for your needs.
 The following example illustrates the concept.
