@@ -257,7 +257,8 @@ injection points with any of the following types:
   use any pattern supported by `java.util.SimpleDateFormat` by configuring the 
   `org.soulwing.cdi.properties.converters.DatePropertyConverter.pattern`
   property.    
-* `java.net.URL` -- includes support for the `classpath:` pseudo-scheme 
+* `java.net.URL` -- in addition to supporting the standard schemes such as `http:` 
+  and `file:`, also includes support for the `classpath:` pseudo-scheme 
   inspired by the Spring Framework
 * `java.net.URI`
 * `javax.mail.InternetAddress` -- optional; you must include JavaMail on your 
