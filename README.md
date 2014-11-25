@@ -378,7 +378,7 @@ convert property values.
 Theory of Operation
 -------------------
 
-The extension uses CDI's bean discovery events to participate in the 
+The Pinject extension uses CDI's bean discovery events to participate in the 
 dependency injection process.  For each injection point that is qualified
 with `@Property`, the extension resolves the corresponding property name to
 a string value, and converts the string representation to an instance of the
@@ -401,9 +401,9 @@ How will CDI be able to distinguish beans of type String that are created by
 the extension?  Without further qualification, both `myProperty` and
 `myOtherProperty` will be injected with the same bean of type String.
 
-The extension solves this problem by dynamically providing a unique qualifier
+Pinject solves this problem by dynamically providing a unique qualifier
 to each injection point qualified by `@Property`.  It assigns this same unique
-qualifier for the bean that represents the resolved property value.  In this 
+qualifier to the bean that represents the resolved property value.  In this 
 way, as far as CDI is concerned, each property value is uniquely qualified 
-for injection into the targeted injection point. 
+for injection into its targeted injection point. 
 
