@@ -186,24 +186,13 @@
   </dependencyManagement>
   <distributionManagement>
     <repository>
-      <id>releases</id>
-      <name>OSS Releases</name>
-      <url>https://nexus.cns.vt.edu/nexus/content/repositories/oss-releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>snapshots</id>
-      <name>OSS Snapshots</name>
-      <url>https://nexus.cns.vt.edu/nexus/content/repositories/oss-snapshots</url>
-      <uniqueVersion>true</uniqueVersion>
-    </snapshotRepository>
-    <!-- repository>
       <id>ossrh</id>
       <url>${ossrh.url}service/local/staging/deploy/maven2/</url>
     </repository>    
     <snapshotRepository>
       <id>ossrh</id>
       <url>${ossrh.url}content/repositories/snapshots</url>
-    </snapshotRepository -->
+    </snapshotRepository>
   </distributionManagement>
   <profiles>
     <profile>
