@@ -32,6 +32,7 @@ your POM.
   </dependency>
   ...  
 </dependencies>
+```
 
 Pinject will soon be available via the Maven Central repository.  Until then,
 you'll need to build and install to your local repository.
