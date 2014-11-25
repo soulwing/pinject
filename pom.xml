@@ -10,6 +10,13 @@
     values (e.g. numbers, strings, dates, etc) into managed beans.
   </description>  
   <url>https://github.com/soulwing/${project.artifactId}</url>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>  
   <developers>
     <developer>
       <name>Carl Harris</name>
