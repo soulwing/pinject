@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9-SNAPSHOT</version>
   </parent>
   <artifactId>pinject-api</artifactId>
   <description>Provides the annotations for property injection as well as the service provider interfaces for extending Pinject.</description>
