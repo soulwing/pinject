@@ -352,7 +352,7 @@ converter a property value.  The context also provides the means to invoke
 other converters, which is useful when converting compound types.
 
 Every converter has a name.  The names of the converters included with 
-extension are set to the fully qualified converter class name.  You can
+Pinject are set to the fully qualified converter class name.  You can
 request that an injection point use a specific converter (by name) using the
 `converter` attribute of the `@Property` qualifier.  This is useful if you 
 want to override one of the built-in converters in some specific case(s).
