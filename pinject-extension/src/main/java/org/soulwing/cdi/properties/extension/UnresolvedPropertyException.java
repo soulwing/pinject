@@ -1,7 +1,7 @@
 /*
  * File created on Aug 27, 2014 
  *
- * Copyright (c) 2014 Virginia Polytechnic Institute and State University
+ * Copyright (c) 2014 Carl Harris, Jr.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
