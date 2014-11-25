@@ -4,16 +4,28 @@
   <artifactId>pinject</artifactId>
   <version>1.0.8-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <description>Provides support for injecting property values (e.g. numbers, strings, dates, etc) into CDI-managed beans.</description>
+  <name>Pinject</name>
+  <description>
+    A CDI extension that provides the ability to inject property 
+    values (e.g. numbers, strings, dates, etc) into managed beans.
+  </description>  
+  <url>https://github.com/soulwing/${project.artifactId}</url>
+  <developers>
+    <developer>
+      <name>Carl Harris</name>
+      <organization>Soulwing</organization>
+      <organizationUrl>https://github.com/soulwing</organizationUrl>
+    </developer>
+  </developers>
   <scm>
     <connection>scm:git:git@github.com:soulwing/${project.artifactId}.git</connection>
     <developerConnection>${project.scm.connection}</developerConnection>
-    <url>https://github.com/soulwing/${project.artifactId}</url>
-    <tag>REL-1.0.3</tag>
+    <url>git@github.com:soulwing/${project.artifactId}.git</url>
   </scm>
   <properties>
     <java.version>1.7</java.version>
     <hamcrest.version>1.3</hamcrest.version>
+    <ossrh.url>https://oss.sonatype.org/</ossrh.url>
   </properties>
   <build>
     <pluginManagement>
@@ -67,6 +79,16 @@
           <artifactId>smartics-jboss-modules-maven-plugin</artifactId>
           <version>1.0.0</version>
         </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>1.7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>1.6.5</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -84,56 +106,6 @@
             <include>**/*Test.java</include>
           </includes>
         </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>jar-no-fork</goal>
-              <goal>test-jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-javdocs</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>jar</goal>
-              <goal>test-jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <tagNameFormat>REL-@{project.version}</tagNameFormat>
-          <useReleaseProfile>false</useReleaseProfile>
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-          <mavenExecutorId>forked-path</mavenExecutorId>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <configuration>
-          <useAgent>true</useAgent>
-        </configuration>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
     <extensions>
@@ -217,10 +189,102 @@
       <url>https://nexus.cns.vt.edu/nexus/content/repositories/oss-snapshots</url>
       <uniqueVersion>true</uniqueVersion>
     </snapshotRepository>
+    <!-- repository>
+      <id>ossrh</id>
+      <url>${ossrh.url}service/local/staging/deploy/maven2/</url>
+    </repository>    
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>${ossrh.url}content/repositories/snapshots</url>
+    </snapshotRepository -->
   </distributionManagement>
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>${ossrh.url}</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                  <goal>test-jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javdocs</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>jar</goal>
+                  <goal>test-jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <configuration>
+              <useAgent>true</useAgent>
+            </configuration>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>license-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>download-licenses</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>download-licenses</goal>
+                  <goal>aggregate-add-third-party</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-release-plugin</artifactId>
+            <configuration>
+              <tagNameFormat>REL-@{project.version}</tagNameFormat>
+              <useReleaseProfile>false</useReleaseProfile>
+              <autoVersionSubmodules>true</autoVersionSubmodules>
+              <mavenExecutorId>forked-path</mavenExecutorId>
+              <releaseProfiles>release</releaseProfiles>
+              <goals>deploy</goals>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   <modules>
     <module>pinject-api</module>
     <module>pinject-extension</module>
   </modules>
-  <name>Pinject</name>
 </project>
