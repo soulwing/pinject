@@ -230,9 +230,10 @@ order specified, to resolve property values.
 
 If the JNDI environment variable `java:comp/env/beans.properties.root`
 exists and is of string type, the extension will treat it as a base URL for
-resolving properties from `beans.properties` files on the runtime classpath.
-This mechanism allows you to provide a hierarchy of `beans.properties` files
-based on package names, outside of the runtime classpath.
+resolving properties from `beans.properties` files placed in a folder 
+structure that corresponds to package names.  This mechanism allows you to 
+provide a hierarchy of `beans.properties` files based on package names, 
+outside of the runtime classpath.
 
 
 ### Resolution Order
@@ -351,7 +352,7 @@ converter a property value.  The context also provides the means to invoke
 other converters, which is useful when converting compound types.
 
 Every converter has a name.  The names of the converters included with 
-extension are set to the fully qualified converter class name.  You can
+Pinject are set to the fully qualified converter class name.  You can
 request that an injection point use a specific converter (by name) using the
 `converter` attribute of the `@Property` qualifier.  This is useful if you 
 want to override one of the built-in converters in some specific case(s).
@@ -378,7 +379,7 @@ convert property values.
 Theory of Operation
 -------------------
 
-The extension uses CDI's bean discovery events to participate in the 
+The Pinject extension uses CDI's bean discovery events to participate in the 
 dependency injection process.  For each injection point that is qualified
 with `@Property`, the extension resolves the corresponding property name to
 a string value, and converts the string representation to an instance of the
@@ -401,9 +402,9 @@ How will CDI be able to distinguish beans of type String that are created by
 the extension?  Without further qualification, both `myProperty` and
 `myOtherProperty` will be injected with the same bean of type String.
 
-The extension solves this problem by dynamically providing a unique qualifier
+Pinject solves this problem by dynamically providing a unique qualifier
 to each injection point qualified by `@Property`.  It assigns this same unique
-qualifier for the bean that represents the resolved property value.  In this 
+qualifier to the bean that represents the resolved property value.  In this 
 way, as far as CDI is concerned, each property value is uniquely qualified 
-for injection into the targeted injection point. 
+for injection into its targeted injection point. 
 
