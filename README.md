@@ -230,9 +230,10 @@ order specified, to resolve property values.
 
 If the JNDI environment variable `java:comp/env/beans.properties.root`
 exists and is of string type, the extension will treat it as a base URL for
-resolving properties from `beans.properties` files on the runtime classpath.
-This mechanism allows you to provide a hierarchy of `beans.properties` files
-based on package names, outside of the runtime classpath.
+resolving properties from `beans.properties` files placed in a folder 
+structure that corresponds to package names.  This mechanism allows you to 
+provide a hierarchy of `beans.properties` files based on package names, 
+outside of the runtime classpath.
 
 
 ### Resolution Order
