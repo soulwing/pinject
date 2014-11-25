@@ -11,6 +11,31 @@ well-defined string representation.  Moreover, by providing your own
 custom resolver, you can resolve property values in practically any manner 
 that suits the needs of your application. 
 
+Maven Dependencies
+--------------------
+
+To use Pinject in a Maven project, simply include the following dependencies in
+your POM.
+
+```
+<dependencies>
+  ...
+  <dependency>
+    <groupId>org.soulwing</groupId>
+    <artifactId>pinject-api</artifactId>
+    <version>1.0.7</version>
+  </dependency>
+  <dependency>
+    <groupId>org.soulwing</groupId>
+    <artifactId>pinject-extension</artifactId>
+    <version>1.0.7</version>
+  </dependency>
+  ...  
+</dependencies>
+
+Pinject will soon be available via the Maven Central repository.  Until then,
+you'll need to build and install to your local repository.
+
 
 Using @Property
 ---------------
