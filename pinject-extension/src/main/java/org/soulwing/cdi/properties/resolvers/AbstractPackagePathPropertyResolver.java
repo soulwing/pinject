@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.soulwing.cdi.properties.spi.PropertyResolver;
 
 /**
- * An abstract base for {@link PropertyResolvers} that treat property names
+ * An abstract base for {@link PropertyResolver}s that treat property names
  * as a qualified path name to a properties resource.
  *
  * @author Carl Harris

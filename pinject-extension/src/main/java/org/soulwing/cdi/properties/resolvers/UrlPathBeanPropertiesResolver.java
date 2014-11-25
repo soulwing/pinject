@@ -29,7 +29,7 @@ import org.soulwing.cdi.properties.spi.PropertyResolver;
 
 /**
  * A {@link PropertyResolver} that resolves values by considering each
- * property name to be a path to a {@link beans.properties} resource on
+ * property name to be a path to a {@code beans.properties} resource on
  * the class path.
  *
  * @author Carl Harris
