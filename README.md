@@ -68,8 +68,8 @@ The `@Property` annotations on this bean will instruct the extension to
 resolve a property named `org.example.MyBean.location` and inject it into the
 `location` field.  It will also resolve a property named `uniqueIdentifier`
 (note that the `name` attribute overrides the default property name) and 
-inject it the `identifier` field.  If the `uniqueIdentifier` property cannot
-be resolved, the value 42 will be used by default.  Since the `location`
+inject it into the `identifier` field.  If the `uniqueIdentifier` property 
+cannot be resolved, the value 42 will be used by default.  Since the `location`
 property does not have a default value, CDI bean resolution will fail if the
 corresponding property cannot be resolved.
 
@@ -95,16 +95,16 @@ Property resolution is the process by which property names are resolved into
 the corresponding (string) property value.  The extension includes built-in 
 support for resolving property names using system properties, 
 `beans.properties` resources on the classpath, and (if running in a Java EE
-or Servlet container) `beans.properties` resources at arbitrary locations
-specified via a JNDI environment variable.  Each `beans.properties` resource 
-is a file in the format produced by `java.util.Properties`.
+or Servlet container) `beans.properties` resources in locations specified via 
+a JNDI environment variable.  Each `beans.properties` resource  is a file in 
+the format produced by `java.util.Properties`.
 
 #### Placing `beans.properties` Resources on the Classpath
 
 The built-in property resolution takes advantage of the fully-qualified 
 injection point names that are used as the default property names wherever
 `@Property` is applied, allowing properties to be assembled in `beans.properties`
-file at any level of the package hierarchy that makes sense for your needs.
+files at any level of the package hierarchy that makes sense for your needs.
 The following example illustrates the concept.
 
 Suppose our application has a couple of beans defined as follows:
@@ -214,15 +214,14 @@ resources.  For example, in a Maven project you could put your overrides in
 ### Overriding Properties in Java EE and Web Applications
 
 For applications deployed in a Java EE or Servlet container, it is often
-desirable to override the property values that would be injected with 
-properties loaded from resources in the deployment artifact (e.g. properties
-files bundled in the Web Archive (WAR) file) with properties that are 
-specific to the deployment environment.  For example, we might use different
-properties for a production server than we would for a development or
-pre-production server.
+desirable to override property values specified in the deployment
+artifact (e.g. properties specified in files bundled in the Web Archive 
+(WAR) file) with deployment-environment-specific values.  For example, we 
+might use different properties for a production server than we would for a 
+development or pre-production server.
 
 If the JNDI environment variable `java:comp/env/beans.properties.location`
-exists and is of string type, the extension will treat it as a space- or
+exists and is of string type, the extension will treat it as a space- and/or
 comma-delimited list of URLs to properties files that will be used, in the 
 order specified, to resolve property values. 
 
@@ -233,6 +232,11 @@ structure that corresponds to package names.  This mechanism allows you to
 provide a hierarchy of `beans.properties` files based on package names, 
 outside of the runtime classpath.
 
+While any URL scheme supported by the `java.net.URL` type can be used to 
+specify the location of properties resources, great care should be taken when 
+using a URL with a scheme other than `file:`.  Loading configuration 
+properties from a potentially untrusted source may introduce significant
+security risks.
 
 ### Resolution Order
 
