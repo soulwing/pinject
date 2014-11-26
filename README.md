@@ -16,7 +16,7 @@ Maven Dependencies
 
 To use Pinject in a Maven project, simply include the following dependencies in
 your POM.  Pinject is available via [Maven Central] 
-(http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.soulwing%22).d
+(http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.soulwing%22).
 
 ```
 <dependencies>
