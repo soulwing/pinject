@@ -15,7 +15,8 @@ Maven Dependencies
 --------------------
 
 To use Pinject in a Maven project, simply include the following dependencies in
-your POM.
+your POM.  Pinject is available via [Maven Central] 
+(http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.soulwing%22).d
 
 ```
 <dependencies>
@@ -23,19 +24,16 @@ your POM.
   <dependency>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject-api</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
   </dependency>
   <dependency>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject-extension</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
   </dependency>
   ...  
 </dependencies>
 ```
-
-Pinject will soon be available via the Maven Central repository.  Until then,
-you'll need to build and install to your local repository.
 
 
 Using @Property
