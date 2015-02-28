@@ -8,53 +8,6 @@
   <artifactId>pinject-extension</artifactId>
   <name>Pinject CDI Extension</name>
   <description>Provides the CDI extension that performs property injection.</description>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>de.smartics.maven.plugin</groupId>
-        <artifactId>smartics-jboss-modules-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>create-modules-archive</id>
-            <goals>
-              <goal>create-modules-archive</goal>
-            </goals>
-            <phase>package</phase>
-          </execution>
-        </executions>
-        <configuration>
-          <attach>true</attach>
-          <dependencyExcludes>
-            <exclude>
-              <groupId>javax.enterprise</groupId>
-              <artifactId>cdi-api</artifactId>
-            </exclude>
-            <exclude>
-              <groupId>javax.mail</groupId>
-              <artifactId>javax.mail-api</artifactId>
-            </exclude>
-          </dependencyExcludes>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>single</id>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <phase>package</phase>
-          </execution>
-        </executions>
-        <configuration>
-          <descriptors>
-            <descriptor>src/main/config/jboss-modules-assembly.xml</descriptor>
-          </descriptors>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
