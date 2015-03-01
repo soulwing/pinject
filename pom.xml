@@ -34,6 +34,9 @@
     <url>git@github.com:soulwing/${project.artifactId}.git</url>
     <tag>HEAD</tag>
   </scm>
+  <properties>
+    <module.slot>main</module.slot>
+  </properties>
   <build>
     <plugins>
       <plugin>
@@ -66,5 +69,6 @@
   <modules>
     <module>pinject-api</module>
     <module>pinject-extension</module>
+    <module>pinject-modules</module>
   </modules>
 </project>
