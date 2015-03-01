@@ -6,6 +6,7 @@
     <version>1.0.9-SNAPSHOT</version>
   </parent>
   <artifactId>pinject-api</artifactId>
+  <packaging>jar</packaging>
   <description>Provides the annotations for property injection as well as the service provider interfaces for extending Pinject.</description>
   <dependencies>
     <dependency>

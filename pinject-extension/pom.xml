@@ -6,6 +6,7 @@
     <version>1.0.9-SNAPSHOT</version>
   </parent>
   <artifactId>pinject-extension</artifactId>
+  <packaging>jar</packaging>
   <name>Pinject CDI Extension</name>
   <description>Provides the CDI extension that performs property injection.</description>
   <dependencies>
