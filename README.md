@@ -1,6 +1,8 @@
 Pinject
 =======
 
+[![Build Status](https://travis-ci.org/soulwing/pinject.svg?branch=master)](https://travis-ci.org/soulwing/pinject)
+
 A CDI extension that injects property values into CDI-managed beans.  By
 simply adding a `@Property` qualifier to your injection points,
 and putting the corresponding property value in a properties file or system
