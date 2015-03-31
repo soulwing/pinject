@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject</artifactId>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>1.0.10</version>
   </parent>
   <artifactId>pinject-extension</artifactId>
   <packaging>jar</packaging>
@@ -58,8 +58,7 @@
             <phase>package</phase>
             <configuration>
               <target>
-                <copy file="${project.build.directory}/${project.build.finalName}.jar" 
-                  todir="${module.directory}/" force="true"/>
+                <copy file="${project.build.directory}/${project.build.finalName}.jar" todir="${module.directory}/" force="true" />
               </target>
             </configuration>
           </execution>
