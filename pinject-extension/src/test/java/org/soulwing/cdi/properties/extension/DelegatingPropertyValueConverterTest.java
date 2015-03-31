@@ -22,6 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -31,21 +32,8 @@ import javax.mail.internet.InternetAddress;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.soulwing.cdi.properties.converters.BooleanPropertyConverter;
-import org.soulwing.cdi.properties.converters.BytePropertyConverter;
-import org.soulwing.cdi.properties.converters.CharacterPropertyConverter;
-import org.soulwing.cdi.properties.converters.DatePropertyConverter;
-import org.soulwing.cdi.properties.converters.DoublePropertyConverter;
-import org.soulwing.cdi.properties.converters.EnumPropertyConverter;
+import org.soulwing.cdi.properties.converters.*;
 import org.soulwing.cdi.properties.converters.EnumPropertyConverterTest.Color;
-import org.soulwing.cdi.properties.converters.FloatPropertyConverter;
-import org.soulwing.cdi.properties.converters.IntegerPropertyConverter;
-import org.soulwing.cdi.properties.converters.InternetAddressPropertyConverter;
-import org.soulwing.cdi.properties.converters.LongPropertyConverter;
-import org.soulwing.cdi.properties.converters.ShortPropertyConverter;
-import org.soulwing.cdi.properties.converters.StringPropertyConverter;
-import org.soulwing.cdi.properties.converters.UriPropertyConverter;
-import org.soulwing.cdi.properties.converters.UrlPropertyConverter;
 
 /**
  * Tests for {@link DelegatingPropertyValueConverterTest}.
@@ -118,6 +106,10 @@ public class DelegatingPropertyValueConverterTest {
     assertThat((String) converter.convert(
         "S", String.class),
         is(equalTo("S")));
+
+    File file = new File("someFile");
+    assertThat((File) converter.convert(file.toString(), File.class),
+        is(equalTo(file)));
 
     URI uri = URI.create("file:/path");
     assertThat((URI) converter.convert(uri.toString(), URI.class), 
@@ -193,7 +185,13 @@ public class DelegatingPropertyValueConverterTest {
         StringPropertyConverter.class.getName(),
         "S", String.class),
         is(equalTo("S")));
-    
+
+    File file = new File("someFile");
+    assertThat((File) converter.convert(
+            FilePropertyConverter.class.getName(),
+            file.toString(), File.class),
+        is(equalTo(file)));
+
     URI uri = URI.create("file:/path");
     assertThat(
         (URI) converter.convert(
