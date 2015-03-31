@@ -10,6 +10,8 @@ DerivedData
 .classpath
 .settings
 .metadata
+.idea
+*.iml
 
 *.class
 *.o
