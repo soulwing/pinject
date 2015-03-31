@@ -287,7 +287,8 @@ injection points with any of the following types:
   the default format is the full ISO 8601 format with time zone, but you can 
   use any pattern supported by `java.util.SimpleDateFormat` by configuring the 
   `org.soulwing.cdi.properties.converters.DatePropertyConverter.pattern`
-  property.    
+  property.
+* `java.io.File`
 * `java.net.URL` -- in addition to supporting the standard schemes such as `http:` 
   and `file:`, also includes support for the `classpath:` pseudo-scheme 
   inspired by the Spring Framework
