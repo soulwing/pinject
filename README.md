@@ -26,12 +26,12 @@ your POM.  Pinject is available via [Maven Central]
   <dependency>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject-api</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.11</version>
   </dependency>
   <dependency>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject-extension</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.11</version>
   </dependency>
   ...  
 </dependencies>
@@ -295,7 +295,9 @@ injection points with any of the following types:
 * `java.net.URI`
 * `javax.mail.InternetAddress` -- optional; you must include JavaMail on your 
   classpath
-
+* `javax.ejb.ScheduleExpression` -- optional; supported in Java EE 6 containers
+  or by including the EJB 3.1 API on your classpath; allows the use of the
+  the same expressions used by the Quartz [CronExpression] (http://www.quartz-scheduler.org/api/2.2.1/org/quartz/CronExpression.html) class.
 
 Extending Pinject
 -----------------
