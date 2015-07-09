@@ -41,7 +41,7 @@ public class InternetAddressPropertyConverter
     catch (ClassNotFoundException ex) {
       return false;
     }
-  };
+  }
 
   protected PropertyConverter newConverter() {
     return new InnerConverter();
