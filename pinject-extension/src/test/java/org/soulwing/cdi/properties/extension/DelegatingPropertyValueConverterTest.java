@@ -20,6 +20,7 @@ package org.soulwing.cdi.properties.extension;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 import java.io.File;
@@ -28,6 +29,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.ejb.ScheduleExpression;
 import javax.mail.internet.InternetAddress;
 
 import org.junit.BeforeClass;
@@ -98,6 +100,10 @@ public class DelegatingPropertyValueConverterTest {
     assertThat((Long) converter.convert(
         Long.toString(Long.MAX_VALUE), long.class),
         is(equalTo(Long.MAX_VALUE)));
+
+    assertThat(converter.convert(
+            "1 2 3 4 5 6", ScheduleExpression.class),
+        is(instanceOf(ScheduleExpression.class)));
 
     assertThat((Short) converter.convert(
         Short.toString(Short.MAX_VALUE), short.class),
@@ -175,6 +181,11 @@ public class DelegatingPropertyValueConverterTest {
         LongPropertyConverter.class.getName(),
         Long.toString(Long.MAX_VALUE), long.class),
         is(equalTo(Long.MAX_VALUE)));
+
+    assertThat(converter.convert(
+            ScheduleExpressionPropertyConverter.class.getName(),
+            "1 2 3 4 5 6", ScheduleExpression.class),
+        is(instanceOf(ScheduleExpression.class)));
 
     assertThat((Short) converter.convert(
         ShortPropertyConverter.class.getName(),
