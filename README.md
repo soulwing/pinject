@@ -2,6 +2,7 @@ Pinject
 =======
 
 [![Build Status](https://travis-ci.org/soulwing/pinject.svg?branch=master)](https://travis-ci.org/soulwing/pinject)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.soulwing/pinject/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aorg.soulwing%20a%3Apinject*)
 
 A CDI extension that injects property values into CDI-managed beans.  By
 simply adding a `@Property` qualifier to your injection points,
