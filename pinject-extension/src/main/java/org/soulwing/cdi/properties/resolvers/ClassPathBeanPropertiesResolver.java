@@ -54,8 +54,11 @@ public class ClassPathBeanPropertiesResolver
      */
     @Override
     public PropertiesSet load(PropertyRef ref) throws IOException {
-      Enumeration<URL> locations = Thread.currentThread()
-          .getContextClassLoader().getResources(
+      ClassLoader classLoader = (Thread.currentThread().getContextClassLoader() != null) ?
+          Thread.currentThread().getContextClassLoader() :
+          ClassPathBeanPropertiesResolver.class.getClassLoader();
+
+      Enumeration<URL> locations = classLoader.getResources(
               ref.getPath(BeansProperties.NAME));
       PropertiesSet propertiesSet = new PropertiesSet();
       propertiesSet.load(locations);
