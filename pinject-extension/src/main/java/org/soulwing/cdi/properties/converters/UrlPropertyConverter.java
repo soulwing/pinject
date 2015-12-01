@@ -45,8 +45,11 @@ public class UrlPropertyConverter extends AbstractPropertyConverter {
       while (value.startsWith("/")) {
         value = value.substring(1);
       }
-      URL url = Thread.currentThread().getContextClassLoader()
-          .getResource(value);
+
+      ClassLoader classLoader = (Thread.currentThread().getContextClassLoader() != null) ?
+          Thread.currentThread().getContextClassLoader() :
+          getClass().getClassLoader();
+      URL url = classLoader.getResource(value);
       if (url == null) {
         throw new IllegalArgumentException(
             "no such resource on classpath: " + value);

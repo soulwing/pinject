@@ -43,8 +43,11 @@ public class MetaInfBeanPropertiesResolver implements PropertyResolver {
    */
   @Override
   public void init() throws IOException {
-    propertiesSet.load(Thread.currentThread().getContextClassLoader()
-        .getResources(META_INF_BEANS_PROPERTIES));
+    ClassLoader classLoader = (Thread.currentThread().getContextClassLoader() != null) ?
+        Thread.currentThread().getContextClassLoader() :
+        getClass().getClassLoader();
+
+    propertiesSet.load(classLoader.getResources(META_INF_BEANS_PROPERTIES));
   }
 
   @Override
