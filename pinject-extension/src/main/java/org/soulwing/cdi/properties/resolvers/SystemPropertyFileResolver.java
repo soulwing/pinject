@@ -35,7 +35,7 @@ public class SystemPropertyFileResolver implements PropertyResolver {
   private static final Logger logger = Logger.getLogger(
       SystemPropertyFileResolver.class.getName());
 
-  public static final String BINDING = "pinject.properties";
+  public static final String PROPERTY_NAME = "pinject.properties";
   public static final int PRIORITY = -2;
 
   private final PropertiesSet propertiesSet = new PropertiesSet();
@@ -45,13 +45,13 @@ public class SystemPropertyFileResolver implements PropertyResolver {
    */
   @Override
   public void init() throws Exception {
-    String location = System.getProperty(BINDING);
+    String location = System.getProperty(PROPERTY_NAME);
     if (location == null) {
-      logger.info("System property lookup for '" + BINDING + "' return nothing");
+      logger.info("System property lookup for '" + PROPERTY_NAME + "' return nothing");
       return;
     }
 
-    logger.info("System property lookup for '" + BINDING + "' return: " + location);
+    logger.info("System property lookup for '" + PROPERTY_NAME + "' return: " + location);
     UrlPropertyConverter converter = new UrlPropertyConverter();
     String[] locations = location.toString().split("\\s*(,|\\s)\\s*");
 
