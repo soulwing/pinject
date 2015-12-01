@@ -33,9 +33,11 @@ public class InternetAddressPropertyConverter
     extends OptionalPropertyConverter {
 
   protected boolean checkAvailability() {
+    ClassLoader classLoader = (Thread.currentThread().getContextClassLoader() != null) ?
+        Thread.currentThread().getContextClassLoader() :
+        getClass().getClassLoader();
     try {
-      Thread.currentThread().getContextClassLoader().loadClass(
-          "javax.mail.internet.InternetAddress");
+      classLoader.loadClass("javax.mail.internet.InternetAddress");
       return true;
     }
     catch (ClassNotFoundException ex) {
