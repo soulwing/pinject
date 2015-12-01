@@ -5,5 +5,5 @@ branches:
   - travis
 env:
   global:
-  - secure: KnLWdJ/Mugs1HA/4z1xcfiLLoEnRFxpxUkbbhMCjZIrqeV7ZhtIxDUkWv9VuGRBvEtj9C/t4qKN/WPLcDQNXmfABpWSUHVPyQ/3GYCXK3FkuICbg/XmPO9OWLx7bw5poRRQIbge2typIFyActeUVrDuCsk8E661GmZKEWTuIfPQ=
-  - secure: khIj8HjcW3EhUEuf7LIZjl6KmBxsZFRVHd6/oi08W4XqZAJc6iFDum5452vwGQYBmvb7WtUFPYTTF+AY/B4YWv5/kFz6pYAhI7fiIY7JyGDfrvs3tkZx40WMjuyOcTBYu0yzWU3TjzCGGxHMEAc3L/ht9+ugip2Iiv88v4/J29M=
+  - secure: H7V35J4eGdUmta9USC60yc66LeON5R1h1L9lVWalESQBK+YKnkquV6rmVe+sqWNBjn6tkHWbgchFuVpOqHtJEUwlAKr6XxanFdIecAduD745rmpOkJn9QSSsHogxzA+m9V+ZuvT2mpwh07xJO63yjZsc956ktB1DRZZ7hoxL+20=
+  - secure: Uxev0mHxOOUXRg2yjJCwfpttAAj2H/PLBvqIIXm9aSl0Ly86kyvfqUHn+x2DFblCakq7cplxsqn3OmaI8HJOUhShLN84eKFg5Sgem5TLsjDC3FDpcPx4GADpu81s7y8TvfPMMGPF+IksSIR6ugXlC9Oj1mpwrHcGh34AlHoPzGc=
