@@ -45,19 +45,19 @@ public class SystemPropertyFileResolver implements PropertyResolver {
    */
   @Override
   public void init() throws Exception {
-    String location = System.getProperty(PROPERTY_NAME);
-    if (location == null) {
+    String propertyValue = System.getProperty(PROPERTY_NAME);
+    if (propertyValue == null) {
       logger.info("System property lookup for '" + PROPERTY_NAME + "' return nothing");
       return;
     }
 
-    logger.info("System property lookup for '" + PROPERTY_NAME + "' return: " + location);
+    logger.info("System property lookup for '" + PROPERTY_NAME + "' returned: " + propertyValue);
     UrlPropertyConverter converter = new UrlPropertyConverter();
-    String[] locations = location.toString().split("\\s*(,|\\s)\\s*");
+    String[] locations = propertyValue.toString().split("\\s*(,|\\s)\\s*");
 
-    for (String l : locations) {
-      logger.info("loading bean properties from " + l);
-      propertiesSet.load((URL) converter.convert(l, null));
+    for (String location : locations) {
+      logger.info("loading bean properties from " + location);
+      propertiesSet.load((URL) converter.convert(location, null));
     }
   }
 
