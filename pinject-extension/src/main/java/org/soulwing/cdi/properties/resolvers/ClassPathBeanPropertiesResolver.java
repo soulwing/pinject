@@ -56,7 +56,7 @@ public class ClassPathBeanPropertiesResolver
     public PropertiesSet load(PropertyRef ref) throws IOException {
       ClassLoader classLoader = (Thread.currentThread().getContextClassLoader() != null) ?
           Thread.currentThread().getContextClassLoader() :
-          ClassPathBeanPropertiesResolver.class.getClassLoader();
+          getClass().getClassLoader();
 
       Enumeration<URL> locations = classLoader.getResources(
               ref.getPath(BeansProperties.NAME));

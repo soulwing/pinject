@@ -35,7 +35,7 @@ public class InternetAddressPropertyConverter
   protected boolean checkAvailability() {
     ClassLoader classLoader = (Thread.currentThread().getContextClassLoader() != null) ?
         Thread.currentThread().getContextClassLoader() :
-        InternetAddressPropertyConverter.class.getClassLoader();
+        getClass().getClassLoader();
     try {
       classLoader.loadClass("javax.mail.internet.InternetAddress");
       return true;

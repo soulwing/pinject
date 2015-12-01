@@ -48,7 +48,7 @@ public class UrlPropertyConverter extends AbstractPropertyConverter {
 
       ClassLoader classLoader = (Thread.currentThread().getContextClassLoader() != null) ?
           Thread.currentThread().getContextClassLoader() :
-          UrlPropertyConverter.class.getClassLoader();
+          getClass().getClassLoader();
       URL url = classLoader.getResource(value);
       if (url == null) {
         throw new IllegalArgumentException(

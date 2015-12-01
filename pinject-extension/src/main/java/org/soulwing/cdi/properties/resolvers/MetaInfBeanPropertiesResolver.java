@@ -45,7 +45,7 @@ public class MetaInfBeanPropertiesResolver implements PropertyResolver {
   public void init() throws IOException {
     ClassLoader classLoader = (Thread.currentThread().getContextClassLoader() != null) ?
         Thread.currentThread().getContextClassLoader() :
-        MetaInfBeanPropertiesResolver.class.getClassLoader();
+        getClass().getClassLoader();
 
     propertiesSet.load(classLoader.getResources(META_INF_BEANS_PROPERTIES));
   }
