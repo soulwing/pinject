@@ -36,8 +36,10 @@ public class ScheduleExpressionPropertyConverter extends OptionalPropertyConvert
   @Override
   protected boolean checkAvailability() {
     try {
-      Thread.currentThread().getContextClassLoader().loadClass(
-          "javax.ejb.ScheduleExpression");
+      ClassLoader classLoader = (Thread.currentThread().getContextClassLoader() != null) ?
+          Thread.currentThread().getContextClassLoader() :
+          getClass().getClassLoader();
+      classLoader.loadClass("javax.ejb.ScheduleExpression");
       return true;
     }
     catch (ClassNotFoundException ex) {
