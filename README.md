@@ -27,12 +27,12 @@ your POM.  Pinject is available via [Maven Central]
   <dependency>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject-api</artifactId>
-    <version>1.0.11</version>
+    <version>1.0.15</version>
   </dependency>
   <dependency>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject-extension</artifactId>
-    <version>1.0.11</version>
+    <version>1.0.15</version>
   </dependency>
   ...  
 </dependencies>
@@ -358,7 +358,7 @@ claims to support the type of the injection target.
 
 A given converter can support more than one type -- the target type of the 
 injection point is provided as context when the converter is called upon to
-converter a property value.  The context also provides the means to invoke
+convert a property value.  The context also provides the means to invoke
 other converters, which is useful when converting compound types.
 
 Every converter has a name.  The names of the converters included with 
