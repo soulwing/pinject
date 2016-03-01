@@ -19,25 +19,14 @@
 package org.soulwing.cdi.properties.extension;
 
 /**
- * An expression evaluator.
+ * An exception thrown when an expression evaluates to a {@code null} value.
  *
  * @author Carl Harris
  */
-interface ExpressionEvaluator {
+public class NullEvaluationException extends Exception {
 
-  /**
-   * Evaluates an expression to produce a string.
-   * <p>
-   * If the evaluation of an expression produces another expression, it is
-   * recursively evaluated.
-   *
-   * @param expression the expression to evaluate
-   * @param resolver property value resolver
-   *
-   * @return evaluated expression
-   * @throws NullEvaluationException if the expression evaluates to a null value
-   */
-  String evaluate(String expression, PropertyValueResolver resolver)
-      throws NullEvaluationException;
+  public NullEvaluationException(String expression) {
+    super("expression evaluates to null: " + expression);
+  }
 
 }

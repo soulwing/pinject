@@ -107,7 +107,7 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
   @Override
   public InjectionPoint add(InjectionPoint injectionPoint, Property qualifier) 
       throws UnresolvedPropertyException, NoSuchConverterException,
-      UnsupportedTypeException {
+      UnsupportedTypeException, NullEvaluationException {
 
     InjectionPoint wrapper = wrap(injectionPoint);    
     Class<?> type = type(injectionPoint);
@@ -193,9 +193,10 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
    * @param qualifier qualifier from the injection point
    * @return resolved value
    * @throws UnresolvedPropertyException
+   * @throws NullEvaluationException
    */
   private String resolve(String name, Property qualifier)
-      throws UnresolvedPropertyException {
+      throws UnresolvedPropertyException, NullEvaluationException {
     String stringValue = resolver.resolve(name);
     if (stringValue == null) {
       if (qualifier.value().isEmpty()) {

@@ -61,7 +61,8 @@ class ELExpressionEvaluator implements ExpressionEvaluator {
   }
 
   @Override
-  public String evaluate(String expression, PropertyValueResolver resolver) {
+  public String evaluate(String expression, PropertyValueResolver resolver)
+      throws NullEvaluationException {
     PropertiesFunctions.setResolver(resolver);
     try {
       ValueExpression ve = expressionFactory.createValueExpression(
@@ -71,7 +72,11 @@ class ELExpressionEvaluator implements ExpressionEvaluator {
         ve = expressionFactory.createValueExpression(context, expression,
             String.class);
       }
-      return (String) ve.getValue(context);
+      final String value = (String) ve.getValue(context);
+      if (value == null) {
+        throw new NullEvaluationException(expression);
+      }
+      return value;
     }
     finally {
       PropertiesFunctions.clearResolver();
