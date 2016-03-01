@@ -47,7 +47,7 @@ public class SystemPropertyFileResolver implements PropertyResolver {
   public void init() throws Exception {
     String propertyValue = System.getProperty(PROPERTY_NAME);
     if (propertyValue == null) {
-      logger.info("System property lookup for '" + PROPERTY_NAME + "' return nothing");
+      logger.info("System property lookup for '" + PROPERTY_NAME + "' returned nothing");
       return;
     }
 
