@@ -276,7 +276,6 @@ resolved and the qualifier does not specify a default, the injection process
 will stop with an error indicating that the property value could not be
 resolved.
 
-
 ### Using Unified EL Expressions
 
 You can use _unified EL expressions_ to reference other property values and 
@@ -316,13 +315,13 @@ the value wherever we need it:
 ```
 package baz;
 class Foo {
-  @Inject @Property("#{p:required('timeout')}")
+  @Inject @Property("${p:required('timeout')}")
   private long timeout;
 }
 
 package baz;
 class Bar {
-  @Inject @Property("#{p:required('timeout')}")
+  @Inject @Property("${p:required('timeout')}")
   private long timeout;
 }
 ```
@@ -332,8 +331,8 @@ used a literal expression.  Suppose we put a `beans.properties` file in package
 `baz`.  It could contain:
 
 ```
-Foo.timeout=#{p:required('timeout')}
-Bar.timeout=#{p:required('timeout')}
+Foo.timeout=${p:required('timeout')}
+Bar.timeout=${p:required('timeout')}
 ```
 
 We can also specify use a function that provides a default value when the 
@@ -341,7 +340,7 @@ property isn't specified.
 
 ```
 @Inject
-@Property("#{p:optional('databaseUrl', 'jdbc:hsqldb:mem:demodb')}")
+@Property("${p:optional('databaseUrl', 'jdbc:hsqldb:mem:demodb')}")
 private String databaseUrl;
 ```
 
@@ -363,7 +362,7 @@ URL through an environment variable.
 
 ```
 @Inject
-@Property("#{e:optional('DATABASE_URL', 'jdbc:hsqldb:mem:demodb')}")
+@Property("${e:optional('DATABASE_URL', 'jdbc:hsqldb:mem:demodb')}")
 private String databaseUrl;
 ```
 
