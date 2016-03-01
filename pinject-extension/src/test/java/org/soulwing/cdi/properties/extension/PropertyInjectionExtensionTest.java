@@ -61,8 +61,11 @@ public class PropertyInjectionExtensionTest {
         container.instance().select(FieldInjectionTargetBean.class).get();
     assertThat(bean, is(not(nullValue())));
     assertThat(bean.stringProperty, is(equalTo("some value")));
-    assertThat(bean.anotherStringProperty, is(equalTo("some other value")));
+    assertThat(bean.anotherStringProperty, is(equalTo("referenced some value")));
     assertThat(bean.integerProperty, is(equalTo(42)));
     assertThat(bean.systemProperty, is(equalTo(SYSTEM_PROPERTY_VALUE)));
+    assertThat(bean.intProperty, is(equalTo(99)));
+    assertThat(bean.homeDirectory, is(not(nullValue())));
+    System.out.println(bean.homeDirectory);
   }
 }

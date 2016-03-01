@@ -31,10 +31,10 @@ import org.soulwing.cdi.properties.Property;
 @Dependent
 public class FieldInjectionTargetBean {
 
-  @Inject @Property(value = "some value", name = "myProperty")
+  @Inject @Property
   public String stringProperty;
   
-  @Inject @Property(value = "some other value")
+  @Inject @Property
   public String anotherStringProperty;
   
   @Inject @Property
@@ -45,5 +45,9 @@ public class FieldInjectionTargetBean {
   
   @Inject @Property
   public String systemProperty;
+
+  // tests an EL-expression that uses an environment function
+  @Inject @Property("#{e:required('HOME')}")
+  public String homeDirectory;
   
 }

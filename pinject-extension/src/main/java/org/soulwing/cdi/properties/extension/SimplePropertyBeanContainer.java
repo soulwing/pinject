@@ -24,6 +24,11 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.el.FunctionMapper;
+import javax.el.StandardELContext;
+import javax.el.ValueExpression;
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
 import javax.enterprise.inject.spi.Annotated;
 import javax.enterprise.inject.spi.InjectionPoint;
@@ -42,8 +47,9 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
   private final Set<PropertyBean> beans = new HashSet<>();
   
   private final PropertyValueResolver resolver;
+  private final ExpressionEvaluator evaluator;
   private final PropertyValueConverter converter;
-    
+
   private long nextId;
   
   /**
@@ -51,25 +57,30 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
    * configuration.
    */
   public SimplePropertyBeanContainer() {
-    this(new DelegatingPropertyValueResolver());
+    this(new DelegatingPropertyValueResolver(), new ELExpressionEvaluator());
   }
 
   /**
    * Constructs a new instance.
    * @param resolver resolver for this instance
+   * @param evaluator expression evaluator for this instance
    */
-  SimplePropertyBeanContainer(PropertyValueResolver resolver) {
-    this(resolver, new DelegatingPropertyValueConverter(resolver));
+  SimplePropertyBeanContainer(PropertyValueResolver resolver,
+      ExpressionEvaluator evaluator) {
+    this(resolver, evaluator, new DelegatingPropertyValueConverter(resolver));
   }
   
   /** 
    * Constructs a new instance.
    * @param resolver resolver for this instance
+   * @param evaluator expression evaluator for this instance
    * @param converter converter for this instance
    */
-  SimplePropertyBeanContainer(PropertyValueResolver resolver, 
+  SimplePropertyBeanContainer(PropertyValueResolver resolver,
+      ExpressionEvaluator evaluator,
       PropertyValueConverter converter) {
     this.resolver = resolver;
+    this.evaluator = evaluator;
     this.converter = converter;
   }
   
@@ -190,10 +201,11 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
       if (qualifier.value().isEmpty()) {
         throw new UnresolvedPropertyException(name);
       }
-      return qualifier.value();
+      stringValue = qualifier.value();
     }
-    return stringValue;
+    return evaluator.evaluate(stringValue, resolver);
   }
+
 
   /**
    * Converts the string representation of a property to a given target type.

@@ -277,6 +277,106 @@ will stop with an error indicating that the property value could not be
 resolved.
 
 
+### Using Unified EL Expressions
+
+You can use _unified EL expressions_ to reference other property values and 
+environment variables in the value of any injected property value.  An EL 
+expression can appear anywhere we would specify a literal string value as
+the value for an injected property.
+
+* As the `value` attribute for `@Property`
+* In any `beans.properties` file
+* In a system property or environment variable
+
+An EL expression may produce another EL expression; every EL expression is 
+recursively evaluated until it produces literal text.
+
+The value for an injected property may use any combination of literal text
+and value expressions; `yes, ${name}, you can do this!`
+
+#### Referencing another Property Value
+
+When the same value needs to be injected into multiple property injection 
+points, you _cannot_ specify the same `name` attribute of `@Property` at each
+injection point.  Instead, you need to use an EL expression.
+
+Suppose we want to inject the same value for a `timeout` property into two 
+different beans.  We can create a property to specify the timeout value and
+reference it for each of the injection points.
+
+In the root `beans.properties` or `META-INF/beans.properties` (or as a system
+property) we specify the timeout value:
+```
+timeout=30000
+```
+
+Then we use an EL expression that calls on a `p`-function to inject 
+the value wherever we need it:
+
+```
+package baz;
+class Foo {
+  @Inject @Property("#{p:required('timeout')}")
+  private long timeout;
+}
+
+package baz;
+class Bar {
+  @Inject @Property("#{p:required('timeout'}")
+  private long timeout;
+}
+```
+
+We can also use an EL expression in a properties file anywhere we would have
+used a literal expression.  Suppose we put a `beans.properties` file in package 
+`baz`.  It could contain:
+
+```
+Foo.timeout=#{p:required('timeout')}
+Bar.timeout=#{p:required('timeout')}
+```
+
+We can also specify use a function that provides a default value when the 
+property isn't specified.
+
+```
+@Inject
+@Property("#{p:optional('databaseUrl', 'jdbc:hsqldb:mem:demodb')}")
+private String databaseUrl;
+```
+
+This is especially useful if the `databaseUrl` property will be provided by a 
+system property that might not always be specified.
+
+The `p`-functions use the same property resolvers in the same order used when
+finding the value for a property injection point. 
+
+#### Referencing Environment Variables
+
+You can use EL expressions that invoke an `e`-function to reference the values
+of system environment variables.  This is especially convenient for substituting
+values that vary depending on the runtime environment.
+
+Suppose we have a different database URL depending on the deployment tier
+(development, pre-production, production).  We can easily inject the right
+URL through an environment variable.
+
+```
+@Inject
+@Property("#{e:optional('DATABASE_URL', 'jdbc:hsqldb:mem:demodb'}")
+private String databaseUrl;
+```
+
+Now, we can set the `DATABASE_URL` environment variable in the shell that 
+will run the JVM for our application, and easily inject the right value.  This
+is especially useful when using container-based infrastructure such as Docker,
+in which it is quite easy to specify environment settings for the running
+container, but more difficult to specify system properties for the JVM or 
+override/overlay properties files.
+
+There is also an `e:required` function that will result in an unresolved
+property value error if the environment variable is not set.
+
 Supported Types
 ---------------
 
