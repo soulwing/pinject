@@ -322,7 +322,7 @@ class Foo {
 
 package baz;
 class Bar {
-  @Inject @Property("#{p:required('timeout'}")
+  @Inject @Property("#{p:required('timeout')}")
   private long timeout;
 }
 ```
@@ -363,7 +363,7 @@ URL through an environment variable.
 
 ```
 @Inject
-@Property("#{e:optional('DATABASE_URL', 'jdbc:hsqldb:mem:demodb'}")
+@Property("#{e:optional('DATABASE_URL', 'jdbc:hsqldb:mem:demodb')}")
 private String databaseUrl;
 ```
 
