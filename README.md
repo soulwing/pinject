@@ -27,12 +27,12 @@ your POM.  Pinject is available via [Maven Central]
   <dependency>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject-api</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
   </dependency>
   <dependency>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject-extension</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
   </dependency>
   ...  
 </dependencies>
