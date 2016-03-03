@@ -54,11 +54,11 @@ interface PropertyBeanContainer {
    * @throws UnresolvedPropertyException
    * @throws NoSuchConverterException
    * @throws UnsupportedTypeException
-   * @throws NullEvaluationException
+   * @throws UnresolvedExpressionException
    */
   InjectionPoint add(InjectionPoint injectionPoint, Property qualifier) 
       throws UnresolvedPropertyException, NoSuchConverterException,
-      UnsupportedTypeException, NullEvaluationException;
+      UnsupportedTypeException, UnresolvedExpressionException;
   
   /**
    * Adds all of the beans in this container to the CDI container that 

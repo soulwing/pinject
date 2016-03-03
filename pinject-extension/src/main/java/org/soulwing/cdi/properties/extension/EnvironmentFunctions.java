@@ -18,6 +18,8 @@
  */
 package org.soulwing.cdi.properties.extension;
 
+import javax.el.PropertyNotFoundException;
+
 /**
  * Functions used to access the system environment.
  *
@@ -31,7 +33,11 @@ public class EnvironmentFunctions {
    * @return value or {@code null} if the specified environment variable is not set
    */
   public static String get(String name) {
-    return System.getenv(name);
+    final String value = System.getenv(name);
+    if (value == null) {
+      throw new PropertyNotFoundException(name);
+    }
+    return value;
   }
 
   /**
@@ -42,9 +48,12 @@ public class EnvironmentFunctions {
    *    is not set
    */
   public static String getOptional(String name, String defaultValue) {
-    String value = get(name);
-    if (value == null) return defaultValue;
-    return value;
+    try {
+      return get(name);
+    }
+    catch (PropertyNotFoundException ex) {
+      return defaultValue;
+    }
   }
 
 }

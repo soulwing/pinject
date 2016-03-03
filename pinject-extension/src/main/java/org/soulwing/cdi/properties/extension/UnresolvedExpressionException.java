@@ -23,10 +23,10 @@ package org.soulwing.cdi.properties.extension;
  *
  * @author Carl Harris
  */
-public class NullEvaluationException extends Exception {
+public class UnresolvedExpressionException extends Exception {
 
-  public NullEvaluationException(String expression) {
-    super("expression evaluates to null: " + expression);
+  public UnresolvedExpressionException(String message) {
+    super(message);
   }
 
 }

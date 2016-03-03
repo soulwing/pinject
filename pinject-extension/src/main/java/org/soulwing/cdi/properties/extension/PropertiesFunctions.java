@@ -18,6 +18,10 @@
  */
 package org.soulwing.cdi.properties.extension;
 
+import javax.el.PropertyNotFoundException;
+
+import org.soulwing.cdi.properties.Property;
+
 /**
  * Functions used to access the properties available to a
  * {@link PropertyValueResolver}.
@@ -56,10 +60,15 @@ public class PropertiesFunctions {
   /**
    * Gets a property value.
    * @param name name of the property.
-   * @return property value or {@code null} if the property has no value
+   * @return property value
+   * @throws PropertyNotFoundException if {@code name} cannot be resolved
    */
   public static String get(String name) {
-    return resolver.get().resolve(name);
+    final String value = resolver.get().resolve(name);
+    if (value == null) {
+      throw new PropertyNotFoundException(name);
+    }
+    return value;
   }
 
   /**
@@ -69,9 +78,12 @@ public class PropertiesFunctions {
    * @return property value or {@code defaultVallue} if the property has no value
    */
   public static String getOptional(String name, String defaultValue) {
-    String value = get(name);
-    if (value == null) return defaultValue;
-    return value;
+    try {
+      return get(name);
+    }
+    catch (PropertyNotFoundException ex) {
+      return defaultValue;
+    }
   }
 
 }

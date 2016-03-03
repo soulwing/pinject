@@ -24,11 +24,6 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import javax.el.ELContext;
-import javax.el.ExpressionFactory;
-import javax.el.FunctionMapper;
-import javax.el.StandardELContext;
-import javax.el.ValueExpression;
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
 import javax.enterprise.inject.spi.Annotated;
 import javax.enterprise.inject.spi.InjectionPoint;
@@ -107,7 +102,7 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
   @Override
   public InjectionPoint add(InjectionPoint injectionPoint, Property qualifier) 
       throws UnresolvedPropertyException, NoSuchConverterException,
-      UnsupportedTypeException, NullEvaluationException {
+      UnsupportedTypeException, UnresolvedExpressionException {
 
     InjectionPoint wrapper = wrap(injectionPoint);    
     Class<?> type = type(injectionPoint);
@@ -193,10 +188,10 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
    * @param qualifier qualifier from the injection point
    * @return resolved value
    * @throws UnresolvedPropertyException
-   * @throws NullEvaluationException
+   * @throws UnresolvedExpressionException
    */
   private String resolve(String name, Property qualifier)
-      throws UnresolvedPropertyException, NullEvaluationException {
+      throws UnresolvedPropertyException, UnresolvedExpressionException {
     String stringValue = resolver.resolve(name);
     if (stringValue == null) {
       if (qualifier.value().isEmpty()) {
@@ -204,7 +199,13 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
       }
       stringValue = qualifier.value();
     }
-    return evaluator.evaluate(stringValue, resolver);
+    try {
+      return evaluator.evaluate(stringValue, resolver);
+    }
+    catch (UnresolvedExpressionException ex) {
+      throw new UnresolvedExpressionException("failed to resolve value for '"
+          + name + "': " + ex.getMessage());
+    }
   }
 
 

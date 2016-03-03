@@ -65,7 +65,7 @@ public class PropertyInjectionExtensionTest {
     assertThat(bean.integerProperty, is(equalTo(42)));
     assertThat(bean.systemProperty, is(equalTo(SYSTEM_PROPERTY_VALUE)));
     assertThat(bean.intProperty, is(equalTo(99)));
-    assertThat(bean.homeDirectory, is(not(nullValue())));
-    System.out.println(bean.homeDirectory);
+    assertThat(bean.path, is(not(nullValue())));
+    System.out.println(bean.path);
   }
 }

@@ -288,8 +288,10 @@ the value for an injected property.
 * In any `beans.properties` file
 * In a system property or environment variable
 
-An EL expression may produce another EL expression; every EL expression is 
-recursively evaluated until it produces literal text.
+> The evaluation of an EL expression _must not_ produce another EL expression. 
+> This is enforced to prevent an infinite recursion in resolving property values.
+> If there are valid use cases that cannot be solved without recursive 
+> evaluation of EL expressions, please open an issue.
 
 The value for an injected property may use any combination of literal text
 and value expressions; `yes, ${name}, you can do this!`

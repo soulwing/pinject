@@ -19,8 +19,10 @@
 package org.soulwing.cdi.properties.extension;
 
 import javax.el.ELContext;
+import javax.el.ELException;
 import javax.el.ExpressionFactory;
 import javax.el.FunctionMapper;
+import javax.el.PropertyNotFoundException;
 import javax.el.StandardELContext;
 import javax.el.ValueExpression;
 
@@ -62,19 +64,33 @@ class ELExpressionEvaluator implements ExpressionEvaluator {
 
   @Override
   public String evaluate(String expression, PropertyValueResolver resolver)
-      throws NullEvaluationException {
+      throws UnresolvedExpressionException {
     PropertiesFunctions.setResolver(resolver);
     try {
       ValueExpression ve = expressionFactory.createValueExpression(
           context, expression, String.class);
-      while (!ve.isLiteralText()) {
-        expression = (String) ve.getValue(context);
-        ve = expressionFactory.createValueExpression(context, expression,
-            String.class);
+
+      String value = null;
+      try {
+        value = (String) ve.getValue(context);
       }
-      final String value = (String) ve.getValue(context);
+      catch (ELException ex) {
+        if (ex.getCause() instanceof PropertyNotFoundException) {
+          throw new UnresolvedExpressionException(
+              "expression contains unresolved values: " + expression);
+        }
+        throw ex;
+      }
+
       if (value == null) {
-        throw new NullEvaluationException(expression);
+        throw new UnresolvedExpressionException(
+            "expression evaluates to a null value: " + expression);
+      }
+
+      ve = expressionFactory.createValueExpression(context, value, String.class);
+      if (!ve.isLiteralText()) {
+        throw new UnresolvedExpressionException(
+            "expression contains unresolved values: " +  expression + " => " + value);
       }
       return value;
     }

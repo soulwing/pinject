@@ -35,9 +35,9 @@ interface ExpressionEvaluator {
    * @param resolver property value resolver
    *
    * @return evaluated expression
-   * @throws NullEvaluationException if the expression evaluates to a null value
+   * @throws UnresolvedExpressionException if the expression evaluates to a null value
    */
   String evaluate(String expression, PropertyValueResolver resolver)
-      throws NullEvaluationException;
+      throws UnresolvedExpressionException;
 
 }
