@@ -7,6 +7,8 @@
     <module name="org.soulwing.pinject.api" />
     <module name="javax.inject.api" />
     <module name="javax.enterprise.api" />
+    <module name="org.glassfish.javax.el"/>
+    <module name="javax.ejb.api" />
     <module name="javax.mail.api" />
     <module name="javax.api" />
   </dependencies>
