@@ -26,6 +26,7 @@ import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * An ordered set of {@link Properties} collections.
@@ -33,6 +34,9 @@ import java.util.Set;
  * @author Carl Harris
  */
 public class PropertiesSet {
+
+  private static final Logger logger = Logger.getLogger(
+      PropertiesSet.class.getName());
 
   private final Set<Properties> propertiesSet = new LinkedHashSet<>();
 
@@ -100,6 +104,7 @@ public class PropertiesSet {
       throw new FileNotFoundException(location.toString());
     }
     load(inputStream);
+    logger.fine("loaded properties from " + location);
   }
 
   /**

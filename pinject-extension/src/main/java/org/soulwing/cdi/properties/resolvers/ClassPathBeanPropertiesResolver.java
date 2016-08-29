@@ -21,6 +21,7 @@ package org.soulwing.cdi.properties.resolvers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.logging.Logger;
 
 import org.soulwing.cdi.properties.spi.PropertyResolver;
 
@@ -33,6 +34,9 @@ import org.soulwing.cdi.properties.spi.PropertyResolver;
  */
 public class ClassPathBeanPropertiesResolver
     extends AbstractPackagePathPropertyResolver {
+
+  private static final Logger logger = Logger.getLogger(
+      ClassLoaderPropertiesSetLoader.class.getName());
 
   public static final int PRIORITY = -10;
 
@@ -58,8 +62,16 @@ public class ClassPathBeanPropertiesResolver
           Thread.currentThread().getContextClassLoader() :
           getClass().getClassLoader();
 
+
       Enumeration<URL> locations = classLoader.getResources(
               ref.getPath(BeansProperties.NAME));
+
+      if (!locations.hasMoreElements()) {
+        logger.fine(
+          "found no `" + BeansProperties.NAME + "` resources on classloader "
+              + classLoader);
+      }
+
       PropertiesSet propertiesSet = new PropertiesSet();
       propertiesSet.load(locations);
       return propertiesSet;

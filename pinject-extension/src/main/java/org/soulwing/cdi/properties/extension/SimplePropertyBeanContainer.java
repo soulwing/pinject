@@ -23,6 +23,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
 import javax.enterprise.inject.spi.Annotated;
@@ -36,6 +38,9 @@ import org.soulwing.cdi.properties.Property;
  * @author Carl Harris
  */
 class SimplePropertyBeanContainer implements PropertyBeanContainer {
+
+  private static final Logger logger = Logger.getLogger(
+      SimplePropertyBeanContainer.class.getName());
 
   private final Lock lock = new ReentrantLock();
   
@@ -104,13 +109,16 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
       throws UnresolvedPropertyException, NoSuchConverterException,
       UnsupportedTypeException, UnresolvedExpressionException {
 
-    InjectionPoint wrapper = wrap(injectionPoint);    
+    InjectionPoint wrapper = wrap(injectionPoint);
     Class<?> type = type(injectionPoint);
     String name = name(injectionPoint, qualifier);
     Object value = convert(resolve(name, qualifier), type, qualifier, 
         fullyQualifiedMemberName(injectionPoint));
 
     PropertyBean bean = new PropertyBean(value, type, wrapper.getQualifiers());
+    if (logger.isLoggable(Level.FINE)) {
+      logger.fine("created property bean: " + name + "=`" + value + "`");
+    }
     store(bean);
     return wrapper;
   }
