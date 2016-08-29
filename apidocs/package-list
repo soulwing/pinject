@@ -1,5 +1,2 @@
 org.soulwing.cdi.properties
-org.soulwing.cdi.properties.converters
-org.soulwing.cdi.properties.extension
-org.soulwing.cdi.properties.resolvers
 org.soulwing.cdi.properties.spi
