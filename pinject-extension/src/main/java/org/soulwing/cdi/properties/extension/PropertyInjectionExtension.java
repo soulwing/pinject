@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
+import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.BeforeShutdown;
 import javax.enterprise.inject.spi.Extension;
@@ -49,6 +50,8 @@ public class PropertyInjectionExtension implements Extension {
       new ConcurrentHashMap<>();
   
   private final PropertyBeanContainer container;
+
+  private ClassLoader deploymentClassLoader;
   
   /**
    * Constructs a new instance.
@@ -73,40 +76,70 @@ public class PropertyInjectionExtension implements Extension {
    */
   void beforeBeanDiscovery(@Observes BeforeBeanDiscovery event) 
       throws Exception {
-   
     logger.fine("starting property injection");
+    deploymentClassLoader = Thread.currentThread().getContextClassLoader();
+    logger.fine("deployment class loader: " + deploymentClassLoader);
+    if (deploymentClassLoader == null) {
+      logger.warning("no deployment class loader");
+    }
     container.init();
   }
-  
+
   /**
    * Handles the process injection point event.
    * @param event
    */
   <T,E> void processInjectionPoint(@Observes ProcessInjectionPoint<T,E> event) 
       throws Exception {
-    InjectionPoint injectionPoint = event.getInjectionPoint();
-    
-    Property qualifier = injectionPoint.getAnnotated().getAnnotation(
-        Property.class);
-    if (qualifier == null) return;
 
-    if (logger.isLoggable(Level.FINEST)) {
-      logger.finest("injecting into " + injectionPoint);
-    }
+    // The calling thread here may not have the deployment class loader set as
+    // thread context class loader. Since `beforeBeanDiscovery` seems to be
+    // consistently called with the deployment class loader as the TCCL, make
+    // sure the same TCCL is used here.
 
-    InjectionPoint wrapper = wrapperMap.get(injectionPoint.getMember());
-    if (wrapper == null) {
-      wrapper = container.add(injectionPoint, qualifier);
-      wrapperMap.put(injectionPoint.getMember(), wrapper);
-    }
-    else {
-      if (logger.isLoggable(Level.FINE)) {
-        logger.fine("found cached injection point wrapper for member " 
-            + injectionPoint.getMember());
+    final ClassLoader previousTccl =
+        Thread.currentThread().getContextClassLoader();
+    try {
+      Thread.currentThread().setContextClassLoader(deploymentClassLoader);
+      InjectionPoint injectionPoint = event.getInjectionPoint();
+
+      Property qualifier = injectionPoint.getAnnotated().getAnnotation(
+          Property.class);
+      if (qualifier == null) return;
+
+      if (logger.isLoggable(Level.FINEST)) {
+        logger.finest("injecting into " + injectionPoint);
       }
+
+      InjectionPoint wrapper = wrapperMap.get(injectionPoint.getMember());
+      if (wrapper == null) {
+        wrapper = container.add(injectionPoint, qualifier);
+        wrapperMap.put(injectionPoint.getMember(), wrapper);
+      }
+      else {
+        if (logger.isLoggable(Level.FINE)) {
+          logger.fine("found cached injection point wrapper for member "
+              + injectionPoint.getMember());
+        }
+      }
+      event.setInjectionPoint(wrapper);
     }
-    event.setInjectionPoint(wrapper);
+    finally {
+      Thread.currentThread().setContextClassLoader(previousTccl);
+    }
   }
+
+  private void setBeanContextClassLoader(InjectionPoint injectionPoint) {
+    final Bean<?> bean = injectionPoint.getBean();
+    if (bean == null) return;
+    final Class<?> beanClass = bean.getBeanClass();
+    if (beanClass == null) return;
+
+    final ClassLoader beanClassLoader = beanClass.getClassLoader();
+    Thread.currentThread().setContextClassLoader(beanClassLoader);
+    logger.fine("set bean class loader: " + beanClassLoader);
+  }
+
 
   /**
    * Handles the {@link AfterBeanDiscovery} event.
