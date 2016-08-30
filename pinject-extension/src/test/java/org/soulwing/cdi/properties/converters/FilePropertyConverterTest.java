@@ -23,7 +23,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import java.io.File;
-import java.net.URI;
 
 import org.junit.Test;
 
@@ -34,7 +33,7 @@ import org.junit.Test;
  */
 public class FilePropertyConverterTest {
 
-  private FilePropertyConverter converter = new FilePropertyConverter();
+  private final FilePropertyConverter converter = new FilePropertyConverter();
   
   @Test
   public void testSupports() throws Exception {

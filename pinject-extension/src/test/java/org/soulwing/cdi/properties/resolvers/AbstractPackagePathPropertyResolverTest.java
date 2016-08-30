@@ -36,7 +36,7 @@ import org.junit.Test;
 public abstract class AbstractPackagePathPropertyResolverTest
     <T extends AbstractPackagePathPropertyResolver> {
 
-  protected T resolver;
+  private T resolver;
 
   @Before
   public void setUp() throws Exception {

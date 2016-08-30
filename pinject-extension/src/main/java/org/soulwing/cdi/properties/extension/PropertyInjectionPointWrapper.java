@@ -23,7 +23,6 @@ import java.lang.reflect.Member;
 import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.enterprise.inject.spi.Annotated;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.InjectionPoint;
@@ -39,7 +38,7 @@ import org.soulwing.cdi.properties.Property;
  *
  * @author Carl Harris
  */
-public class PropertyInjectionPointWrapper implements InjectionPoint {
+class PropertyInjectionPointWrapper implements InjectionPoint {
 
   private final Set<Annotation> qualifiers = new HashSet<>();
   

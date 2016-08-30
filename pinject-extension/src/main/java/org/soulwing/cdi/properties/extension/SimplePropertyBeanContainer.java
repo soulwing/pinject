@@ -25,7 +25,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
 import javax.enterprise.inject.spi.Annotated;
 import javax.enterprise.inject.spi.InjectionPoint;
@@ -65,7 +64,7 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
    * @param resolver resolver for this instance
    * @param evaluator expression evaluator for this instance
    */
-  SimplePropertyBeanContainer(PropertyValueResolver resolver,
+  private SimplePropertyBeanContainer(PropertyValueResolver resolver,
       ExpressionEvaluator evaluator) {
     this(resolver, evaluator, new DelegatingPropertyValueConverter(resolver));
   }
@@ -76,7 +75,7 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
    * @param evaluator expression evaluator for this instance
    * @param converter converter for this instance
    */
-  SimplePropertyBeanContainer(PropertyValueResolver resolver,
+  private SimplePropertyBeanContainer(PropertyValueResolver resolver,
       ExpressionEvaluator evaluator,
       PropertyValueConverter converter) {
     this.resolver = resolver;
@@ -137,7 +136,7 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
    * the {@link PropertyBean} we will create for it.
    * 
    * @param injectionPoint target injection point
-   * @return wrapped injection ponit
+   * @return wrapped injection point
    */
   private InjectionPoint wrap(InjectionPoint injectionPoint) {
     Annotated annotated = injectionPoint.getAnnotated();
@@ -159,9 +158,8 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
     if (!(injectionPoint.getType() instanceof Class<?>)) {
       throw new UnsupportedOperationException("@Property cannot be applied to " 
           + injectionPoint.getType());
-    };
-    Class<?> type = (Class<?>) injectionPoint.getType();
-    return type;
+    }
+    return (Class<?>) injectionPoint.getType();
   }
 
   /**
@@ -185,8 +183,11 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
    * @param name the name to resolve
    * @param qualifier qualifier from the injection point
    * @return resolved value
-   * @throws UnresolvedPropertyException
-   * @throws UnresolvedExpressionException
+   * @throws UnresolvedPropertyException if the property described by
+   *    {@code qualifier} cannot be resolved
+   * @throws UnresolvedExpressionException if an EL expression given in
+   *    the property described by {@code qualifier} cannot be resolved to
+   *    a value
    */
   private String resolve(String name, Property qualifier)
       throws UnresolvedPropertyException, UnresolvedExpressionException {
@@ -214,12 +215,17 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
    * @param qualifier qualifier applied to the injection point
    * @param injectionPointName fully qualified name of the injection point
    * @return {@code value} converted to an instance of {@code type}
-   * @throws UnsupportedTypeException
-   * @throws NoSuchConverterException
+   * @throws NoSuchConverterException if the converter named in
+   *    {@code qualifier} is not registered
+   * @throws UnsupportedTypeException if there exists no converter for
+   *    the target type of the injection point
+   * @throws IllegalArgumentException if the resolved value for the property
+   *    described by {@code qualifier} is not a syntactically valid string
+   *    representation of the target type of the injection point
    */
   private Object convert(String value, Class<?> type, Property qualifier, 
-      String injectionPointName)
-      throws UnsupportedTypeException, NoSuchConverterException {
+      String injectionPointName) throws UnsupportedTypeException,
+      NoSuchConverterException, IllegalArgumentException {
     try {
       if (!qualifier.converter().isEmpty()) {
         return converter.convert(qualifier.converter(), value, type);

@@ -23,6 +23,7 @@ package org.soulwing.cdi.properties.extension;
  *
  * @author Carl Harris
  */
+@SuppressWarnings("RedundantThrows")
 interface ExpressionEvaluator {
 
   /**

@@ -36,7 +36,7 @@ import org.soulwing.cdi.properties.support.ClassLoaderUtil;
 public class ClassPathBeanPropertiesResolverTest 
     extends AbstractPackagePathPropertyResolverTest<ClassPathBeanPropertiesResolver> {
 
-  private ClassLoaderUtil classLoaderUtil = new ClassLoaderUtil();
+  private final ClassLoaderUtil classLoaderUtil = new ClassLoaderUtil();
   
   @Before
   public void setUp() throws Exception {

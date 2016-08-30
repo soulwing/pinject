@@ -26,7 +26,7 @@ import java.util.logging.LogManager;
  *
  * @author Carl Harris
  */
-public class LogManagerUtil {
+class LogManagerUtil {
 
   public static void configure() throws IOException {
     LogManager.getLogManager().readConfiguration(

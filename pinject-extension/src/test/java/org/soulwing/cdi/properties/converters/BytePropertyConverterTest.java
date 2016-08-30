@@ -31,7 +31,7 @@ import org.junit.Test;
  */
 public class BytePropertyConverterTest {
 
-  private BytePropertyConverter converter = new BytePropertyConverter();
+  private final BytePropertyConverter converter = new BytePropertyConverter();
   
   @Test
   public void testSupportsPrimitive() throws Exception {

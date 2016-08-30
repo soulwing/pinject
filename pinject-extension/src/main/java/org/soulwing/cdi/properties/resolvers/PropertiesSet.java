@@ -62,14 +62,14 @@ public class PropertiesSet {
    * Adds a properties collection to the set. 
    * @param properties the collection to add
    */
-  public void add(Properties properties) {
+  private void add(Properties properties) {
     propertiesSet.add(properties);
   }
   
   /**
    * Loads a properties collection into this set.
    * @param inputStream input stream from which the collection will be read
-   * @throws IOException
+   * @throws IOException if an error occurs in loading the properties
    */
   public void load(InputStream inputStream) throws IOException {
     if (inputStream == null) {
@@ -93,7 +93,7 @@ public class PropertiesSet {
   /**
    * Loads a properties collection into this set.
    * @param location location of the collection to load
-   * @throws IOException
+   * @throws IOException if an error occurs in loading the properties
    */
   public void load(URL location) throws IOException {
     if (location == null) {
@@ -112,7 +112,7 @@ public class PropertiesSet {
    * in the given enumeration into this set.
    * @param locations locations of the properties collections to load into
    *    the set
-   * @throws IOException
+   * @throws IOException if an error occurs in loading the properties
    */
   public void load(Enumeration<URL> locations) throws IOException {
     while (locations.hasMoreElements()) {

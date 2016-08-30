@@ -18,11 +18,11 @@
  */
 package org.soulwing.cdi.properties.resolvers;
 
-import org.soulwing.cdi.properties.converters.UrlPropertyConverter;
-import org.soulwing.cdi.properties.spi.PropertyResolver;
-
 import java.net.URL;
 import java.util.logging.Logger;
+
+import org.soulwing.cdi.properties.converters.UrlPropertyConverter;
+import org.soulwing.cdi.properties.spi.PropertyResolver;
 
 /**
  * A {@link PropertyResolver} that loads a property file referenced by a
@@ -35,8 +35,8 @@ public class SystemPropertyFileResolver implements PropertyResolver {
   private static final Logger logger = Logger.getLogger(
       SystemPropertyFileResolver.class.getName());
 
-  public static final String PROPERTY_NAME = "pinject.properties";
-  public static final int PRIORITY = -2;
+  private static final String PROPERTY_NAME = "pinject.properties";
+  private static final int PRIORITY = -2;
 
   private final PropertiesSet propertiesSet = new PropertiesSet();
 
@@ -53,7 +53,7 @@ public class SystemPropertyFileResolver implements PropertyResolver {
 
     logger.info("System property lookup for '" + PROPERTY_NAME + "' returned: " + propertyValue);
     UrlPropertyConverter converter = new UrlPropertyConverter();
-    String[] locations = propertyValue.toString().split("\\s*(,|\\s)\\s*");
+    String[] locations = propertyValue.split("\\s*(,|\\s)\\s*");
 
     for (String location : locations) {
       logger.info("loading bean properties from " + location);

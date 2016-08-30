@@ -30,7 +30,7 @@ import org.soulwing.cdi.properties.spi.PropertyResolver;
  *
  * @author Carl Harris
  */
-public abstract class AbstractPackagePathPropertyResolver 
+abstract class AbstractPackagePathPropertyResolver
     implements PropertyResolver {
 
   private final Map<String, PropertiesSet> pathCache =
@@ -41,10 +41,10 @@ public abstract class AbstractPackagePathPropertyResolver
   
   /**
    * Constructs a new instance.
-   * @param priority
-   * @param loader
+   * @param priority priority for this resolver
+   * @param loader loader for associated property values
    */
-  protected AbstractPackagePathPropertyResolver(int priority,
+  AbstractPackagePathPropertyResolver(int priority,
       PropertiesSetLoader loader) {
     this.priority = priority;
     this.loader = loader;
@@ -89,7 +89,7 @@ public abstract class AbstractPackagePathPropertyResolver
    * Resolves the value for the property specified by the given reference.
    * @param ref property reference
    * @return property value
-   * @throws IOException
+   * @throws IOException if an error occurs in loading the properties collection
    */
   private String resolve(PropertyRef ref) throws IOException {
     PropertiesSet propertiesSet = fetchPropertiesSet(ref);
@@ -105,7 +105,7 @@ public abstract class AbstractPackagePathPropertyResolver
    * reference loading it from the underlying provider subtype as needed.
    * @param ref property reference
    * @return properties set
-   * @throws IOException
+   * @throws IOException if an error occurs in loading the properties collection
    */
   private PropertiesSet fetchPropertiesSet(PropertyRef ref)
       throws IOException {

@@ -49,9 +49,9 @@ public class DelegatingPropertyValueResolverTest {
   private static final String SHARED_PROPERTY = "testSharedProperty";
   private static final String SYSTEM_PROPERTY = "systemProperty";
   
-  private ClassLoaderUtil classLoaderUtil = new ClassLoaderUtil();
+  private final ClassLoaderUtil classLoaderUtil = new ClassLoaderUtil();
 
-  private DelegatingPropertyValueResolver resolver =
+  private final DelegatingPropertyValueResolver resolver =
       new DelegatingPropertyValueResolver();
   
   @BeforeClass

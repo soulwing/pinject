@@ -36,10 +36,10 @@ public class JndiEnvUrlPathBeanPropertiesResolver implements PropertyResolver {
   private static final Logger logger = Logger.getLogger(
       JndiEnvUrlPathBeanPropertiesResolver.class.getName());
   
-  public static final String BINDING = 
+  private static final String BINDING =
       "java:comp/env/beans.properties.root";
 
-  public static final int PRIORITY = -5;
+  private static final int PRIORITY = -5;
   
   private PropertyResolver delegate = new NoOpPropertyResolver(PRIORITY);
   

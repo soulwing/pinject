@@ -30,7 +30,7 @@ import org.junit.Test;
  */
 public class BooleanPropertyConverterTest {
 
-  private BooleanPropertyConverter converter = new BooleanPropertyConverter();
+  private final BooleanPropertyConverter converter = new BooleanPropertyConverter();
   
   @Test
   public void testSupportsPrimitive() throws Exception {

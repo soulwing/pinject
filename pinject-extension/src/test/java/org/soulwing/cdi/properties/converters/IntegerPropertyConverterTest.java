@@ -31,7 +31,7 @@ import org.junit.Test;
  */
 public class IntegerPropertyConverterTest {
 
-  private IntegerPropertyConverter converter = new IntegerPropertyConverter();
+  private final IntegerPropertyConverter converter = new IntegerPropertyConverter();
   
   @Test
   public void testSupportsPrimitive() throws Exception {

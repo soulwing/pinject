@@ -23,7 +23,7 @@ package org.soulwing.cdi.properties.extension;
  *
  * @author Carl Harris
  */
-public class UnresolvedPropertyException extends Exception {
+class UnresolvedPropertyException extends Exception {
 
   private static final long serialVersionUID = -8403584692907056644L;
 

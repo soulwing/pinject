@@ -44,8 +44,8 @@ class DelegatingPropertyValueResolver implements PropertyValueResolver {
   
   private final List<PropertyResolver> resolvers = new ArrayList<>();
   
-  private final Map<String, String> cache = 
-      new ConcurrentHashMap<String, String>();
+  private final Map<String, String> cache =
+      new ConcurrentHashMap<>();
   
   /**
    * Constructs a new instance.

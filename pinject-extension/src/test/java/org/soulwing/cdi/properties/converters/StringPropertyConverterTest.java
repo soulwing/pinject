@@ -34,7 +34,7 @@ public class StringPropertyConverterTest {
   private static final String EMPTY_STRING = "";
   private static final String TEST_STRING = "hello world";
   
-  private StringPropertyConverter converter = new StringPropertyConverter();
+  private final StringPropertyConverter converter = new StringPropertyConverter();
   
   @Test
   public void testSupports() throws Exception {

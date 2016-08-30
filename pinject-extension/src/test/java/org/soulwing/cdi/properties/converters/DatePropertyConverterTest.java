@@ -44,10 +44,11 @@ public class DatePropertyConverterTest {
   @Rule
   public final JUnitRuleMockery context = new JUnitRuleMockery();
   
+  @SuppressWarnings("CanBeFinal")
   @Mock
   private PropertyConverter.Context converterContext;
   
-  private DatePropertyConverter converter = new DatePropertyConverter();
+  private final DatePropertyConverter converter = new DatePropertyConverter();
   
   private Date now;
   private String nowString;

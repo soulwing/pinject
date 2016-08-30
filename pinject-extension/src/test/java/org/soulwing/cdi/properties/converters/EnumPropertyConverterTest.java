@@ -36,19 +36,21 @@ import org.soulwing.cdi.properties.spi.PropertyConverter;
  */
 public class EnumPropertyConverterTest {
 
+  @SuppressWarnings("unused")
   public enum Color {
     RED,
     GREEN,
-    BLUE;
+    BLUE
   }
   
   @Rule
   public final JUnitRuleMockery context = new JUnitRuleMockery();
   
+  @SuppressWarnings("CanBeFinal")
   @Mock
   private PropertyConverter.Context converterContext;
   
-  private EnumPropertyConverter converter = new EnumPropertyConverter();
+  private final EnumPropertyConverter converter = new EnumPropertyConverter();
   
   @Test
   public void testSupports() throws Exception {

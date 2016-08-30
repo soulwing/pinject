@@ -25,6 +25,7 @@ package org.soulwing.cdi.properties.extension;
  *
  * @author Carl Harris
  */
+@SuppressWarnings("RedundantThrows")
 interface PropertyValueConverter {
 
   /**
@@ -38,10 +39,13 @@ interface PropertyValueConverter {
    * @param value the subject value
    * @param type the target type
    * @return object representation of the given value
-   * @throws UnsupportedTypeException
+   * @throws UnsupportedTypeException if there exists no converter for
+   *    {@code type}
+   * @throws IllegalArgumentException if {@code value} is not a syntactically
+   *    valid string representation of {@code type}s
    */
   Object convert(String value, Class<?> type) 
-      throws UnsupportedTypeException;
+      throws UnsupportedTypeException, IllegalArgumentException;
 
   /**
    * Converts the given value to an instance of the given type using a
@@ -50,10 +54,15 @@ interface PropertyValueConverter {
    * @param value the subject value
    * @param type the target type
    * @return object representation of the given value
-   * @throws UnsupportedTypeException
-   * @throws NoSuchConverterException
+   * @throws NoSuchConverterException if there exists no converter with
+   *    the specified name
+   * @throws UnsupportedTypeException if there exists no converter for
+   *    {@code type}
+   * @throws IllegalArgumentException if {@code value} is not a syntactically
+   *    valid string representation of {@code type}s
    */
   Object convert(String converter, String value, Class<?> type)
-      throws NoSuchConverterException, UnsupportedTypeException;
+      throws NoSuchConverterException, UnsupportedTypeException,
+          IllegalArgumentException;
   
 }

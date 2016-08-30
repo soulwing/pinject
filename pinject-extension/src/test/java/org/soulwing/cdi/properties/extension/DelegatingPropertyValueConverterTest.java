@@ -28,15 +28,29 @@ import java.net.URI;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.ejb.ScheduleExpression;
 import javax.mail.internet.InternetAddress;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.soulwing.cdi.properties.converters.*;
+import org.soulwing.cdi.properties.converters.BooleanPropertyConverter;
+import org.soulwing.cdi.properties.converters.BytePropertyConverter;
+import org.soulwing.cdi.properties.converters.CharacterPropertyConverter;
+import org.soulwing.cdi.properties.converters.DatePropertyConverter;
+import org.soulwing.cdi.properties.converters.DoublePropertyConverter;
+import org.soulwing.cdi.properties.converters.EnumPropertyConverter;
 import org.soulwing.cdi.properties.converters.EnumPropertyConverterTest.Color;
+import org.soulwing.cdi.properties.converters.FilePropertyConverter;
+import org.soulwing.cdi.properties.converters.FloatPropertyConverter;
+import org.soulwing.cdi.properties.converters.IntegerPropertyConverter;
+import org.soulwing.cdi.properties.converters.InternetAddressPropertyConverter;
+import org.soulwing.cdi.properties.converters.LongPropertyConverter;
+import org.soulwing.cdi.properties.converters.ScheduleExpressionPropertyConverter;
+import org.soulwing.cdi.properties.converters.ShortPropertyConverter;
+import org.soulwing.cdi.properties.converters.StringPropertyConverter;
+import org.soulwing.cdi.properties.converters.UriPropertyConverter;
+import org.soulwing.cdi.properties.converters.UrlPropertyConverter;
 
 /**
  * Tests for {@link DelegatingPropertyValueConverterTest}.
@@ -48,7 +62,7 @@ import org.soulwing.cdi.properties.converters.EnumPropertyConverterTest.Color;
  */
 public class DelegatingPropertyValueConverterTest {
 
-  private PropertyValueConverter converter =
+  private final PropertyValueConverter converter =
       new DelegatingPropertyValueConverter(
           new DelegatingPropertyValueResolver());
   

@@ -35,7 +35,7 @@ import org.junit.Test;
 public class InternetAddressPropertyConverterTest {
 
   
-  private InternetAddressPropertyConverter converter = 
+  private final InternetAddressPropertyConverter converter =
       new InternetAddressPropertyConverter();
   
   @Before

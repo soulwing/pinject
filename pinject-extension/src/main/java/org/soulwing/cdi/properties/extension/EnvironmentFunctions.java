@@ -25,6 +25,7 @@ import javax.el.PropertyNotFoundException;
  *
  * @author Carl Harris
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class EnvironmentFunctions {
 
   /**

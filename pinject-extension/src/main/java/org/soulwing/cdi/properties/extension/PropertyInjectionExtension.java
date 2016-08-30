@@ -23,10 +23,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
-import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.BeforeShutdown;
 import javax.enterprise.inject.spi.Extension;
@@ -41,7 +39,7 @@ import org.soulwing.cdi.properties.Property;
  *
  * @author Carl Harris
  */
-public class PropertyInjectionExtension implements Extension {
+class PropertyInjectionExtension implements Extension {
   
   private static final Logger logger = Logger.getLogger(
       PropertyInjectionExtension.class.getName());
@@ -56,6 +54,7 @@ public class PropertyInjectionExtension implements Extension {
   /**
    * Constructs a new instance.
    */
+  @SuppressWarnings("unused")
   public PropertyInjectionExtension() {
     this(new SimplePropertyBeanContainer());
   }
@@ -65,14 +64,14 @@ public class PropertyInjectionExtension implements Extension {
    * @param container container for property beans discovered by 
    *    this extension
    */
-  PropertyInjectionExtension(PropertyBeanContainer container) {
+  private PropertyInjectionExtension(PropertyBeanContainer container) {
     this.container = container;
   }
 
   /**
    * Handles the event that fires before bean discovery.
-   * @param event
-   * @throws Exception
+   * @param event the subject event
+   * @throws Exception if an initialization exception occurs
    */
   void beforeBeanDiscovery(@Observes BeforeBeanDiscovery event) 
       throws Exception {
@@ -89,7 +88,8 @@ public class PropertyInjectionExtension implements Extension {
 
   /**
    * Handles the process injection point event.
-   * @param event
+   * @param event the subject event
+   * @throws Exception if an error occurs in producing a value to inject
    */
   <T,E> void processInjectionPoint(@Observes ProcessInjectionPoint<T,E> event) 
       throws Exception {

@@ -38,7 +38,7 @@ public class ClassPathBeanPropertiesResolver
   private static final Logger logger = Logger.getLogger(
       ClassLoaderPropertiesSetLoader.class.getName());
 
-  public static final int PRIORITY = -10;
+  private static final int PRIORITY = -10;
 
   /**
    * Constructs a new instance.

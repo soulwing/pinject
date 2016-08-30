@@ -38,9 +38,9 @@ public class MetaInfBeanPropertiesResolverTest {
 
   private static final String META_INF_PROPERTY = "testMetaInfProperty";
 
-  private ClassLoaderUtil classLoaderUtil = new ClassLoaderUtil();
+  private final ClassLoaderUtil classLoaderUtil = new ClassLoaderUtil();
   
-  private MetaInfBeanPropertiesResolver resolver =
+  private final MetaInfBeanPropertiesResolver resolver =
       new MetaInfBeanPropertiesResolver();
   
   @Before

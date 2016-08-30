@@ -25,14 +25,14 @@ import java.io.IOException;
  *
  * @author Carl Harris
  */
-public interface PropertiesSetLoader {
+interface PropertiesSetLoader {
 
   /**
    * Loads a properties set for the path specified by the given property
    * reference.
    * @param ref property reference
    * @return properties set
-   * @throws IOException
+   * @throws IOException if an error occurs in loading the properties
    */
   PropertiesSet load(PropertyRef ref) throws IOException;
   

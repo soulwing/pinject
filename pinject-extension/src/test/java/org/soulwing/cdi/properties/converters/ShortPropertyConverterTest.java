@@ -31,7 +31,7 @@ import org.junit.Test;
  */
 public class ShortPropertyConverterTest {
 
-  private ShortPropertyConverter converter = new ShortPropertyConverter();
+  private final ShortPropertyConverter converter = new ShortPropertyConverter();
   
   @Test
   public void testSupportsPrimitive() throws Exception {

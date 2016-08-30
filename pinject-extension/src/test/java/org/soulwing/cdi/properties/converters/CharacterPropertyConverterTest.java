@@ -37,7 +37,7 @@ public class CharacterPropertyConverterTest {
   private static final String STRING_OF_LENGTH_GT_1 = "CE";
   private static final String EMPTY_STRING = "";
 
-  private CharacterPropertyConverter converter = 
+  private final CharacterPropertyConverter converter =
       new CharacterPropertyConverter();
   
   @Test

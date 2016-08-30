@@ -23,7 +23,6 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;

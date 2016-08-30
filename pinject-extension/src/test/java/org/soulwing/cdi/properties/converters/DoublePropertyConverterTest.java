@@ -31,7 +31,7 @@ import org.junit.Test;
  */
 public class DoublePropertyConverterTest {
 
-  private DoublePropertyConverter converter = new DoublePropertyConverter();
+  private final DoublePropertyConverter converter = new DoublePropertyConverter();
   
   @Test
   public void testSupportsPrimitive() throws Exception {

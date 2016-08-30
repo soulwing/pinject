@@ -35,7 +35,7 @@ import org.junit.Test;
  */
 public class UrlPropertyConverterTest {
 
-  private UrlPropertyConverter converter = new UrlPropertyConverter();
+  private final UrlPropertyConverter converter = new UrlPropertyConverter();
   
   @Test
   public void testSupports() throws Exception {
@@ -63,14 +63,14 @@ public class UrlPropertyConverterTest {
   
   @Test
   public void testClasspathUrl() throws Exception {
-    assertThat((URL) converter.convert(
+    assertThat(converter.convert(
         "classpath:META-INF/beans.properties", null), 
         is(not(nullValue())));
   }
 
   @Test
   public void testClasspathUrlWithLeadingSlash() throws Exception {
-    assertThat((URL) converter.convert(
+    assertThat(converter.convert(
         "classpath:/META-INF/beans.properties", null), 
         is(not(nullValue())));
   }

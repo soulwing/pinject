@@ -19,7 +19,6 @@
 package org.soulwing.cdi.properties.converters;
 
 import java.io.File;
-import java.net.URI;
 
 import org.soulwing.cdi.properties.spi.PropertyConverter;
 

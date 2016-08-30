@@ -45,16 +45,23 @@ interface PropertyBeanContainer {
 
   /**
    * Adds a bean to this container.
-   * @param injectionPoint target injection point (this <strong>must</strong>
-   *   be the same injection point returned by {@link #register(InjectionPoint)})
-   * @param qualifier TODO
+   * @param injectionPoint target injection point
+   * @param qualifier property qualifier from the injection point
    * @return wrapped injection point; this value should be used to
    *    replace the original injection point during the 
-   *    {@link ProcessInjectionPoint} event
-   * @throws UnresolvedPropertyException
-   * @throws NoSuchConverterException
-   * @throws UnsupportedTypeException
-   * @throws UnresolvedExpressionException
+   *    {@link javax.enterprise.inject.spi.ProcessInjectionPoint} event
+   * @throws UnresolvedPropertyException if the property described by
+   *    {@code qualifier} cannot be resolved
+   * @throws NoSuchConverterException if the converter named in
+   *    {@code qualifier} is not registered
+   * @throws UnsupportedTypeException if there exists no converter for
+   *    the target type of the injection point
+   * @throws UnresolvedExpressionException if an EL expression given in
+   *    the property described by {@code qualifier} cannot be resolved to
+   *    a value
+   * @throws IllegalArgumentException if the resolved value for the property
+   *    described by {@code qualifier} is not a syntactically valid string
+   *    representation of the target type of the injection point
    */
   InjectionPoint add(InjectionPoint injectionPoint, Property qualifier) 
       throws UnresolvedPropertyException, NoSuchConverterException,
@@ -62,10 +69,9 @@ interface PropertyBeanContainer {
   
   /**
    * Adds all of the beans in this container to the CDI container that 
-   * produced the given {@link AfterDiscoveryEvent}.
+   * produced the given {@link AfterBeanDiscovery}.
    * @param event the subject CDI event
    */
   void copyAll(AfterBeanDiscovery event);
-  
-  
+
 }

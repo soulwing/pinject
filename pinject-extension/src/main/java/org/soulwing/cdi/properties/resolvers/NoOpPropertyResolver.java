@@ -34,7 +34,7 @@ class NoOpPropertyResolver implements PropertyResolver {
   
   /**
    * Constructs a new instance.
-   * @param priority
+   * @param priority priority of this resolver
    */
   public NoOpPropertyResolver(int priority) {
     this.priority = priority;

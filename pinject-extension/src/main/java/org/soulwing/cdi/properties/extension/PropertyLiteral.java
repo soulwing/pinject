@@ -18,9 +18,6 @@
  */
 package org.soulwing.cdi.properties.extension;
 
-import java.lang.annotation.Annotation;
-import java.util.UUID;
-
 import javax.enterprise.util.AnnotationLiteral;
 
 import org.soulwing.cdi.properties.Property;

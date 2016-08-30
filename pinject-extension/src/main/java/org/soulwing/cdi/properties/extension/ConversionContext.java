@@ -33,10 +33,9 @@ class ConversionContext implements Context {
   
   /**
    * Constructs a new instance.
-   * @param targetType
-   * @param resolver
-   * @param converter
-   * @param resolver
+   * @param targetType target data type that will result from conversion
+   * @param resolver property resolver
+   * @param converter property converter
    */
   public ConversionContext(Class<?> targetType,
       PropertyValueResolver resolver, PropertyValueConverter converter) {

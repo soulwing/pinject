@@ -34,7 +34,7 @@ public class MetaInfBeanPropertiesResolver implements PropertyResolver {
   public static final String META_INF_BEANS_PROPERTIES = 
       "META-INF/" + BeansProperties.NAME;
   
-  public static final int PRIORITY = -9;
+  private static final int PRIORITY = -9;
 
   private final PropertiesSet propertiesSet = new PropertiesSet();
   

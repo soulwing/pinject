@@ -33,7 +33,7 @@ import org.junit.Test;
  */
 public class UriPropertyConverterTest {
 
-  private UriPropertyConverter converter = new UriPropertyConverter();
+  private final UriPropertyConverter converter = new UriPropertyConverter();
   
   @Test
   public void testSupports() throws Exception {

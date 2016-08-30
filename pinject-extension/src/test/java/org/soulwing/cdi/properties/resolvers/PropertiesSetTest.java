@@ -32,7 +32,7 @@ import org.junit.Test;
  */
 public class PropertiesSetTest {
 
-  private PropertiesSet propertiesSet = new PropertiesSet();
+  private final PropertiesSet propertiesSet = new PropertiesSet();
   
   @Before
   public void setUp() throws Exception {

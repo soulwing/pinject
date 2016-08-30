@@ -27,7 +27,7 @@ import org.soulwing.cdi.properties.spi.PropertyConverter;
  *
  * @author Carl Harris
  */
-public abstract class OptionalPropertyConverter
+abstract class OptionalPropertyConverter
     extends AbstractPropertyConverter implements Optional {
 
   private PropertyConverter delegate;

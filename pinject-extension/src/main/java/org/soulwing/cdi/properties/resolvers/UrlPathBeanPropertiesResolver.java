@@ -59,7 +59,7 @@ public class UrlPathBeanPropertiesResolver
         
     /**
      * Constructs a new instance.
-     * @param location
+     * @param location location of the properties resource
      */
     public UrlPropertiesSetLoader(URL location) {
       try {

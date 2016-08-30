@@ -31,7 +31,7 @@ import org.junit.Test;
  */
 public class LongPropertyConverterTest {
 
-  private LongPropertyConverter converter = new LongPropertyConverter();
+  private final LongPropertyConverter converter = new LongPropertyConverter();
   
   @Test
   public void testSupportsPrimitive() throws Exception {

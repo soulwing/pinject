@@ -31,7 +31,7 @@ import org.junit.Test;
  */
 public class FloatPropertyConverterTest {
 
-  private FloatPropertyConverter converter = new FloatPropertyConverter();
+  private final FloatPropertyConverter converter = new FloatPropertyConverter();
   
   @Test
   public void testSupportsPrimitive() throws Exception {

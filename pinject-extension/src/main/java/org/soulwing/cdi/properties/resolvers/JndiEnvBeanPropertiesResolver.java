@@ -21,7 +21,6 @@ package org.soulwing.cdi.properties.resolvers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Logger;
-
 import javax.naming.NamingException;
 
 import org.soulwing.cdi.properties.converters.UrlPropertyConverter;
@@ -39,10 +38,10 @@ public class JndiEnvBeanPropertiesResolver implements PropertyResolver {
   private static final Logger logger = Logger.getLogger(
       JndiEnvBeanPropertiesResolver.class.getName());
   
-  public static final String BINDING = 
+  private static final String BINDING =
       "java:comp/env/beans.properties.location";
 
-  public static final int PRIORITY = -4;
+  private static final int PRIORITY = -4;
   
   private final PropertiesSet propertiesSet = new PropertiesSet();
   

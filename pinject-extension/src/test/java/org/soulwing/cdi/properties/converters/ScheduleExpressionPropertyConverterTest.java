@@ -23,7 +23,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import javax.ejb.ScheduleExpression;
-import javax.mail.internet.InternetAddress;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +35,7 @@ import org.junit.Test;
 public class ScheduleExpressionPropertyConverterTest {
 
   
-  private ScheduleExpressionPropertyConverter converter =
+  private final ScheduleExpressionPropertyConverter converter =
       new ScheduleExpressionPropertyConverter();
   
   @Before

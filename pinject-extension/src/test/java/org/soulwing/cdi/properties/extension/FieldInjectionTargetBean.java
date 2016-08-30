@@ -28,8 +28,9 @@ import org.soulwing.cdi.properties.Property;
  *
  * @author Carl Harris
  */
+@SuppressWarnings({"CdiInjectionPointsInspection", "CanBeFinal"})
 @Dependent
-public class FieldInjectionTargetBean {
+class FieldInjectionTargetBean {
 
   @Inject @Property
   public String stringProperty;

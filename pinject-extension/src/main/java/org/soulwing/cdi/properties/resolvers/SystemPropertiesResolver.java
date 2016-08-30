@@ -27,7 +27,7 @@ import org.soulwing.cdi.properties.spi.PropertyResolver;
  */
 public class SystemPropertiesResolver implements PropertyResolver {
 
-  public static final int PRIORITY = -1;
+  private static final int PRIORITY = -1;
 
   /**
    * {@inheritDoc}

@@ -23,7 +23,7 @@ package org.soulwing.cdi.properties.extension;
  *
  * @author Carl Harris
  */
-public class UnresolvedExpressionException extends Exception {
+class UnresolvedExpressionException extends Exception {
 
   public UnresolvedExpressionException(String message) {
     super(message);

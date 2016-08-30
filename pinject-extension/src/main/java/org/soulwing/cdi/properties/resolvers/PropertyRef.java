@@ -68,8 +68,8 @@ class PropertyRef {
    * <p>
    * The first {@code segments.length - numNameSegments} are used to compose
    * the path.
-   * @param segments 
-   * @param numNameSegments
+   * @param segments the path segments to assemble
+   * @param numNameSegments number of segments to include
    * @return delimited path
    */
   private static String path(String[] segments, int numNameSegments) {
@@ -85,8 +85,8 @@ class PropertyRef {
    * Constructs a delimited name from the given segments.
    * <p>
    * The last {@code numNameSegments} are used to compose the name.
-   * @param segments 
-   * @param numNameSegments
+   * @param segments the path segments to assemble
+   * @param numNameSegments number of segments to include
    * @return delimited name
    */
   private static String name(String[] segments, int numNameSegments) {

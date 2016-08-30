@@ -20,8 +20,6 @@ package org.soulwing.cdi.properties.extension;
 
 import javax.el.PropertyNotFoundException;
 
-import org.soulwing.cdi.properties.Property;
-
 /**
  * Functions used to access the properties available to a
  * {@link PropertyValueResolver}.
@@ -37,9 +35,10 @@ import org.soulwing.cdi.properties.Property;
  *
  * @author Carl Harris
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class PropertiesFunctions {
 
-  public static final ThreadLocal<PropertyValueResolver> resolver =
+  private static final ThreadLocal<PropertyValueResolver> resolver =
       new ThreadLocal<>();
 
   /**
@@ -75,7 +74,7 @@ public class PropertiesFunctions {
    * Gets a property value.
    * @param name name of the property.
    * @param defaultValue default value
-   * @return property value or {@code defaultVallue} if the property has no value
+   * @return property value or {@code defaultValue} if the property has no value
    */
   public static String getOptional(String name, String defaultValue) {
     try {

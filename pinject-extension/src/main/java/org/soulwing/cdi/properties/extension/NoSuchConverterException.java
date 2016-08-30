@@ -26,7 +26,7 @@ import org.soulwing.cdi.properties.Property;
  *
  * @author Carl Harris
  */
-public class NoSuchConverterException extends Exception {
+class NoSuchConverterException extends Exception {
 
   private static final long serialVersionUID = 2165105494764949271L;
 
