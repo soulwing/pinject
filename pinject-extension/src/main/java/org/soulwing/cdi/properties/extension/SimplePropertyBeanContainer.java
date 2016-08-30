@@ -107,9 +107,11 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
     Object value = convert(resolve(name, qualifier), type, qualifier, 
         fullyQualifiedMemberName(injectionPoint));
 
-    PropertyBean bean = new PropertyBean(value, type, wrapper.getQualifiers());
+    PropertyBean bean = new PropertyBean(wrapper, value, type,
+        wrapper.getQualifiers());
     if (logger.isLoggable(Level.FINE)) {
-      logger.fine("created property bean: " + name + "=`" + value + "`");
+      logger.fine("created property bean: " + name + "=`" + value
+          + "` for injection point " + injectionPoint);
     }
     store(bean);
     return wrapper;
@@ -120,6 +122,9 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
     lock.lock();
     try {
       for (PropertyBean bean : beans) {
+        logger.fine("adding bean " +
+            fullyQualifiedMemberName(bean.getInjectionPoint())
+            + "; " + bean.getQualifiers());
         event.addBean(bean);
       }
     }
