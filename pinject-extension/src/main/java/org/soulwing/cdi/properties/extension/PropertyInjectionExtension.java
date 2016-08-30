@@ -39,7 +39,8 @@ import org.soulwing.cdi.properties.Property;
  *
  * @author Carl Harris
  */
-class PropertyInjectionExtension implements Extension {
+@SuppressWarnings("WeakerAccess")
+public class PropertyInjectionExtension implements Extension {
   
   private static final Logger logger = Logger.getLogger(
       PropertyInjectionExtension.class.getName());
