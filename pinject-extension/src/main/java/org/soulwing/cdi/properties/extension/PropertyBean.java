@@ -35,24 +35,31 @@ import org.soulwing.cdi.properties.Property;
  *
  * @author Carl Harris
  */
-class PropertyBean implements Bean<Object> {
+public class PropertyBean implements Bean<Object> {
 
+  private final InjectionPoint injectionPoint;
   private final Object value; 
   private final Class<?> type;
   private final Set<Annotation> qualifiers;
   
   /**
    * Constructs a new instance.
+   * @param injectionPoint the targeted injection point
    * @param value property value
    * @param type property type
    * @param qualifiers a set of qualifiers which <em>must</em> include
-   *    a {@link Property} qualifier that <em>uniquely</em> identifies the
-   *    injection point
+*    a {@link Property} qualifier that <em>uniquely</em> identifies the
    */
-  PropertyBean(Object value, Class<?> type, Set<Annotation> qualifiers) {
+  PropertyBean(InjectionPoint injectionPoint, Object value, Class<?> type,
+      Set<Annotation> qualifiers) {
+    this.injectionPoint = injectionPoint;
     this.value = value;
     this.type = type;
     this.qualifiers = qualifiers;
+  }
+
+  public InjectionPoint getInjectionPoint() {
+    return injectionPoint;
   }
 
   @Override
@@ -100,7 +107,7 @@ class PropertyBean implements Bean<Object> {
 
   @Override
   public Class<?> getBeanClass() {
-    return type;
+    return PropertyBean.class;
   }
 
   @Override
