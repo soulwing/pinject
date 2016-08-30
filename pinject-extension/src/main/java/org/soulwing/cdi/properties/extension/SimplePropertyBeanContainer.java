@@ -55,7 +55,7 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
    * Constructs a new instance with the default resolver and converter
    * configuration.
    */
-  public SimplePropertyBeanContainer() {
+  SimplePropertyBeanContainer() {
     this(new DelegatingPropertyValueResolver(), new ELExpressionEvaluator());
   }
 

@@ -37,7 +37,7 @@ class ConversionContext implements Context {
    * @param resolver property resolver
    * @param converter property converter
    */
-  public ConversionContext(Class<?> targetType,
+  ConversionContext(Class<?> targetType,
       PropertyValueResolver resolver, PropertyValueConverter converter) {
     this.targetType = targetType;
     this.resolver = resolver;

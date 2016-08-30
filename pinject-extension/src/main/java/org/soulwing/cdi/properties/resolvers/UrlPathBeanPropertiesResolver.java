@@ -45,7 +45,7 @@ public class UrlPathBeanPropertiesResolver
    * @param priority priority for this resolver
    * @param location base URL
    */
-  public UrlPathBeanPropertiesResolver(int priority, URL location) {
+  UrlPathBeanPropertiesResolver(int priority, URL location) {
     super(priority, new UrlPropertiesSetLoader(location));
   }
 
@@ -53,7 +53,7 @@ public class UrlPathBeanPropertiesResolver
    * A {@link PropertiesSetLoader} that loads {@code beans.properties} using
    * the class loader.
    */
-  static class UrlPropertiesSetLoader implements PropertiesSetLoader {
+  private static class UrlPropertiesSetLoader implements PropertiesSetLoader {
 
     private final URL location;
         
@@ -61,7 +61,7 @@ public class UrlPathBeanPropertiesResolver
      * Constructs a new instance.
      * @param location location of the properties resource
      */
-    public UrlPropertiesSetLoader(URL location) {
+    UrlPropertiesSetLoader(URL location) {
       try {
         if (!location.toExternalForm().endsWith("/")) {
           location = new URL(location.toExternalForm() + "/");

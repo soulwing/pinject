@@ -25,7 +25,7 @@ package org.soulwing.cdi.properties.extension;
  */
 class UnresolvedExpressionException extends Exception {
 
-  public UnresolvedExpressionException(String message) {
+  UnresolvedExpressionException(String message) {
     super(message);
   }
 

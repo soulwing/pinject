@@ -31,7 +31,7 @@ class UnresolvedPropertyException extends Exception {
    * Constructs a new instance.
    * @param name name that failed to resolve
    */
-  public UnresolvedPropertyException(String name) {
+  UnresolvedPropertyException(String name) {
     super("failed to resolve property " + name);
   }
   

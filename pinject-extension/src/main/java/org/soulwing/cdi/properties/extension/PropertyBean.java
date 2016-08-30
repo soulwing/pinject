@@ -49,7 +49,7 @@ class PropertyBean implements Bean<Object> {
    *    a {@link Property} qualifier that <em>uniquely</em> identifies the
    *    injection point
    */
-  public PropertyBean(Object value, Class<?> type, Set<Annotation> qualifiers) {
+  PropertyBean(Object value, Class<?> type, Set<Annotation> qualifiers) {
     this.value = value;
     this.type = type;
     this.qualifiers = qualifiers;

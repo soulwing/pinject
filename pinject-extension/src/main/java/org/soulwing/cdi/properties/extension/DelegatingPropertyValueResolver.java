@@ -47,12 +47,6 @@ class DelegatingPropertyValueResolver implements PropertyValueResolver {
   private final Map<String, String> cache =
       new ConcurrentHashMap<>();
   
-  /**
-   * Constructs a new instance.
-   */
-  DelegatingPropertyValueResolver() {
-  }
-
   public void init() throws Exception {
     final ClassLoader tccl = Thread.currentThread().getContextClassLoader();
     if (tccl != null && tccl != getClass().getClassLoader()) {

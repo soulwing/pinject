@@ -32,7 +32,7 @@ class UnsupportedTypeException extends Exception {
   /**
    * Constructs a new instance.
    */
-  public UnsupportedTypeException() {    
+  UnsupportedTypeException() {
   }
 
   /**
@@ -40,7 +40,7 @@ class UnsupportedTypeException extends Exception {
    * @param memberName fully-qualified member name of the injection point
    * @param type type of the member
    */
-  public <T> UnsupportedTypeException(String memberName, Class<?> type) {
+  <T> UnsupportedTypeException(String memberName, Class<T> type) {
     super(memberName + " has type " + type.getName()
         + " for which there is no converter available");
   }

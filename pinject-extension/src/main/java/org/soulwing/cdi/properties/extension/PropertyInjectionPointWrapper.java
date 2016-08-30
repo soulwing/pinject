@@ -50,7 +50,7 @@ class PropertyInjectionPointWrapper implements InjectionPoint {
    * @param wrappedQualifier property annotation wrapped such that it its
    *    name defaults to a unique value
    */
-  public PropertyInjectionPointWrapper(InjectionPoint delegate, 
+  PropertyInjectionPointWrapper(InjectionPoint delegate,
       Property wrappedQualifier) {
     qualifiers.addAll(delegate.getQualifiers());
     qualifiers.remove(delegate.getAnnotated().getAnnotation(Property.class));
