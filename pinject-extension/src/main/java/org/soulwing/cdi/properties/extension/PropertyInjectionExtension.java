@@ -132,9 +132,17 @@ public class PropertyInjectionExtension implements Extension {
    * @param event the subject event
    */
   void afterBeanDiscovery(@Observes AfterBeanDiscovery event) {
-    container.copyAll(event);
-    container.destroy();
-    logger.fine("property injection complete");
+    final ClassLoader previousTccl =
+        Thread.currentThread().getContextClassLoader();
+    try {
+      Thread.currentThread().setContextClassLoader(extensionClassLoader);
+      container.copyAll(event);
+      container.destroy();
+      logger.fine("property injection complete");
+    }
+    finally {
+      Thread.currentThread().setContextClassLoader(previousTccl);
+    }
   }
   
   void beforeShutdown(@Observes BeforeShutdown event) {
