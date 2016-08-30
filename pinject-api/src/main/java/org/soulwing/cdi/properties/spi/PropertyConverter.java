@@ -69,6 +69,7 @@ public interface PropertyConverter {
      * @throws UnsupportedOperationException if conversion to {@code type}
      *    is not supported by this context
      */
+    @SuppressWarnings("unused")
     Object convert(String value, Class<?> type);
     
   }
