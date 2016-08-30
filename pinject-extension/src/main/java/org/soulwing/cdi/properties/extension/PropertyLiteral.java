@@ -23,13 +23,11 @@ import javax.enterprise.util.AnnotationLiteral;
 import org.soulwing.cdi.properties.Property;
 
 /**
- * A {@link Property} whose {@code name} attribute is a UUID.
+ * A {@link Property} whose {@code name} attribute is numeric identifier.
  *
  * @author Carl Harris
  */
-@SuppressWarnings("all")
-public class PropertyLiteral extends AnnotationLiteral<Property> 
-    implements Property {
+class PropertyLiteral extends AnnotationLiteral<Property> implements Property {
 
   private static final long serialVersionUID = -5694363040452378974L;
   
@@ -39,10 +37,10 @@ public class PropertyLiteral extends AnnotationLiteral<Property>
 
   /**
    * Constructs a new instance.
-   * @param qualifier
-   * @param id unique identifier assigned to this qualifer
+   * @param qualifier the delegate qualifier
+   * @param id unique identifier assigned to this qualifier
    */
-  public PropertyLiteral(Property qualifier, long id) {
+  PropertyLiteral(Property qualifier, long id) {
     if (qualifier == null) {
       throw new NullPointerException("qualifier is required");
     }
