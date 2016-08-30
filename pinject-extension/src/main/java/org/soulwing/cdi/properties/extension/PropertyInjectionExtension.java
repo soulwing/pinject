@@ -51,7 +51,7 @@ public class PropertyInjectionExtension implements Extension {
   
   private final PropertyBeanContainer container;
 
-  private ClassLoader deploymentClassLoader;
+  private ClassLoader extensionClassLoader;
   
   /**
    * Constructs a new instance.
@@ -77,10 +77,12 @@ public class PropertyInjectionExtension implements Extension {
   void beforeBeanDiscovery(@Observes BeforeBeanDiscovery event) 
       throws Exception {
     logger.fine("starting property injection");
-    deploymentClassLoader = Thread.currentThread().getContextClassLoader();
-    logger.fine("deployment class loader: " + deploymentClassLoader);
-    if (deploymentClassLoader == null) {
-      logger.warning("no deployment class loader");
+    extensionClassLoader = Thread.currentThread().getContextClassLoader();
+    logger.fine("context class loader: " + extensionClassLoader);
+    if (extensionClassLoader == null) {
+      logger.warning("no context class loader; using default loader: "
+         + getClass().getClassLoader());
+      extensionClassLoader = ClassLoader.getSystemClassLoader();
     }
     container.init();
   }
@@ -92,15 +94,10 @@ public class PropertyInjectionExtension implements Extension {
   <T,E> void processInjectionPoint(@Observes ProcessInjectionPoint<T,E> event) 
       throws Exception {
 
-    // The calling thread here may not have the deployment class loader set as
-    // thread context class loader. Since `beforeBeanDiscovery` seems to be
-    // consistently called with the deployment class loader as the TCCL, make
-    // sure the same TCCL is used here.
-
     final ClassLoader previousTccl =
         Thread.currentThread().getContextClassLoader();
     try {
-      Thread.currentThread().setContextClassLoader(deploymentClassLoader);
+      Thread.currentThread().setContextClassLoader(extensionClassLoader);
       InjectionPoint injectionPoint = event.getInjectionPoint();
 
       Property qualifier = injectionPoint.getAnnotated().getAnnotation(
@@ -128,18 +125,6 @@ public class PropertyInjectionExtension implements Extension {
       Thread.currentThread().setContextClassLoader(previousTccl);
     }
   }
-
-  private void setBeanContextClassLoader(InjectionPoint injectionPoint) {
-    final Bean<?> bean = injectionPoint.getBean();
-    if (bean == null) return;
-    final Class<?> beanClass = bean.getBeanClass();
-    if (beanClass == null) return;
-
-    final ClassLoader beanClassLoader = beanClass.getClassLoader();
-    Thread.currentThread().setContextClassLoader(beanClassLoader);
-    logger.fine("set bean class loader: " + beanClassLoader);
-  }
-
 
   /**
    * Handles the {@link AfterBeanDiscovery} event.

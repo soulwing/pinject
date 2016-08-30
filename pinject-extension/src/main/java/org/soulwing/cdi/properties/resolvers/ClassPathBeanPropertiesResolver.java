@@ -63,12 +63,12 @@ public class ClassPathBeanPropertiesResolver
           getClass().getClassLoader();
 
 
-      Enumeration<URL> locations = classLoader.getResources(
-              ref.getPath(BeansProperties.NAME));
+      final String path = ref.getPath(BeansProperties.NAME);
+      Enumeration<URL> locations = classLoader.getResources(path);
 
       if (!locations.hasMoreElements()) {
         logger.fine(
-          "found no `" + BeansProperties.NAME + "` resources on classloader "
+          "found no `" + path + "` resources on classloader "
               + classLoader);
       }
 
