@@ -54,30 +54,54 @@ class DelegatingPropertyValueResolver implements PropertyValueResolver {
   }
 
   public void init() throws Exception {
-    for (PropertyResolver resolver : 
-      ServiceLoader.load(PropertyResolver.class)) {
-      if (resolver instanceof Optional 
-          && !((Optional) resolver).isAvailable()) {
-        logger.info("resolver not available: " + resolver.getClass().getName());
-        continue;
-      }
-      resolver.init();
-      resolvers.add(resolver);
+    final ClassLoader tccl = Thread.currentThread().getContextClassLoader();
+    if (tccl != null && tccl != getClass().getClassLoader()) {
+      logger.fine("loading resolvers from thread context class loader " + tccl);
+      loadResolvers(tccl);
     }
-    Collections.sort(resolvers, new Comparator<PropertyResolver>() {
-      @Override
-      public int compare(PropertyResolver a, PropertyResolver b) {
-        return b.getPriority() - a.getPriority();
-      }      
-    });
-    if (logger.isLoggable(Level.FINE)) {
-      for (PropertyResolver resolver : resolvers) {
-        logger.fine(String.format("resolver: priority=%d type=%s",
-            resolver.getPriority(),
-            resolver.getClass().getName()));
-      }
+    else {
+      logger.fine("loading resolvers from default class loader "
+          + getClass().getClassLoader());
+      loadResolvers(getClass().getClassLoader());
     }
   }
+
+  private void loadResolvers(ClassLoader classLoader) throws Exception {
+    final ClassLoader previousTccl =
+        Thread.currentThread().getContextClassLoader();
+
+    try {
+      Thread.currentThread().setContextClassLoader(classLoader);
+      for (PropertyResolver resolver :
+        ServiceLoader.load(PropertyResolver.class)) {
+        if (resolver instanceof Optional
+            && !((Optional) resolver).isAvailable()) {
+          logger.info("resolver not available: " + resolver.getClass().getName());
+          continue;
+        }
+        resolver.init();
+        resolvers.add(resolver);
+      }
+      Collections.sort(resolvers, new Comparator<PropertyResolver>() {
+        @Override
+        public int compare(PropertyResolver a, PropertyResolver b) {
+          return b.getPriority() - a.getPriority();
+        }
+      });
+      if (logger.isLoggable(Level.FINE)) {
+        for (PropertyResolver resolver : resolvers) {
+          logger.fine(String.format("resolver: priority=%d type=%s",
+              resolver.getPriority(),
+              resolver.getClass().getName()));
+        }
+      }
+    }
+    finally {
+      Thread.currentThread().setContextClassLoader(previousTccl);
+    }
+  }
+
+
   /**
    * {@inheritDoc}
    */

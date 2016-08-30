@@ -18,6 +18,7 @@
  */
 package org.soulwing.cdi.properties.extension;
 
+import java.util.logging.Logger;
 import javax.el.ELContext;
 import javax.el.ELException;
 import javax.el.ExpressionFactory;
@@ -33,18 +34,35 @@ import javax.el.ValueExpression;
  */
 class ELExpressionEvaluator implements ExpressionEvaluator {
 
+  private static final Logger logger = Logger.getLogger(
+      ELExpressionEvaluator.class.getName());
+
   private static final String LOCAL_NAME_REQUIRED = "required";
   private static final String LOCAL_NAME_OPTIONAL = "optional";
   private static final String PREFIX_PROPERTIES = "p";
   private static final String PREFIX_ENVIRONMENT = "e";
 
-  private final ExpressionFactory expressionFactory =
-      ExpressionFactory.newInstance();
+  private ExpressionFactory expressionFactory;
 
-  private final ELContext context = new StandardELContext(expressionFactory);
+  private ELContext context;
 
-  public ELExpressionEvaluator() {
+  @Override
+  public void init() {
+    final ClassLoader previousTccl =
+        Thread.currentThread().getContextClassLoader();
     try {
+      if (previousTccl == null) {
+        Thread.currentThread().setContextClassLoader(
+            getClass().getClassLoader());
+      }
+      expressionFactory = ExpressionFactory.newInstance();
+      logger.fine("loaded expression factory provider "
+          + expressionFactory.getClass().getName());
+      logger.fine("expression factory loaded via class loader "
+          + getClass().getClassLoader());
+
+      context = new StandardELContext(expressionFactory);
+
       final FunctionMapper functionMapper = context.getFunctionMapper();
       functionMapper.mapFunction(PREFIX_PROPERTIES, LOCAL_NAME_REQUIRED,
           PropertiesFunctions.class.getMethod("get", String.class));
@@ -59,6 +77,9 @@ class ELExpressionEvaluator implements ExpressionEvaluator {
     }
     catch (NoSuchMethodException ex) {
       throw new RuntimeException(ex);
+    }
+    finally {
+      Thread.currentThread().setContextClassLoader(previousTccl);
     }
   }
 

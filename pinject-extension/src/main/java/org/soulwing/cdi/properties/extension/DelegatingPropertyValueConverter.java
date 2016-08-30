@@ -23,6 +23,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
+import java.util.concurrent.ThreadFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,38 +54,61 @@ class DelegatingPropertyValueConverter implements PropertyValueConverter {
    */
   DelegatingPropertyValueConverter(PropertyValueResolver resolver) {
     this.resolver = resolver;
-    for (PropertyConverter converter : 
-      ServiceLoader.load(PropertyConverter.class)) {
-      if (converter instanceof Optional
-          && !((Optional) converter).isAvailable()) {
-        logger.info("converter not available: " + converter.getClass().getName());
-        continue;
-      }
-      
-      String name = converter.getName();
-      String className = converter.getClass().getName();
-      if (name == null) {
-        name = converter.getClass().getName();
-      }
+  }
 
-      if (logger.isLoggable(Level.FINE)) {
-        if (!name.equals(className)) {
-          logger.fine(String.format("converter: %s (%s)", name, className));
-        }
-        else {
-          logger.fine(String.format("converter: %s", className));
-        }
-      }
-
-      converters.add(converter);
-      converterMap.put(converter.getName(), converter);
+  @Override
+  public void init() throws Exception {
+    final ClassLoader tccl = Thread.currentThread().getContextClassLoader();
+    if (tccl != null) {
+      logger.fine("loading converters from thread context class loader " + tccl);
+      loadConverters(tccl);
+    }
+    else {
+      logger.fine("loading converters from default class loader "
+          + getClass().getClassLoader());
+      loadConverters(getClass().getClassLoader());
     }
   }
-  
-  /**
-   * {@inheritDoc}
-   */
-  public Object convert(String value, Class<?> type) 
+
+  private void loadConverters(ClassLoader classLoader) {
+    final ClassLoader previousTccl =
+        Thread.currentThread().getContextClassLoader();
+    try {
+      Thread.currentThread().setContextClassLoader(classLoader);
+      for (PropertyConverter converter :
+          ServiceLoader.load(PropertyConverter.class)) {
+        if (converter instanceof Optional
+            && !((Optional) converter).isAvailable()) {
+          logger.info("converter not available: " + converter.getClass().getName());
+          continue;
+        }
+
+        String name = converter.getName();
+        String className = converter.getClass().getName();
+        if (name == null) {
+          name = converter.getClass().getName();
+        }
+
+        if (logger.isLoggable(Level.FINE)) {
+          if (!name.equals(className)) {
+            logger.fine(String.format("converter: %s (%s)", name, className));
+          }
+          else {
+            logger.fine(String.format("converter: %s", className));
+          }
+        }
+
+        converters.add(converter);
+        converterMap.put(converter.getName(), converter);
+      }
+    }
+    finally {
+      Thread.currentThread().setContextClassLoader(previousTccl);
+    }
+  }
+
+  @Override
+  public Object convert(String value, Class<?> type)
       throws UnsupportedTypeException {
     for (PropertyConverter converter : converters) {
       if (!converter.supports(type)) continue;
@@ -93,9 +117,6 @@ class DelegatingPropertyValueConverter implements PropertyValueConverter {
     throw new UnsupportedTypeException();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Object convert(String converterName, String value, Class<?> type)
       throws NoSuchConverterException, UnsupportedTypeException {

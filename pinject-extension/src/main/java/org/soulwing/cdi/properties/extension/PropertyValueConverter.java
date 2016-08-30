@@ -28,6 +28,12 @@ package org.soulwing.cdi.properties.extension;
 interface PropertyValueConverter {
 
   /**
+   * Initializes this converter.
+   * @throws Exception if initialization fails
+   */
+  void init() throws Exception;
+
+  /**
    * Converts the given value to an instance of the given type.
    * @param value the subject value
    * @param type the target type

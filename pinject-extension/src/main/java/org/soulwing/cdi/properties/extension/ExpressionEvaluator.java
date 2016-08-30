@@ -26,6 +26,12 @@ package org.soulwing.cdi.properties.extension;
 interface ExpressionEvaluator {
 
   /**
+   * Initializes this expression evaluator.
+   * @throws Exception if initialization fails
+   */
+  void init() throws Exception;
+
+  /**
    * Evaluates an expression to produce a string.
    * <p>
    * If the evaluation of an expression produces another expression, it is

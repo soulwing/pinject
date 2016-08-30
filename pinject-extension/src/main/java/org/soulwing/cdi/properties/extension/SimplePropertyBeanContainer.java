@@ -84,26 +84,19 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
     this.converter = converter;
   }
   
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void init() throws Exception {
+    converter.init();
     resolver.init();
+    evaluator.init();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void destroy() {
     resolver.destroy();
     beans.clear();    
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public InjectionPoint add(InjectionPoint injectionPoint, Property qualifier) 
       throws UnresolvedPropertyException, NoSuchConverterException,
@@ -123,9 +116,6 @@ class SimplePropertyBeanContainer implements PropertyBeanContainer {
     return wrapper;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void copyAll(AfterBeanDiscovery event) {
     lock.lock();

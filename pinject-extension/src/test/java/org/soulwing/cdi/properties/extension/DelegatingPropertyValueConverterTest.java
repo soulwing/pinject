@@ -32,6 +32,7 @@ import java.util.Date;
 import javax.ejb.ScheduleExpression;
 import javax.mail.internet.InternetAddress;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.soulwing.cdi.properties.converters.*;
@@ -54,6 +55,11 @@ public class DelegatingPropertyValueConverterTest {
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     LogManagerUtil.configure();
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    converter.init();
   }
 
   @Test
