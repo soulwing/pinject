@@ -25,7 +25,6 @@ import static org.hamcrest.Matchers.is;
 import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,9 +36,10 @@ import org.junit.Test;
  */
 public class ELExpressionEvaluatorTest {
 
-  private static final String ESCAPED_STRING = "\\w";
+  private static final String ESCAPED_CHAR = "w";
+  private static final String ESCAPED_STRING = "\\" + ESCAPED_CHAR;
 
-  private static final String DOUBLE_ESCAPED_STRING = "\\\\w";
+  private static final String DOUBLE_ESCAPED_STRING = "\\\\" + ESCAPED_CHAR;
 
   @Rule
   public final JUnitRuleMockery context = new JUnitRuleMockery();
@@ -70,28 +70,15 @@ public class ELExpressionEvaluatorTest {
 
   @Test
   public void testEvaluateEscapedPropertyValue() throws Exception {
-    context.checking(new Expectations() {
-      {
-        oneOf(resolver).resolve("propertyName");
-        will(returnValue(ESCAPED_STRING));
-      }
-    });
-
-    assertThat(evaluator.evaluate("${p:required('propertyName')}", resolver),
-        is(equalTo(ESCAPED_STRING)));
+    assertThat(evaluator.evaluate(ESCAPED_STRING, resolver),
+        is(equalTo(ESCAPED_CHAR)));
   }
 
   @Test
   public void testEvaluateDoubleEscapedPropertyValue() throws Exception {
-    context.checking(new Expectations() {
-      {
-        oneOf(resolver).resolve("propertyName");
-        will(returnValue(DOUBLE_ESCAPED_STRING));
-      }
-    });
-
-    assertThat(evaluator.evaluate("${p:required('propertyName')}", resolver),
-        is(equalTo(DOUBLE_ESCAPED_STRING)));
+    assertThat(evaluator.evaluate(DOUBLE_ESCAPED_STRING, resolver),
+        is(equalTo(ESCAPED_STRING)));
   }
+
 
 }
