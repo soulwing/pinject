@@ -9,6 +9,7 @@ org.soulwing.cdi.properties.converters.FloatPropertyConverter
 org.soulwing.cdi.properties.converters.IntegerPropertyConverter
 org.soulwing.cdi.properties.converters.InternetAddressPropertyConverter
 org.soulwing.cdi.properties.converters.LongPropertyConverter
+org.soulwing.cdi.properties.converters.PatternPropertyConverter
 org.soulwing.cdi.properties.converters.ScheduleExpressionPropertyConverter
 org.soulwing.cdi.properties.converters.ShortPropertyConverter
 org.soulwing.cdi.properties.converters.StringPropertyConverter
