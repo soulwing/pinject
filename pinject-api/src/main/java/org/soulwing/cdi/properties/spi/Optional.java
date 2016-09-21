@@ -33,7 +33,7 @@ public interface Optional {
    * This method will be invoked once after the component is instantiated via
    * its constructor.  If the return value is {@code false} no subsequent 
    * method invocations will occur on the provider instance.
-   * @return {@code true} if the provider is should be considered available 
+   * @return {@code true} if the provider should be considered available
    */
   boolean isAvailable();
   
