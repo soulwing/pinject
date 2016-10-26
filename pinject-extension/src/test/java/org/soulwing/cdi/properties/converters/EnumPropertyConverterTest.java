@@ -42,6 +42,14 @@ public class EnumPropertyConverterTest {
     GREEN,
     BLUE
   }
+
+  public enum BadColor {
+    RED;
+
+    public String toString() {
+      return name() + "-" + name();
+    }
+  }
   
   @Rule
   public final JUnitRuleMockery context = new JUnitRuleMockery();
@@ -66,6 +74,17 @@ public class EnumPropertyConverterTest {
     
     assertThat((Color) converter.convert(Color.RED.name(), converterContext),
         is(equalTo(Color.RED)));
+  }
+
+  @Test
+  public void testConvertUsingEnumWithToString() throws Exception {
+    context.checking(new Expectations() { {
+      oneOf(converterContext).getTargetType();
+      will(returnValue(BadColor.class));
+    } });
+
+    assertThat((BadColor) converter.convert("RED", converterContext),
+        is(equalTo(BadColor.RED)));
   }
 
   @Test(expected = IllegalArgumentException.class)
