@@ -43,10 +43,11 @@ public class EnumPropertyConverter extends AbstractPropertyConverter {
   public Object convert(String value, Context context)
       throws IllegalArgumentException {
     value = value.trim();
-    Object[] names = context.getTargetType().getEnumConstants();
-    for (Object name : names) {
-      if (name.toString().equals(value)) return name;
+    Enum[] names = (Enum[]) context.getTargetType().getEnumConstants();
+    for (Enum name : names) {
+      if (name.name().equals(value) || name.toString().equals(value)) return name;
     }
+
     throw new IllegalArgumentException("value must be one of " 
         + allowedNames(names));
   }
