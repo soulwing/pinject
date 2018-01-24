@@ -17,8 +17,7 @@ that suits the needs of your application.
 Binary Distribution
 -------------------
 
-Pinject is available via [Maven Central] 
-(http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.soulwing%22). You can
+Pinject is available via [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.soulwing%22). You can
 use Pinject in your application by simply setting up your build system (Maven, 
 Gradle, Ivy, etc) to include the following dependencies. The syntax shown here
 is for Maven, but you can easily adapt this as needed by the build system for
@@ -47,5 +46,5 @@ Documentation
 
 There are two main resources for learning and using Pinject.
 
-* [Pinject Wiki] (https://github.com/soulwing/pinject/wiki)
-* [API Javadocs] (http://soulwing.github.io/pinject/apidocs/)
+* [Pinject Wiki](https://github.com/soulwing/pinject/wiki)
+* [API Javadocs](http://soulwing.github.io/pinject/apidocs/)
