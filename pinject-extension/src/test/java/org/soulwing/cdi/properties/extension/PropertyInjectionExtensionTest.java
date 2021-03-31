@@ -68,4 +68,5 @@ public class PropertyInjectionExtensionTest {
     assertThat(bean.path, is(not(nullValue())));
     System.out.println(bean.path);
   }
+
 }

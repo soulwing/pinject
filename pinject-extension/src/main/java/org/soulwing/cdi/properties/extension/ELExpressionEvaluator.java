@@ -110,8 +110,8 @@ class ELExpressionEvaluator implements ExpressionEvaluator {
 
       ve = expressionFactory.createValueExpression(context, value, String.class);
       if (!ve.isLiteralText()) {
-        throw new UnresolvedExpressionException(
-            "expression contains unresolved values: " +  expression + " => " + value);
+        logger.warning("EL expression may contain unresolved values: {} => {}"
+            + expression + " => " + value);
       }
       return value;
     }
