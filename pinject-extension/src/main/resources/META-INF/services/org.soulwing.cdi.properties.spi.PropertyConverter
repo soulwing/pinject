@@ -3,6 +3,7 @@ org.soulwing.cdi.properties.converters.BytePropertyConverter
 org.soulwing.cdi.properties.converters.CharacterPropertyConverter
 org.soulwing.cdi.properties.converters.DatePropertyConverter
 org.soulwing.cdi.properties.converters.DoublePropertyConverter
+org.soulwing.cdi.properties.converters.DurationPropertyConverter
 org.soulwing.cdi.properties.converters.EnumPropertyConverter
 org.soulwing.cdi.properties.converters.FilePropertyConverter
 org.soulwing.cdi.properties.converters.FloatPropertyConverter
