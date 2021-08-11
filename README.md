@@ -29,12 +29,12 @@ your application.
   <dependency>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject-api</artifactId>
-    <version>1.1.5</version>
+    <version>1.2.0</version>
   </dependency>
   <dependency>
     <groupId>org.soulwing</groupId>
     <artifactId>pinject-extension</artifactId>
-    <version>1.1.5</version>
+    <version>1.2.0</version>
     <scope>runtime</scope>
   </dependency>
   ...  
