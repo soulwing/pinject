@@ -69,4 +69,13 @@ public class PropertyInjectionExtensionTest {
     System.out.println(bean.path);
   }
 
+  @Test
+  public void testConstructorInject() throws Exception {
+    ConstructorInjectionTargetBean bean =
+        container.instance().select(ConstructorInjectionTargetBean.class).get();
+    assertThat(bean, is(not(nullValue())));
+    assertThat(bean.firstProperty, is(equalTo("first value")));
+    assertThat(bean.secondProperty, is(equalTo("second value")));
+  }
+
 }
