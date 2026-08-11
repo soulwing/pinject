@@ -1,7 +1,7 @@
 /*
  * File created on Aug 11, 2026
  *
- * Copyright (c) 2026 Carl Harris, Jr.
+ * Copyright (c) 2026 Sangeetha Muppidi.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import org.soulwing.cdi.properties.Property;
  * A bean that is used to test injection of multiple distinct properties
  * into a single constructor.
  *
- * @author Carl Harris
+ * @author Sangeetha Muppidi
  */
 @SuppressWarnings("CdiInjectionPointsInspection")
 @Dependent
