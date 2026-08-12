@@ -18,13 +18,13 @@
  */
 package org.soulwing.cdi.properties.extension;
 
-import java.lang.reflect.Member;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
+import javax.enterprise.inject.spi.Annotated;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.BeforeShutdown;
 import javax.enterprise.inject.spi.Extension;
@@ -45,7 +45,7 @@ public class PropertyInjectionExtension implements Extension {
   private static final Logger logger = Logger.getLogger(
       PropertyInjectionExtension.class.getName());
   
-  private final Map<Member, InjectionPoint> wrapperMap = 
+  private final Map<Annotated, InjectionPoint> wrapperMap =
       new ConcurrentHashMap<>();
   
   private final PropertyBeanContainer container;
@@ -109,15 +109,16 @@ public class PropertyInjectionExtension implements Extension {
         logger.finest("injecting into " + injectionPoint);
       }
 
-      InjectionPoint wrapper = wrapperMap.get(injectionPoint.getMember());
+      Annotated annotated = injectionPoint.getAnnotated();
+      InjectionPoint wrapper = wrapperMap.get(annotated);
       if (wrapper == null) {
         wrapper = container.add(injectionPoint, qualifier);
-        wrapperMap.put(injectionPoint.getMember(), wrapper);
+        wrapperMap.put(annotated, wrapper);
       }
       else {
         if (logger.isLoggable(Level.FINE)) {
-          logger.fine("found cached injection point wrapper for member "
-              + injectionPoint.getMember());
+          logger.fine("found cached injection point wrapper for "
+              + annotated);
         }
       }
       event.setInjectionPoint(wrapper);
